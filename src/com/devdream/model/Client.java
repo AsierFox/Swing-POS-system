@@ -50,8 +50,8 @@ public class Client extends User {
 
 	//
 	// Getters and Setters
-	public String getNIF() {
-		return NIF;
+	public String getID() {
+		return ID;
 	}
 
 	public double getSaldoMes() {

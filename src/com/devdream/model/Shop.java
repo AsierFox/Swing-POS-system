@@ -2,6 +2,16 @@ package com.devdream.model;
 
 import java.util.TreeMap;
 
+/**
+ * The shop of our application. Due to is a
+ * single shop in all the application, we are
+ * going to apply to it the Singleton design
+ * pattern
+ * 
+ * @author Asier Gonzalez
+ * @version 1.0
+ * @since 1.0
+ */
 public class Shop {
 
 	private TreeMap<Integer, Product> products;
