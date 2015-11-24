@@ -14,7 +14,7 @@ import java.util.TreeMap;
  */
 public class Shop {
 
-	private TreeMap<Integer, Product> products;
+	private TreeMap<Integer, Product> products; // TODO Wrap product with services
 	
 	public Shop() {
 		products = new TreeMap<Integer, Product>();

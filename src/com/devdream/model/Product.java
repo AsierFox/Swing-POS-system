@@ -1,49 +1,28 @@
 package com.devdream.model;
 
-import java.sql.Date;
-
-public class Product {
+/**
+ * TODO Description
+ * 
+ * @author Asier Gonzalez
+ * @version 1.0
+ * @since 1.0
+ */
+public class Product extends GeneralProduct {
 
 	//
 	// Attributes
-	private String nombre, descripcion;
-	private Date fecha;
-	private float precio;
+	public Product(final int ID, String name, String description, float price) {
+		super(ID, name, description, price);
+		// TODO Auto-generated constructor stub
+	}
 	
 	//
 	// Constructor
-	public Product(String nombre, String descripcion, int precio) {
-		setNombre(nombre);
-		setDescripcion(descripcion);
-		setPrecio(precio);
-	}
 
 	//
 	// Methods
-	@Override
-	public String toString() {
-		return super.toString();
-	}
 	
 	//
 	// Getters and Setters
-	public String getNombre() {
-		return nombre;
-	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	public String getDescripcion() {
-		return descripcion;
-	}
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-	public float getPrecio() {
-		return precio;
-	}
-	public void setPrecio(float precio) {
-		this.precio = precio;
-	}
 	
 }

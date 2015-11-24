@@ -7,16 +7,21 @@ package com.devdream.model;
  * @version 1.0
  * @since 1.0
  */
-public class Sale {
+public class SubscriberCard {
 
 	//
 	// Attributes
+	private double cash;
 	
 	//
 	// Constructor
+	public SubscriberCard(float cash) {
+		this.cash = cash;
+	}
 
 	//
 	// Methods
+	
 	
 	//
 	// Getters and Setters

@@ -1,7 +1,5 @@
 package com.devdream.view;
 
-import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -10,17 +8,15 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import com.devdream.controller.OnExitAction;
-import com.devdream.controller.OnViewChange;
-import com.devdream.data.AppData;
-import com.devdream.view.custom.TextFieldPlaceHolder;
-import com.devdream.view.renderer.ViewRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
+import com.devdream.controller.OnExitAction;
+import com.devdream.data.AppData;
+import com.devdream.data.bind.Intent;
+import com.devdream.manager.ViewManager;
+import com.devdream.view.renderer.ViewRenderer;
+
 
 /**
  * It is the main window, it is displayed first to
@@ -37,18 +33,12 @@ public class LoginView extends JFrame {
 	//
 	// Constructors
 	public LoginView() {
-		
 		ViewRenderer renderer = new ViewRenderer(this);
 		getContentPane().setLayout(null);
 		
 		// Set Image to the panel
-		BufferedImage logo = null;
-		try {
-			logo = ImageIO.read(new File(AppData.LOGO_PATH));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		JLabel picLabel = new JLabel(new ImageIcon(logo));
+		
+		JLabel picLabel = new JLabel(renderer.renderImage(AppData.LOGO_PATH));
 		picLabel.setBounds(82, 11, 250, 94);
 		getContentPane().add(picLabel);
 		
@@ -57,7 +47,7 @@ public class LoginView extends JFrame {
 		getContentPane().add(comboBox);
 		
 		JButton btnLogin = new JButton("Login");
-		btnLogin.addActionListener(new OnViewChange(this, new POSView()));
+		btnLogin.addActionListener(new ViewManager(this, POSView.class.getName(), true));
 		btnLogin.setBounds(106, 180, 89, 23);
 		getContentPane().add(btnLogin);
 		
@@ -65,7 +55,8 @@ public class LoginView extends JFrame {
 		btnExit.addActionListener(new OnExitAction(this));
 		btnExit.setBounds(222, 180, 89, 23);
 		getContentPane().add(btnExit);
-
+		
+		
 		renderer.render();
 	}
 }

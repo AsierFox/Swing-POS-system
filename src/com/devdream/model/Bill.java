@@ -7,8 +7,10 @@ package com.devdream.model;
  * @version 1.0
  * @since 1.0
  */
-public class Sale {
-
+public class Bill {
+	
+	// TODO Sale, cliente, vendedor
+	
 	//
 	// Attributes
 	

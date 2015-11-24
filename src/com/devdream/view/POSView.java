@@ -13,9 +13,7 @@ public class POSView extends JFrame {
 	
 	private JTable table;
 	
-	
 	public POSView() {
-		
 		ViewRenderer renderer = new ViewRenderer(this);
 		getContentPane().setLayout(null);
 		
@@ -27,11 +25,10 @@ public class POSView extends JFrame {
 		scrollPane.setViewportView(table);
 		
 		JLabel lblProducts = new JLabel("Products");
-		lblProducts.setBounds(83, 44, 51, 14);
+		lblProducts.setBounds(0, 0, 434, 261);
 		getContentPane().add(lblProducts);
-
-		
 
 		renderer.render();
 	}
+	
 }

@@ -1,9 +1,16 @@
 package com.devdream.view.renderer;
 
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import com.devdream.data.AppData;
+import com.devdream.view.LoginView;
 
 public class ViewRenderer {
 	
@@ -12,16 +19,24 @@ public class ViewRenderer {
 	public ViewRenderer(JFrame window) {
 		this.window = window;
 		window.setTitle(AppData.APP_TITLE);
-		window.setIconImage(new ImageIcon(AppData.ICON_PATH).getImage());
+		window.setIconImage(Toolkit.getDefaultToolkit().getImage(LoginView.class.getResource(AppData.ICON_PATH)));
 		window.setSize(AppData.WIDTH, AppData.HEIGHT);
 		window.setLocationRelativeTo(null); // Center the window
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		window.getContentPane().setLayout(null); // TODO ALL views absolute
 	}
 	
 	public void render() {
-		this.window.setVisible(true);
+		window.setVisible(true);
+	}
+	
+	public ImageIcon renderImage(String filePath) {
+		BufferedImage logo = null;
+		try {
+			logo = ImageIO.read(new File(filePath));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return new ImageIcon(logo);
 	}
 	
 }
