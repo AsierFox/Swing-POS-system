@@ -4,7 +4,7 @@ public class GoldClient extends Client {
 
 	//
 	// Attributes
-	private static int DISCOUNT_PERCENTAGE = 30;
+	private static float DISCOUNT_PERCENTAGE = 30;
 	
 	//
 	// Constructors
@@ -17,7 +17,7 @@ public class GoldClient extends Client {
 	
 	//
 	// Getters and Setters
-	public static int getDiscountPercentaje() {
+	public static float getDiscountPercentaje() {
 		return DISCOUNT_PERCENTAGE;
 	}
 	

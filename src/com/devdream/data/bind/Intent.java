@@ -1,5 +1,8 @@
 package com.devdream.data.bind;
 
+import com.devdream.data.SessionData;
+import com.devdream.model.Commercial;
+
 /**
  * This class is used to for data binding
  * between the different views.
@@ -11,6 +14,8 @@ package com.devdream.data.bind;
 public class Intent {
 	
 	private static Intent i = null;
+	
+	private SessionData sessionData;
 	
 	private Intent() {
 	}
@@ -24,6 +29,17 @@ public class Intent {
 	}
 	
 	public void clearData() {
+		sessionData = null;
+	}
+	
+	//
+	// Getters && Setters
+	public void setSessionData(SessionData sessionData) {
+		this.sessionData = sessionData;
+	}
+	
+	public Commercial getCommercial() {
+		return sessionData.getCommercial();
 	}
 	
 }

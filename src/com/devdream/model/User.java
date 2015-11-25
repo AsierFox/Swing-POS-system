@@ -1,6 +1,6 @@
 package com.devdream.model;
 
-import com.devdream.helper.ErrorHandler;
+import com.devdream.helper.StringHelper;
 
 /**
  * This class wraps all users of the system
@@ -13,8 +13,7 @@ public abstract class User {
 
 	public final String ID;
 	private String name;
-	private double cash;
-	private SubscriberCard subscriberCard; // TODO suscriber or subscriber
+	private SubscriberCard subscriberCard;
 	
 	public User(final String ID, String name, SubscriberCard subscriberCard) {
 		this.ID = ID;
@@ -22,10 +21,14 @@ public abstract class User {
 		this.subscriberCard = subscriberCard;
 	}
 
+	public String getName() {
+		return name;
+	}
+	
 	public void setName(String name) {
-		this.name = (!ErrorHandler.isStringNull(name)) ?
+		this.name = (!StringHelper.isStringNull(name)) ?
 				name :
-				"null";
+				"null"; // TODO What to do here
 	}
 
 }

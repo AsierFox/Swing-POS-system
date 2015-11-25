@@ -1,5 +1,7 @@
 package com.devdream.model;
 
+import com.devdream.helper.MathHelper;
+
 /**
  * TODO Description
  * 
@@ -21,9 +23,17 @@ public class SubscriberCard {
 
 	//
 	// Methods
-	
+	public void chargeMoney(double cash) {
+		if (MathHelper.isNegativeNumber((int) cash)) {
+			this.cash += cash;
+		}
+		// TODO Error if the number is negative
+	}
 	
 	//
 	// Getters and Setters
+	public double getCash() {
+		return cash;
+	}
 	
 }

@@ -1,10 +1,11 @@
 package com.devdream.view;
 
 import javax.swing.JFrame;
-
-import com.devdream.view.renderer.ViewRenderer;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
+import com.devdream.data.bind.Intent;
+
 import javax.swing.JLabel;
 
 public class POSView extends JFrame {
@@ -27,6 +28,12 @@ public class POSView extends JFrame {
 		JLabel lblProducts = new JLabel("Products");
 		lblProducts.setBounds(0, 0, 434, 261);
 		getContentPane().add(lblProducts);
+		
+		
+		JLabel testLbl = new JLabel("Session By: ");
+		testLbl.setText(testLbl.getText() + Intent.getInstance().getCommercial().getName());
+		testLbl.setBounds(100, 100, 434, 261);
+		getContentPane().add(testLbl);
 
 		renderer.render();
 	}

@@ -1,17 +1,22 @@
 package com.devdream.model;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
+import com.devdream.helper.DateHelper;
+
+/**
+ * TODO Description
+ * 
+ * @author Asier Gonzalez
+ * @version 1.0
+ * @since 1.0
+ */
 public class Client extends User {
 
 	//
 	// Attributes
 	protected double saldoMes;
-	private Date joinedDate;
-	protected ArrayList<Product> productsAcquired;
+	private String joinedDate;
 
 	//
 	// Constructors
@@ -21,7 +26,7 @@ public class Client extends User {
 	
 	//
 	// Methods
-	public final boolean comprar(Shop shop, Product product, int quantity) {
+	public final boolean comprar(Product product, int quantity) {
 		return false;
 	}
 
@@ -39,23 +44,12 @@ public class Client extends User {
 		this.saldoMes = saldoMes;
 	}
 
-	public Date getFechaAlta() {
+	public String getFechaAlta() {
 		return joinedDate;
 	}
 
 	public void setFechaAlta(int day, int month, int year) {
-		try {
-			this.joinedDate = new SimpleDateFormat("dd/MM/yyyy")
-					.parse(day + "/" + month + "/" + year);
-		} catch (ParseException e) {
-			System.out.println("La fecha indicada no es valida!");
-		}
+		this.joinedDate = DateHelper.getCustomDate(day, month, year);
 	}
-
-	public boolean comprar(Product product, int quantity) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
 	
 }

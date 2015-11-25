@@ -1,5 +1,11 @@
 package com.devdream.model;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
+import com.devdream.helper.DateHelper;
+
 /**
  * TODO Description
  * 
@@ -11,6 +17,9 @@ public class Sale {
 
 	//
 	// Attributes
+	private String saleDate;
+	private ArrayList<SalesLine> saleLine;
+	private double subtotal, total;
 	
 	//
 	// Constructor
@@ -20,5 +29,7 @@ public class Sale {
 	
 	//
 	// Getters and Setters
-	
+	public void setSaleDate(int day, int month, int year) {
+		saleDate = DateHelper.getCustomDate(day, month, year);
+	}
 }

@@ -14,32 +14,57 @@ import java.util.TreeMap;
  */
 public class Shop {
 
-	private TreeMap<Integer, Product> products; // TODO Wrap product with services
+	private static Shop i = null;
 	
-	public Shop() {
+	/**
+	 * The minimum salary of the commercials in the shop.
+	 */
+	public static float MINIMUN_SALARY = 750;
+	
+	/**
+	 * All the products that the Shop has.
+	 */
+	private static TreeMap<Integer, Product> products;
+	
+	private Shop() {
 		products = new TreeMap<Integer, Product>();
 	}
 	
+	public static Shop getInstance() {
+		if (i == null) {
+			i = new Shop();
+			return i;
+		}
+		return i;
+	}
+	
 	/**
-	 * Inserts an product to the shop
-	 * @param id The id of the product TODO PRIMERO EL TIPO O LA DESCRIPCION DEL PARAMETRO
-	 * @param product Product
+	 * Inserts an product to the shop.
+	 * 
+	 * @param id The id of the product
+	 * @param product Product to add
 	 */
 	public Product addProduct(int id, Product product) {
 		return products.put(id, product);
 	}
 	
-	public Product getProduct(int id) {
-		return products.get(id);
+	@Override
+	public String toString() {
+		return "Shop Products: " + products.toString();
 	}
-	
+
 	/**
-	 * Checks that has a product
+	 * Checks that has a product.
+	 * 
 	 * @param product Product to check
 	 * @return The searched product
 	 */
-	public boolean hasProduct(Product product) {
+	public boolean hasProduct(Product product) { // TODO LOL ?
 		return products.get(product) != null;
+	}
+	
+	public Product getProduct(int id) {
+		return products.get(id);
 	}
 	
 }

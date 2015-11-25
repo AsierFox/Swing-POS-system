@@ -9,7 +9,9 @@ package com.devdream.model;
  */
 public class Bill {
 	
-	// TODO Sale, cliente, vendedor
+	private Commercial commercial;
+	private Client client;
+	private Sale bill;
 	
 	//
 	// Attributes

@@ -1,4 +1,4 @@
-package com.devdream.view.renderer;
+package com.devdream.view;
 
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
@@ -10,7 +10,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import com.devdream.data.AppData;
-import com.devdream.view.LoginView;
 
 public class ViewRenderer {
 	
