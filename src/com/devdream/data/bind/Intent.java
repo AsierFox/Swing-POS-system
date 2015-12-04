@@ -17,15 +17,21 @@ import com.devdream.model.Service;
  * @since 1.0
  */
 public class Intent {
-	
+
 	private static Intent i = null;
-	
+
+	//
+	// Attributes
 	private SessionData sessionData;
-	
+
+	//
+	// Constructors
 	private Intent() {
 		sessionData = new SessionData();
 	}
 	
+	//
+	// Methods
 	public static Intent getInstance() {
 		if (i == null) {
 			i = new Intent();
@@ -55,11 +61,15 @@ public class Intent {
 	public void setActualClient(Client c) {
 		sessionData.setClient(c);
 	}
+
+	public void setNewClient(Client c) {
+		sessionData.getClients().add(c);
+	}
 	
 	public ArrayList<Client> getClients() {
 		return sessionData.getClients();
 	}
-	
+
 	public void setClients(ArrayList<Client> clients) {
 		sessionData.setClients(clients);
 	}

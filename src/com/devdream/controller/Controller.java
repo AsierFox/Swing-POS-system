@@ -18,6 +18,11 @@ public abstract class Controller {
 	
 	//
 	// Constructors
+	public Controller() {
+		actualView = null;
+		newWindowName = null;
+	}
+	
 	public Controller(JFrame actualView, String newWindowName) {
 		this.actualView = actualView;
 		this.newWindowName = newWindowName;
@@ -39,4 +44,10 @@ public abstract class Controller {
 		}
 	}
 
+	//
+	// Setters and Getters
+	public JFrame getActualView() {
+		return actualView;
+	}
+	
 }

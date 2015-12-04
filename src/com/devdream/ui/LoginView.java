@@ -3,7 +3,7 @@ package com.devdream.ui;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-import com.devdream.controller.LoginController;
+import com.devdream.controller.LoginLogoutController;
 import com.devdream.controller.OnExitAction;
 import com.devdream.data.AppData;
 import com.devdream.data.DataGenerator;
@@ -49,8 +49,8 @@ public class LoginView extends javax.swing.JFrame {
 		// Login btn
 		JButton loginButton = new JButton("Login");
 		loginButton.addActionListener((event) -> {
-			LoginController login = new LoginController(this, POSView.class.getName());
-			login.login((Commercial) commercialsComboBox.getSelectedItem());
+			LoginLogoutController login = new LoginLogoutController(this, POSView.class.getName());
+			login.login(commercialsComboBox.getItemAt(commercialsComboBox.getSelectedIndex()));
 		});
 		loginButton.setBounds(106, 180, 89, 23);
 		add(loginButton);
