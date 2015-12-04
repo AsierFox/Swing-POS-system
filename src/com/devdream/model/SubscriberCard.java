@@ -29,6 +29,10 @@ public class SubscriberCard {
 		}
 	}
 	
+	public boolean canAffordPayment(double amount) {
+		return amount <= cash;
+	}
+	
 	//
 	// Getters and Setters
 	public double getCash() {

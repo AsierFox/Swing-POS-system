@@ -6,7 +6,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
 /**
- * TODO Description.
+ * Personalized ComboBox for my custom objects.
  * 
  * @author Asier Gonzalez
  * @version 1.0

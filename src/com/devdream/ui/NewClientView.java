@@ -70,7 +70,6 @@ public class NewClientView extends JFrame {
 		subscribeClientButton.setBounds(139, 173, 117, 23);
 		getContentPane().add(subscribeClientButton);
 		
-		
 		renderer.render();
 	}
 }

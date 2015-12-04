@@ -3,7 +3,10 @@ package com.devdream.controller;
 import javax.swing.JFrame;
 
 /**
- * TODO Description
+ * The controller abstract class. The controller is
+ * the manage the classes connecting the model actions
+ * that are called by a view. That is, it is used to
+ * communicate between model classes and view.
  * 
  * @author Asier Gonzalez
  * @version 1.0
@@ -31,17 +34,15 @@ public abstract class Controller {
 	//
 	// Methods
 	protected final void changeView() {
-		actualView.dispose();
-		
 		JFrame newView = null;
+		actualView.dispose();
 		try {
 			newView = (JFrame) Class.forName(newWindowName).newInstance();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		if (newView != null) {
+		if (newView != null)
 			actualView = newView;
-		}
 	}
 
 	//

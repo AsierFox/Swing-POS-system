@@ -1,13 +1,14 @@
 package com.devdream.helper;
 
 /**
- * TODO Description
+ * This class helps us to manage Math
+ * operations.
  * 
  * @author Asier Gonzalez
  * @version 1.0
  * @since 1.0
  */
-public abstract class MathHelper {
+public class MathHelper {
 
 	/**
 	 * Gets the discount of a price.

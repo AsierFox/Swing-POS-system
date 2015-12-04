@@ -3,7 +3,7 @@ package com.devdream.model;
 /**
  * The Bill is all the information about
  * the sale. The customer that purchased
- * the sale, the commercial who TODO vendio,
+ * the sale, the commercial who sold,
  * and the date when was realized.
  * 
  * @author Asier Gonzalez

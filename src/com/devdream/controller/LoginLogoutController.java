@@ -6,7 +6,8 @@ import com.devdream.data.bind.Intent;
 import com.devdream.model.Commercial;
 
 /**
- * TODO Description
+ * This controller manages the swapping between
+ * two views, and the login and logout of a commercial.
  * 
  * @author Asier Gonzalez
  * @version 1.0

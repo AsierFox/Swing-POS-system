@@ -9,10 +9,13 @@ import javax.swing.JRadioButton;
 
 import com.devdream.controller.LoginLogoutController;
 import com.devdream.controller.OnExitAction;
+import com.devdream.controller.SaleController;
 import com.devdream.data.bind.Intent;
 import com.devdream.model.Client;
+import com.devdream.model.Commercial;
 import com.devdream.model.Product;
 import com.devdream.model.Service;
+import com.devdream.model.ShopOffer;
 import com.devdream.ui.custom.ErrorAlert;
 import com.devdream.ui.custom.MyComboBox;
 import com.devdream.ui.custom.ShopOfferTable;
@@ -29,65 +32,73 @@ public class POSView extends javax.swing.JFrame {
 	
 	private static final long serialVersionUID = -3842125628121409727L;
 	
+	private Commercial logedCommercial;
+	private Client currentClient;
 	private ShopOfferTable offersTable;
 	private MyComboBox<Client> clientsComboBox;
+	private SaleController saleController;
 	
 	public POSView() {
 		ViewRenderer renderer = new ViewRenderer(this);
 		renderer.setCloseApplication();
-		getContentPane().setLayout(null);
+		setLayout(null);
+		
+		// loged commercial
+		logedCommercial = Intent.getInstance().getLogedCommercial();
+		
+		// Sale Controller
+		saleController = new SaleController(this, "TODO"); // TODO add in constructor to change the view to bill view
 		
 		// Commercial information
 		JLabel testLabel = new JLabel("Session By: ");
 		testLabel.setText(testLabel.getText() + Intent.getInstance().getLogedCommercial().getName());
 		testLabel.setBounds(0, 0, 138, 21);
-		getContentPane().add(testLabel);
+		add(testLabel);
 		
 		JLabel forCommercialPointsLabel = new JLabel("Commercial points");
 		forCommercialPointsLabel.setBounds(484, 84, 105, 14);
-		getContentPane().add(forCommercialPointsLabel);
+		add(forCommercialPointsLabel);
 		
-		JLabel commercialPointsLabel = new JLabel(Integer.toString(Intent.getInstance().getLogedCommercial().getEarnedPoints()));
+		JLabel commercialPointsLabel = new JLabel(Integer.toString(logedCommercial.getEarnedPoints()));
 		commercialPointsLabel.setBounds(484, 109, 46, 14);
-		getContentPane().add(commercialPointsLabel);
+		add(commercialPointsLabel);
 		//
 		
 		// Client Label + ComboBox + Gold client Label
-		JLabel clientLabel = new JLabel("Select the client");
+		JLabel clientLabel = new JLabel("Select the client:");
 		clientLabel.setBounds(10, 30, 105, 21);
-		getContentPane().add(clientLabel);
+		add(clientLabel);
 		
 		JLabel forGoldClientAlertLabel = new JLabel("Gold client");
 		forGoldClientAlertLabel.setVisible(false);
 		forGoldClientAlertLabel.setBounds(285, 30, 89, 21);
-		getContentPane().add(forGoldClientAlertLabel);
+		add(forGoldClientAlertLabel);
 		
 		clientsComboBox = new MyComboBox<Client>(Intent.getInstance().getClients());
 		clientsComboBox.addActionListener((e) -> {
 			Client selectedClient = Intent.getInstance().getClients().get(clientsComboBox.getSelectedIndex());
+			currentClient = selectedClient;
 			Intent.getInstance().setActualClient(selectedClient);
 			forGoldClientAlertLabel.setVisible(selectedClient.isGoldClient());
 		});
 		clientsComboBox.setBounds(125, 30, 150, 21);
-		getContentPane().add(clientsComboBox);
+		add(clientsComboBox);
 		//
 		// New client button
 		JButton newClientButton = new JButton("New Client");
-		newClientButton.addActionListener((e) -> {
-			new NewClientView();
-		});
+		newClientButton.addActionListener((e) -> new NewClientView());
 		newClientButton.setBounds(379, 29, 112, 23);
-		getContentPane().add(newClientButton);
+		add(newClientButton);
 		//
 		
 		// Products table
 		JLabel productsTableLabel = new JLabel("Products");
 		productsTableLabel.setBounds(70, 63, 68, 21);
-		getContentPane().add(productsTableLabel);
+		add(productsTableLabel);
 		
 		JScrollPane productsTableScrollPane = new JScrollPane();
 		productsTableScrollPane.setBounds(70, 95, 398, 150);
-		getContentPane().add(productsTableScrollPane);
+		add(productsTableScrollPane);
 		
 		offersTable = new ShopOfferTable();
 		productsTableScrollPane.setViewportView(offersTable);
@@ -96,44 +107,42 @@ public class POSView extends javax.swing.JFrame {
 		// Sale total information
 		JLabel forSubTotalLabel = new JLabel("Sub Total");
 		forSubTotalLabel.setBounds(478, 168, 57, 14);
-		getContentPane().add(forSubTotalLabel);
+		add(forSubTotalLabel);
 		
-		JLabel subTotalLabel = new JLabel("0");
-		subTotalLabel.setBounds(545, 168, 46, 14);
-		getContentPane().add(subTotalLabel);
+		JLabel subtotalLabel = new JLabel("0");
+		subtotalLabel.setBounds(545, 168, 46, 14);
+		add(subtotalLabel);
 		
 		JLabel forTaxLabel = new JLabel("Tax");
 		forTaxLabel.setBounds(478, 193, 46, 14);
-		getContentPane().add(forTaxLabel);
+		add(forTaxLabel);
 		
 		JLabel taxLabel = new JLabel("0");
 		taxLabel.setBounds(543, 193, 46, 14);
-		getContentPane().add(taxLabel);
+		add(taxLabel);
 		
 		JLabel forTotalLabel = new JLabel("Total");
 		forTotalLabel.setBounds(478, 218, 46, 14);
-		getContentPane().add(forTotalLabel);
+		add(forTotalLabel);
 		
 		JLabel totalLabel = new JLabel("0");
-		totalLabel.setBounds(543, 218, 46, 14);
-		getContentPane().add(totalLabel);
+		totalLabel.setBounds(543, 218, 77, 14);
+		add(totalLabel);
 		//
 		
 		// Select Product Service Label and Radio Buttons
 		JButton addShopOfferButton = new JButton("Add product");
 		
 		JRadioButton productRadioButton = new JRadioButton("product");
-		productRadioButton.addActionListener((e) ->
-			addShopOfferButton.setText("Add product"));
+		productRadioButton.addActionListener((e) -> addShopOfferButton.setText("Add product"));
 		productRadioButton.setSelected(true);
 		productRadioButton.setBounds(29, 263, 77, 23);
-		getContentPane().add(productRadioButton);
+		add(productRadioButton);
 		
 		JRadioButton serviceRadioButton = new JRadioButton("service");
-		serviceRadioButton.addActionListener((e) ->
-			addShopOfferButton.setText("Add service"));
+		serviceRadioButton.addActionListener((e) -> addShopOfferButton.setText("Add service"));
 		serviceRadioButton.setBounds(29, 285, 77, 23);
-		getContentPane().add(serviceRadioButton);
+		add(serviceRadioButton);
 		
 		ButtonGroup radioButtonGroup = new ButtonGroup();
 		radioButtonGroup.add(productRadioButton);
@@ -143,43 +152,50 @@ public class POSView extends javax.swing.JFrame {
 		// Shop offers ComboBox
 		JLabel forSelectShopOfferLabel = new JLabel("Select: ");
 		forSelectShopOfferLabel.setBounds(10, 243, 58, 14);
-		getContentPane().add(forSelectShopOfferLabel);
+		add(forSelectShopOfferLabel);
 		
 		MyComboBox<Product> productsComboBox = new MyComboBox<Product>(Intent.getInstance().getProducts());
 		productsComboBox.setBounds(135, 264, 140, 20);
-		getContentPane().add(productsComboBox);
+		add(productsComboBox);
 		
 		MyComboBox<Service> servicesComboBox = new MyComboBox<Service>(Intent.getInstance().getServices());
 		servicesComboBox.setBounds(135, 286, 140, 20);
-		getContentPane().add(servicesComboBox);
+		add(servicesComboBox);
 		//
 		
 		// Quantity
 		JLabel quantityLabel = new JLabel("Qty.");
 		quantityLabel.setBounds(285, 267, 46, 14);
-		getContentPane().add(quantityLabel);
+		add(quantityLabel);
 
 		TextFieldPlaceHolder quantityTextField = new TextFieldPlaceHolder("quantity");
 		quantityTextField.setBounds(316, 264, 58, 20);
-		getContentPane().add(quantityTextField);
-		quantityTextField.setColumns(10);
+		add(quantityTextField);
 		//
 		
 		// Add product
 		addShopOfferButton.addActionListener((e) -> {
 			try {
-				int qty = Integer.parseInt(quantityTextField.getText().trim()); // TODO Control range
+				ShopOffer selectedOffer;
+				int qty = Integer.parseInt(quantityTextField.getText());
 				
 				if (e.getActionCommand().contains(productRadioButton.getText()))
-					offersTable.addOfferToTable(productsComboBox.getItemAt(productsComboBox.getSelectedIndex()), qty);
+					selectedOffer = productsComboBox.getItemAt(productsComboBox.getSelectedIndex());
 				else
-					offersTable.addOfferToTable(servicesComboBox.getItemAt(servicesComboBox.getSelectedIndex()), qty);
+					selectedOffer = servicesComboBox.getItemAt(servicesComboBox.getSelectedIndex());
+				
+				saleController.addSaleLine(selectedOffer, qty);
+				offersTable.addOfferToTable(selectedOffer, qty);
+				
+				// Update the sale price information labels
+				subtotalLabel.setText(saleController.getSaleSubtotal());
+			
 			} catch(NumberFormatException err) {
-				ErrorAlert.show(this, "The Quantity must be valid!"); // TODO My exception?
+				ErrorAlert.show(this, "The Quantity must be valid!"); // TODO My exception ?
 			}
 		});
 		addShopOfferButton.setBounds(285, 285, 126, 23);
-		getContentPane().add(addShopOfferButton);
+		add(addShopOfferButton);
 		//
 		
 		// Logout and Exit Buttons
@@ -189,12 +205,19 @@ public class POSView extends javax.swing.JFrame {
 			logout.logout();
 		});
 		logoutButton.setBounds(441, 256, 89, 23);
-		getContentPane().add(logoutButton);
+		add(logoutButton);
 		
 		JButton exitButton = new JButton("Exit");
 		exitButton.addActionListener(new OnExitAction(this));
 		exitButton.setBounds(441, 285, 89, 23);
-		getContentPane().add(exitButton);
+		add(exitButton);
+		
+		JButton paymentButton = new JButton("Payment");
+		paymentButton.addActionListener((e) -> {
+			// TODO
+		});
+		paymentButton.setBounds(494, 134, 89, 23);
+		add(paymentButton);
 		
 		// Show ui
 		renderer.render();
@@ -205,5 +228,4 @@ public class POSView extends javax.swing.JFrame {
 		clientsComboBox.update();
 		return super.isFocused();
 	}
-
 }

@@ -11,6 +11,7 @@ import java.util.TreeMap;
  */
 public class BillRecord {
 
+	// TODO TreeMap or List?
 	private TreeMap<String, Bill> billRecords;
 	
 }

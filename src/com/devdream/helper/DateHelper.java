@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
- * TODO Description
+ * This class is the helper for date management.
  * 
  * @author Asier Gonzalez
  * @version 1.0

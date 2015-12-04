@@ -1,7 +1,6 @@
 package com.devdream.model;
 
 import com.devdream.helper.MathHelper;
-import com.devdream.helper.StringHelper;
 
 /**
  * This abstract class Wraps all the product types and
@@ -49,9 +48,7 @@ public abstract class ShopOffer {
 	}
 	
 	public void setName(String name) {
-		this.name = (!StringHelper.isStringNull(name)) ?
-				name :
-				"null";// TODO Dont know how to set if parametter null
+		this.name = name;
 	}
 
 	public String getDescription() {
@@ -59,9 +56,7 @@ public abstract class ShopOffer {
 	}
 
 	public void setDescription(String description) {
-		this.description = (!StringHelper.isStringNull(description)) ?
-				description :
-				"null";// TODO Dont know how to set if parametter null
+		this.description = description;
 	}
 
 	public float getPrice() {

@@ -10,24 +10,24 @@ import com.devdream.helper.MathHelper;
  * @version 1.0
  * @since 1.0
  */
-public class SalesLine {
+public class SaleLine {
 
 	//
 	// Attributes
-	private ShopOffer product;
+	private ShopOffer offer;
 	private int quantity;
 
 	//
 	// Constructor
-	public SalesLine(ShopOffer product, int quantity) {
-		this.product = product;
+	public SaleLine(ShopOffer offer, int quantity) {
+		this.offer = offer;
 		this.quantity = quantity;
 	}
 	
 	//
 	// Method
 	public void changeProduct(ShopOffer product) {
-		this.product = product;
+		this.offer = product;
 	}
 	
 	public void changeQuantity(int quantity) {
@@ -37,7 +37,7 @@ public class SalesLine {
 	//
 	// Getters && Setters
 	public ShopOffer getProduct() {
-		return product;
+		return offer;
 	}
 	
 	public int getQuantity() {
