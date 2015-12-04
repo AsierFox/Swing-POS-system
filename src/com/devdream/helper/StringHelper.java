@@ -2,14 +2,14 @@ package com.devdream.helper;
 
 /**
  * Helper class that contains static methods
- * for helping to check errors.
+ * to manage text.
  * 
  * @author Asier Gonzalez
  * @version 1.0
  * @since 1.0
  */
 public class StringHelper {
-	
+
 	/**
 	 * Checks if a String is empty or null.
 	 * 

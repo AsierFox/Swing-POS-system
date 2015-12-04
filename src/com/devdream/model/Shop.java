@@ -6,7 +6,7 @@ import java.util.TreeMap;
  * The shop of our application. Due to is a
  * single shop in all the application, we are
  * going to apply to it the Singleton design
- * pattern
+ * pattern.
  * 
  * @author Asier Gonzalez
  * @version 1.0
@@ -20,14 +20,17 @@ public class Shop {
 	 * The minimum salary of the commercials in the shop.
 	 */
 	public static float MINIMUN_SALARY = 750;
-	
+	/**
+	 * 
+	 */
+	public static float VAT_TAX_PERCENTAGE = 16;
 	/**
 	 * All the products that the Shop has.
 	 */
-	private static TreeMap<Integer, Product> products;
+	private static TreeMap<Integer, ShopOffer> products;
 	
 	private Shop() {
-		products = new TreeMap<Integer, Product>();
+		products = new TreeMap<Integer, ShopOffer>();
 	}
 	
 	public static Shop getInstance() {
@@ -44,7 +47,7 @@ public class Shop {
 	 * @param id The id of the product
 	 * @param product Product to add
 	 */
-	public Product addProduct(int id, Product product) {
+	public ShopOffer addProduct(int id, ShopOffer product) {
 		return products.put(id, product);
 	}
 	
@@ -52,19 +55,19 @@ public class Shop {
 	public String toString() {
 		return "Shop Products: " + products.toString();
 	}
-
-	/**
-	 * Checks that has a product.
-	 * 
-	 * @param product Product to check
-	 * @return The searched product
-	 */
-	public boolean hasProduct(Product product) { // TODO LOL ?
-		return products.get(product) != null;
+	
+	public ShopOffer getProduct(int id) {
+		return products.get(id);
 	}
 	
-	public Product getProduct(int id) {
-		return products.get(id);
+	/**
+	 * Checks if the client passed by parameter is a GoldClient.
+	 * 
+	 * @param client The Client object type to check with.
+	 * @return If the client is a GoldClient.
+	 */
+	public static boolean isGoldClient(Client client) {
+		return client instanceof GoldClient;
 	}
 	
 }

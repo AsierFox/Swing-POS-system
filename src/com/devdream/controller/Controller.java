@@ -1,39 +1,42 @@
 package com.devdream.controller;
 
-import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
 
-import com.devdream.manager.ViewManager;
-
-public abstract class Controller implements ActionListener {
+/**
+ * TODO Description
+ * 
+ * @author Asier Gonzalez
+ * @version 1.0
+ * @since 1.0
+ */
+public abstract class Controller {
 
 	//
 	// Attributes
 	private JFrame actualView;
 	private String newWindowName;
-	private ViewManager viewManager;
 	
 	//
 	// Constructors
 	public Controller(JFrame actualView, String newWindowName) {
 		this.actualView = actualView;
 		this.newWindowName = newWindowName;
-		viewManager = new ViewManager(actualView, newWindowName);
 	}
-
+	
 	//
-	// Getters && Setters
-	public JFrame getActualView() {
-		return actualView;
+	// Methods
+	protected final void changeView() {
+		actualView.dispose();
+		
+		JFrame newView = null;
+		try {
+			newView = (JFrame) Class.forName(newWindowName).newInstance();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		if (newView != null) {
+			actualView = newView;
+		}
 	}
 
-	public String getNewWindowName() {
-		return newWindowName;
-	}
-	
-	public ViewManager getViewManager() {
-		return viewManager;
-	}
-	
 }

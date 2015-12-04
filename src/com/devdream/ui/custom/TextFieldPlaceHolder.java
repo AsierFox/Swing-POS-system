@@ -1,4 +1,4 @@
-package com.devdream.view.custom;
+package com.devdream.ui.custom;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -9,7 +9,7 @@ import javax.swing.JTextField;
 
 /**
  * Personalized component to add the placeholder
- * feature to a JTexField
+ * feature to a JTexField.
  * 
  * @author Asier Gonzalez
  * @version 1.0
@@ -32,7 +32,7 @@ public class TextFieldPlaceHolder extends JTextField {
 			Graphics2D g2 = (Graphics2D) g.create();
 			g2.setBackground(Color.gray);
 			g2.setFont(getFont().deriveFont(Font.PLAIN));
-			g2.drawString(text, 5, 10);
+			g2.drawString(text, 8, 10);
 			g2.dispose();
 		}
 	}

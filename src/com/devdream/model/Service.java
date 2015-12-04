@@ -1,8 +1,5 @@
 package com.devdream.model;
 
-import com.devdream.helper.ErrorHandler;
-import com.devdream.helper.MathHelper;
-
 /**
  * TODO Description
  * 
@@ -10,29 +7,19 @@ import com.devdream.helper.MathHelper;
  * @version 1.0
  * @since 1.0
  */
-public class Service extends Product {
-
-	private int horas;
+public class Service extends ShopOffer {
 	
-	public Service(final int ID, String name, String description, float price, int horas) {
+	//
+	// Constructors
+	public Service(final int ID, String name, String description, float price) {
 		super(ID, name, description, price);
-		setHoras(horas);
 	}
 	
 	//
-	// Getters && Setters
+	// toString
 	@Override
-	public float getPrice() {
-		return super.getPrice() * horas;
+	public String toString() {
+		return getName();
 	}
-	
-	public int getHoras() {
-		return horas;
-	}
-	public void setHoras(int horas) {
-		this.horas = (!MathHelper.isNegativeNumber(horas)) ?
-				horas :
-				0; // TODO Error
-	}
-	
+
 }

@@ -24,10 +24,9 @@ public class SubscriberCard {
 	//
 	// Methods
 	public void chargeMoney(double cash) {
-		if (MathHelper.isNegativeNumber((int) cash)) {
+		if (!MathHelper.isNegativeNumber((int) cash)) {
 			this.cash += cash;
 		}
-		// TODO Error if the number is negative
 	}
 	
 	//

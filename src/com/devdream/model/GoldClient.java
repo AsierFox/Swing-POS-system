@@ -1,5 +1,12 @@
 package com.devdream.model;
 
+/**
+ * TODO Description
+ * 
+ * @author Asier Gonzalez
+ * @version 1.0
+ * @since 1.0
+ */
 public class GoldClient extends Client {
 
 	//
@@ -11,9 +18,6 @@ public class GoldClient extends Client {
 	public GoldClient(String ID, String name, SubscriberCard subscriberCard) {
 		super(ID, name, subscriberCard);
 	}
-
-	//
-	// Methods
 	
 	//
 	// Getters and Setters

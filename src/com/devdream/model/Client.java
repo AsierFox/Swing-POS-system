@@ -1,6 +1,7 @@
 package com.devdream.model;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.devdream.helper.DateHelper;
 
@@ -15,7 +16,6 @@ public class Client extends User {
 
 	//
 	// Attributes
-	protected double saldoMes;
 	private String joinedDate;
 
 	//
@@ -26,22 +26,14 @@ public class Client extends User {
 	
 	//
 	// Methods
-	public final boolean comprar(Product product, int quantity) {
-		return false;
+	public boolean isGoldClient() {
+		return this instanceof GoldClient;
 	}
 
 	//
 	// Getters and Setters
 	public String getID() {
 		return ID;
-	}
-
-	public double getSaldoMes() {
-		return saldoMes;
-	}
-
-	public void setSaldoMes(double saldoMes) {
-		this.saldoMes = saldoMes;
 	}
 
 	public String getFechaAlta() {

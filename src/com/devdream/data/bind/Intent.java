@@ -1,7 +1,12 @@
 package com.devdream.data.bind;
 
+import java.util.ArrayList;
+
 import com.devdream.data.SessionData;
+import com.devdream.model.Client;
 import com.devdream.model.Commercial;
+import com.devdream.model.Product;
+import com.devdream.model.Service;
 
 /**
  * This class is used to for data binding
@@ -18,6 +23,7 @@ public class Intent {
 	private SessionData sessionData;
 	
 	private Intent() {
+		sessionData = new SessionData();
 	}
 	
 	public static Intent getInstance() {
@@ -34,12 +40,44 @@ public class Intent {
 	
 	//
 	// Getters && Setters
-	public void setSessionData(SessionData sessionData) {
-		this.sessionData = sessionData;
-	}
-	
-	public Commercial getCommercial() {
+	public Commercial getLogedCommercial() {
 		return sessionData.getCommercial();
 	}
 	
+	public void setLoguedCommercial(Commercial commercial) {
+		sessionData.setCommercial(commercial);
+	}
+	
+	public Client getActualClient() {
+		return sessionData.getClient();
+	}
+	
+	public void setActualClient(Client c) {
+		sessionData.setClient(c);
+	}
+	
+	public ArrayList<Client> getClients() {
+		return sessionData.getClients();
+	}
+	
+	public void setClients(ArrayList<Client> clients) {
+		sessionData.setClients(clients);
+	}
+
+	public ArrayList<Service> getServices() {
+		return sessionData.getServices();
+	}
+	
+	public ArrayList<Product> getProducts() {
+		return sessionData.getProducts();
+	}
+
+	public void setServices(ArrayList<Service> services) {
+		sessionData.setServices(services);
+	}
+
+	public void setProducts(ArrayList<Product> products) {
+		sessionData.setProducts(products);
+	}
+
 }

@@ -8,8 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- * Sets a behaviour when the users wants to exit
- * from the application
+ * Sets a behavior when the users wants to exit
+ * from the application.
  * 
  * @author Asier Gonzalez
  * @version 1.0

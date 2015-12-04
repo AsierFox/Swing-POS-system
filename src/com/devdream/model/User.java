@@ -1,9 +1,8 @@
 package com.devdream.model;
 
-import com.devdream.helper.StringHelper;
-
 /**
- * This class wraps all users of the system
+ * This class wraps all users types
+ * of the system.
  * 
  * @author Asier Gonzalez
  * @version 1.0
@@ -11,24 +10,34 @@ import com.devdream.helper.StringHelper;
  */
 public abstract class User {
 
+	//
+	// Attributes
 	public final String ID;
 	private String name;
 	private SubscriberCard subscriberCard;
-	
+
+	//
+	// Constructor
 	public User(final String ID, String name, SubscriberCard subscriberCard) {
 		this.ID = ID;
 		setName(name);
 		this.subscriberCard = subscriberCard;
 	}
 
+	// toString
+	@Override
+	public String toString() {
+		return getName();
+	}
+	
+	//
+	// Getters && Setters
 	public String getName() {
 		return name;
 	}
 	
 	public void setName(String name) {
-		this.name = (!StringHelper.isStringNull(name)) ?
-				name :
-				"null"; // TODO What to do here
+		this.name = name;
 	}
 
 }

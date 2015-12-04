@@ -5,6 +5,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+/**
+ * TODO Description
+ * 
+ * @author Asier Gonzalez
+ * @version 1.0
+ * @since 1.0
+ */
 public class DateHelper {
 
 	public static String getCustomDate(int day, int month, int year) {

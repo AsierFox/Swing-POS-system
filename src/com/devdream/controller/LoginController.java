@@ -1,30 +1,26 @@
 package com.devdream.controller;
 
-import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 
-import com.devdream.data.SessionData;
 import com.devdream.data.bind.Intent;
 import com.devdream.model.Commercial;
 
+/**
+ * TODO Description
+ * 
+ * @author Asier Gonzalez
+ * @version 1.0
+ * @since 1.0
+ */
 public class LoginController extends Controller {
-	
-	private int selectedCommercial;
-	private ArrayList<Commercial> commercials;
 
-	public LoginController(JFrame actualView, String newWindowName, ArrayList<Commercial> commercials, JComboBox<String> comboBox) {
+	public LoginController(JFrame actualView, String newWindowName) {
 		super(actualView, newWindowName);
-		this.commercials = commercials;
-		comboBox.addActionListener((ActionEvent e) -> selectedCommercial = comboBox.getSelectedIndex());
 	}
 	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		Intent.getInstance().setSessionData(new SessionData(commercials.get(selectedCommercial)));
-		super.getViewManager().changeView();
+	public void login(Commercial comercial) {
+		Intent.getInstance().setLoguedCommercial(comercial);
+		super.changeView();
 	}
 
 }

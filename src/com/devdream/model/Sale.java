@@ -1,8 +1,6 @@
 package com.devdream.model;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.devdream.helper.DateHelper;
 
@@ -20,10 +18,13 @@ public class Sale {
 	private String saleDate;
 	private ArrayList<SalesLine> saleLine;
 	private double subtotal, total;
+	// TODO Calculate the total using the VAT_TAX from shop to calculate the total
 	
 	//
 	// Constructor
-
+	public Sale(ArrayList<SalesLine> saleLine, String saleDate, double subtotal, double total) {
+	}
+	
 	//
 	// Methods
 	

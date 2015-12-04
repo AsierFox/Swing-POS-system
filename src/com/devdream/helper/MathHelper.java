@@ -1,5 +1,12 @@
 package com.devdream.helper;
 
+/**
+ * TODO Description
+ * 
+ * @author Asier Gonzalez
+ * @version 1.0
+ * @since 1.0
+ */
 public abstract class MathHelper {
 
 	/**
