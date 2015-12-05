@@ -64,8 +64,8 @@ public abstract class ShopOffer {
 	}
 	
 	public void setPrice(float price) {
-		this.price = (!MathHelper.isNegativeNumber((int) price)) ?
-				price :
-				0;
+		this.price = (!MathHelper.isNegativeNumber((int) price))
+				? price
+				: 0;
 	}
 }

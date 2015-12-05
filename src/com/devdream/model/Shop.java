@@ -21,7 +21,7 @@ public class Shop {
 	 */
 	public static float MINIMUN_SALARY = 750;
 	/**
-	 * 
+	 * TAX percentage
 	 */
 	public static float VAT_TAX_PERCENTAGE = 16;
 	/**

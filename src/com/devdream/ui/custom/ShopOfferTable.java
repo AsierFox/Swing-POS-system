@@ -1,11 +1,13 @@
 package com.devdream.ui.custom;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Vector;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import com.devdream.model.ShopOffer;
+import com.devdream.model.SaleLine;
 
 public class ShopOfferTable extends JTable {
 
@@ -13,52 +15,45 @@ public class ShopOfferTable extends JTable {
 	
 	private int editableQtyColIndex;
 	private DefaultTableModel model;
+	private ArrayList<SaleLine> saleLines;
 	
-	public ShopOfferTable() {
+	public ShopOfferTable(ArrayList<SaleLine> saleLines) {
 		model = new DefaultTableModel();
 		setModel(model);
+		this.saleLines = saleLines;
 		setOffersTableHeader();
 		getTableHeader().setReorderingAllowed(false);
+		getTableHeader().setResizingAllowed(false);
 		// Last one is always the quantity
 		editableQtyColIndex = model.getColumnCount() - 1;
-		/* OFFER ROW SELECTED
-		addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-				int selectedRow = getSelectedRow(),
-					selectedCol = getSelectedColumn();
-				
-				System.out.println("\nSelected Row: " + selectedRow +
-						"\nSelected Colum: " + selectedCol);
-				
-				super.mouseClicked(e);
-			}
-		});
-		*/
 	}
 	
-	public void addOfferToTable(ShopOffer offer, int qty) {
-		Vector<String> row = new Vector<String>();
-		row.addElement(Integer.toString(model.getRowCount() + 1));
-		row.addElement(Integer.toString(offer.getID()));
-		row.addElement(offer.getName());
-		row.addElement(Float.toString(offer.getPrice()));
-		row.addElement(Integer.toString(qty));
-		model.addRow(row);
+	private void setOffersTableHeader() {
+		model.addColumn("line #");
+		model.addColumn("ID");
+		model.addColumn("Name");
+		model.addColumn("Unit price");
+		model.addColumn("Qty.");
+	}
+	
+	public void update() {
+		model.setRowCount(0);
+		Iterator<SaleLine> it = saleLines.iterator();
+		while (it.hasNext()) {
+			SaleLine saleLine = it.next();
+			Vector<String> row = new Vector<String>();
+			row.addElement(Integer.toString(model.getRowCount() + 1));
+			row.addElement(Integer.toString(saleLine.getProduct().getID()));
+			row.addElement(saleLine.getProduct().getName());
+			row.addElement(Float.toString(saleLine.getProduct().getPrice()));
+			row.addElement(Integer.toString(saleLine.getQuantity()));
+			model.addRow(row);
+		}
 	}
 	
 	@Override
 	public boolean isCellEditable(int row, int column) {
 		return column == editableQtyColIndex;
-	}
-	
-	private void setOffersTableHeader() {
-		model.addColumn("N line");
-		model.addColumn("ID");
-		model.addColumn("Name");
-		model.addColumn("Unit price");
-		model.addColumn("Qty.");
 	}
 	
 }

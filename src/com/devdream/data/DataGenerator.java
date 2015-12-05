@@ -40,9 +40,9 @@ public class DataGenerator {
 		services.add( new Service(123345, "Repair This", "Fuck youu", 159.2f) );
 		services.add( new Service(435435, "Do all the stuff", "Roar!", 500) );
 		
-		commercials.add( new Commercial("1111111A", "Asier", new SubscriberCard(100), 1000) );
-		commercials.add( new Commercial("2222222B", "Mary", new SubscriberCard(100), 1000) );
-		commercials.add( new Commercial("3333333C", "Gogo", new SubscriberCard(100), 1000) );
+		commercials.add( new Commercial("1111111A", "Asier", 1000) );
+		commercials.add( new Commercial("2222222B", "Mary", 1000) );
+		commercials.add( new Commercial("3333333C", "Gogo", 1000) );
 
 		clients.add( new Client("QWEEWQEWQ", "Anthony", new SubscriberCard(200)) );
 		clients.add( new GoldClient("ASDASDADS", "Arika", new SubscriberCard(1000)) );

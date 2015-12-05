@@ -1,5 +1,6 @@
 package com.devdream.model;
 
+import com.devdream.exception.CashNotValidException;
 import com.devdream.helper.MathHelper;
 
 /**
@@ -23,10 +24,11 @@ public class SubscriberCard {
 
 	//
 	// Methods
-	public void chargeMoney(double cash) {
-		if (!MathHelper.isNegativeNumber((int) cash)) {
-			this.cash += cash;
+	public void chargeMoney(double cash) throws CashNotValidException {
+		if (MathHelper.isNegativeNumber((int) cash)) {
+			throw new CashNotValidException();
 		}
+		this.cash += cash;
 	}
 	
 	public boolean canAffordPayment(double amount) {

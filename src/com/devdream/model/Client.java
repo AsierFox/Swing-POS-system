@@ -13,12 +13,14 @@ public class Client extends User {
 
 	//
 	// Attributes
-	private String joinedDate;
+	private SubscriberCard subscriberCard;
+	private String joinedDate; // TODO Joined date to contructor
 
 	//
 	// Constructors
 	public Client(final String ID, String name, SubscriberCard subscriberCard) {
-		super(ID, name, subscriberCard);
+		super(ID, name);
+		this.subscriberCard = subscriberCard;
 	}
 	
 	//
@@ -29,10 +31,10 @@ public class Client extends User {
 
 	//
 	// Getters and Setters
-	public String getID() {
-		return ID;
+	public SubscriberCard getSubscriberCard() {
+		return subscriberCard;
 	}
-
+	
 	public String getFechaAlta() {
 		return joinedDate;
 	}

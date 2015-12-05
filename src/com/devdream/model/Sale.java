@@ -18,8 +18,6 @@ public class Sale {
 	private ArrayList<SaleLine> saleLines;
 	private String saleDate;
 	private double subtotal;
-	private double tax;
-	private double total;
 	
 	//
 	// Constructor
@@ -27,31 +25,41 @@ public class Sale {
 		saleLines = new ArrayList<SaleLine>();
 		saleDate = DateHelper.getCurrentDate();
 		subtotal = .0d;
-		tax = .0d;
-		total = .0d;
 	}
 	
-	public Sale(String saleDate, double subtotal, double tax, double total) {
+	public Sale(String saleDate, double subtotal, double total) {
 		this();
 		this.saleDate = saleDate;
 		this.subtotal = subtotal;
-		this.tax = tax;
-		this.total = total;
 	}
 	
 	//
 	// Methods
 	public void addSaleLine(ShopOffer offer, int quantity) {
-		saleLines.add(new SaleLine(offer, quantity));
 		addSubtotal(offer.getPrice(), quantity);
+		saleLines.add(new SaleLine(offer, quantity));
+	}
+	
+	public SaleLine deleteSaleLine(int index) {
+		SaleLine deletedSaleLine = saleLines.get(index);
+		decreaseSubtotal(deletedSaleLine.getProduct().getPrice(), deletedSaleLine.getQuantity());
+		return saleLines.remove(index);
 	}
 	
 	private void addSubtotal(double price, int quantity) {
 		subtotal += (price * quantity);
 	}
 	
+	private void decreaseSubtotal(double price, int quantity) {
+		subtotal -= (price * quantity);
+	}
+	
 	//
 	// Getters and Setters
+	public ArrayList<SaleLine> getSaleLines() {
+		return saleLines;
+	}
+	
 	public void setSaleDate(int day, int month, int year) {
 		saleDate = DateHelper.getCustomDate(day, month, year);
 	}
@@ -65,11 +73,11 @@ public class Sale {
 	}
 	
 	public double getTax() {
-		return tax;
+		return getSubtotal() * (Shop.VAT_TAX_PERCENTAGE / 100);
 	}
 
 	public double getTotal() {
-		return total;
+		return getSubtotal() + getTax();
 	}
 	
 }

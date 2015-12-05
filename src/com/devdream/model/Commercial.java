@@ -22,8 +22,8 @@ public class Commercial extends User {
 
 	//
 	// Constructors
-	public Commercial(final String ID, String name, SubscriberCard subscriberCard, float salary) {
-		super(ID, name, subscriberCard);
+	public Commercial(final String ID, String name, float salary) {
+		super(ID, name);
 		setSalary(salary);
 		earnedPoints = 0;
 	}
@@ -36,9 +36,9 @@ public class Commercial extends User {
 	
 	public void setSalary(float salary) {
 		this.salary = (!MathHelper.isNegativeNumber((int) salary) &&
-						salary > Shop.MINIMUN_SALARY) ?
-				salary :
-				Shop.MINIMUN_SALARY;
+						salary > Shop.MINIMUN_SALARY)
+				? salary
+				: Shop.MINIMUN_SALARY;
 	}
 	
 	public int getEarnedPoints() {

@@ -14,14 +14,12 @@ public abstract class User {
 	// Attributes
 	public final String ID;
 	private String name;
-	private SubscriberCard subscriberCard;
 
 	//
 	// Constructor
-	public User(final String ID, String name, SubscriberCard subscriberCard) {
+	public User(final String ID, String name) {
 		this.ID = ID;
 		setName(name);
-		this.subscriberCard = subscriberCard;
 	}
 
 	// toString
