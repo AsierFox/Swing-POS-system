@@ -14,6 +14,13 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 
+/**
+ * This view shows the components for subscribing a new client.
+ * 
+ * @author Asier Gonzalez
+ * @version 1.0
+ * @since 1.0
+ */
 public class NewClientView extends JFrame {
 
 	private static final long serialVersionUID = 6745170097521269127L;

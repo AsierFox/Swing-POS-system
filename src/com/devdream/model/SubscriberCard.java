@@ -4,7 +4,8 @@ import com.devdream.exception.CashNotValidException;
 import com.devdream.helper.MathHelper;
 
 /**
- * TODO Description
+ * The subscriber cash is a must of the client for
+ * paying in the shop. Without it, the user can not pay.
  * 
  * @author Asier Gonzalez
  * @version 1.0

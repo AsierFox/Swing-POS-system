@@ -25,6 +25,10 @@ public class Client extends User {
 	
 	//
 	// Methods
+	public boolean canAffordPayment(double total) {
+		return subscriberCard.getCash() <= total;
+	}
+	
 	public boolean isGoldClient() {
 		return this instanceof GoldClient;
 	}

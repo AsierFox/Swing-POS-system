@@ -10,8 +10,11 @@ import javax.swing.JScrollPane;
 
 import com.devdream.controller.LoginLogoutController;
 import com.devdream.controller.OnExitAction;
+import com.devdream.controller.PaymentController;
 import com.devdream.controller.SaleController;
 import com.devdream.data.bind.Intent;
+import com.devdream.exception.CantAffordException;
+import com.devdream.exception.EmptyPaymentException;
 import com.devdream.model.Client;
 import com.devdream.model.Commercial;
 import com.devdream.model.Product;
@@ -23,7 +26,7 @@ import com.devdream.ui.custom.ShopOfferTable;
 import com.devdream.ui.custom.TextFieldPlaceHolder;
 
 /**
- * TODO Description
+ * Point of sale view.
  * 
  * @author Asier Gonzalez
  * @version 1.0
@@ -39,13 +42,12 @@ public class POSView extends javax.swing.JFrame {
 	private Client currentClient;
 	private ShopOfferTable offersTable;
 	private MyComboBox<Client> clientsComboBox;
-	private SaleController saleController;
 	private JLabel forGoldClientAlertLabel;
 	private JLabel clientCashLabel;
 	private JLabel subtotalLabel;
 	private JLabel taxLabel;
 	private JLabel totalLabel;
-
+	
 	//
 	// Constructors
 	public POSView() {
@@ -57,7 +59,7 @@ public class POSView extends javax.swing.JFrame {
 		logedCommercial = Intent.getInstance().getLogedCommercial();
 		
 		// Sale Controller
-		saleController = new SaleController(this, "TODO"); // TODO add in constructor to change the view to bill view
+		SaleController saleController = new SaleController();
 		
 		// Commercial information
 		JLabel testLabel = new JLabel("Session By: ");
@@ -237,7 +239,12 @@ public class POSView extends javax.swing.JFrame {
 		// Payment button
 		JButton paymentButton = new JButton("Payment");
 		paymentButton.addActionListener((e) -> {
-			//TODO payment
+			PaymentController paymentController = new PaymentController(this, BillView.class.getName());
+			try {
+				paymentController.processPayment(saleController.getSale(), currentClient, logedCommercial);
+			} catch(EmptyPaymentException | CantAffordException err) {
+				ErrorAlert.show(this, err.getMessage());
+			}
 		});
 		paymentButton.setBounds(488, 243, 89, 23);
 		getContentPane().add(paymentButton);

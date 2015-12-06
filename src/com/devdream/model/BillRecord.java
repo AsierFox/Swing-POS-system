@@ -3,7 +3,8 @@ package com.devdream.model;
 import java.util.TreeMap;
 
 /**
- * TODO Description
+ * The bill record stores a bill record of all
+ * proceeded sales.
  * 
  * @author Asier Gonzalez
  * @version 1.0

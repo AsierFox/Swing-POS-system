@@ -3,8 +3,6 @@ package com.devdream.controller;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
-
 import com.devdream.model.Sale;
 import com.devdream.model.SaleLine;
 import com.devdream.model.ShopOffer;
@@ -24,11 +22,11 @@ public class SaleController extends Controller {
 	
 	//
 	// Constructors
-	public SaleController(JFrame actualView, String newWindowName) {
-		super(actualView, newWindowName);
+	public SaleController() {
+		super();
 		sale = new Sale();
 	}
-	
+
 	//
 	// Methods
 	public void addSaleLine(ShopOffer offer, int qty) {
@@ -45,6 +43,10 @@ public class SaleController extends Controller {
 	
 	//
 	// Getters and Setters
+	public Sale getSale() {
+		return sale;
+	}
+	
 	public ArrayList<SaleLine> getSaleLines() {
 		return sale.getSaleLines();
 	}

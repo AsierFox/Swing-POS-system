@@ -9,6 +9,13 @@ import javax.swing.table.DefaultTableModel;
 
 import com.devdream.model.SaleLine;
 
+/**
+ * This class manages the JTable with offers objects instances.
+ * 
+ * @author Asier Gonzalez
+ * @version 1.0
+ * @since 1.0
+ */
 public class ShopOfferTable extends JTable {
 
 	private static final long serialVersionUID = -5357968916571336456L;

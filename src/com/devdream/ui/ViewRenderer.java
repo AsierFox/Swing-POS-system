@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 import com.devdream.data.AppData;
 
 /**
- * TODO Description
+ * This class renders the view configuring the JFrame component.
  * 
  * @author Asier Gonzalez
  * @version 1.0

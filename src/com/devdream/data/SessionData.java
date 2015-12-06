@@ -8,7 +8,9 @@ import com.devdream.model.Product;
 import com.devdream.model.Service;
 
 /**
- * TODO Description
+ * This class is contains data of the session, such as
+ * the logged commercial, the current client and the offers
+ * that are taking part in a sale.
  * 
  * @author Asier Gonzalez
  * @version 1.0
