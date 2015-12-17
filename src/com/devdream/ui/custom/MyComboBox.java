@@ -37,8 +37,9 @@ public class MyComboBox <E> extends JComboBox<E> {
     public void update() {
         model = new DefaultComboBoxModel<E>();
         setModel(model);
-        for (E u : items)
+        for (E u : items) {
         	model.addElement(u);
+        }
     }
 
 }

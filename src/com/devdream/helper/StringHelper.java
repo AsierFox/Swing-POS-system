@@ -1,5 +1,7 @@
 package com.devdream.helper;
 
+import java.text.DecimalFormat;
+
 /**
  * Helper class that contains static methods
  * to manage text.
@@ -20,6 +22,14 @@ public class StringHelper {
 		s = s.trim();
 		return s != null && s.isEmpty();
 	}
-
+	
+	/**
+	 * Format an amount of money.
+	 * @param amount Amount of money
+	 * @return
+	 */
+	public static String formatAmount(double amount) {
+		return new DecimalFormat("0.00").format(amount);
+	}
 
 }

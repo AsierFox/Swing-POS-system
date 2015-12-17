@@ -1,9 +1,7 @@
 package com.devdream.model;
 
-import com.devdream.helper.DateHelper;
-
 /**
- * TODO Description
+ * The client of the shop.
  * 
  * @author Asier Gonzalez
  * @version 1.0
@@ -14,7 +12,6 @@ public class Client extends User {
 	//
 	// Attributes
 	private SubscriberCard subscriberCard;
-	private String joinedDate; // TODO Joined date to contructor
 
 	//
 	// Constructors
@@ -25,26 +22,37 @@ public class Client extends User {
 	
 	//
 	// Methods
+	public void pay(double amount) {
+		subscriberCard.retireMoney(amount);
+		subscriberCard.addSpentCash(amount);
+	}
+
+	public void charge(double amount) {
+		subscriberCard.chargeCash(amount);
+	}
+	
 	public boolean canAffordPayment(double total) {
-		return subscriberCard.getCash() <= total;
+		return subscriberCard.getCash() >= total;
 	}
 	
 	public boolean isGoldClient() {
 		return this instanceof GoldClient;
 	}
-
+	
 	//
 	// Getters and Setters
-	public SubscriberCard getSubscriberCard() {
-		return subscriberCard;
+	public double getCash() {
+		return subscriberCard.getCash();
 	}
 	
-	public String getFechaAlta() {
-		return joinedDate;
+	public double getSpentCash() {
+		return subscriberCard.getSpentCash();
 	}
-
-	public void setFechaAlta(int day, int month, int year) {
-		this.joinedDate = DateHelper.getCustomDate(day, month, year);
+	
+	public double getRemainingCashGoldClient() {
+		return ((GoldClient.AMOUNT_FOR_GOLD_CLIENT - getSpentCash()) > 0)
+				? GoldClient.AMOUNT_FOR_GOLD_CLIENT - getSpentCash()
+				: 0;
 	}
 	
 }

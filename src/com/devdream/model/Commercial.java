@@ -3,7 +3,8 @@ package com.devdream.model;
 import com.devdream.helper.MathHelper;
 
 /**
- * TODO Description
+ * The commercial is the employee of the shop that
+ * sells the shop offers.
  * 
  * @author Asier Gonzalez
  * @version 1.0
@@ -26,6 +27,12 @@ public class Commercial extends User {
 		super(ID, name);
 		setSalary(salary);
 		earnedPoints = 0;
+	}
+	
+	//
+	// Methods
+	public void increasePoints(int points) {
+		earnedPoints += points;
 	}
 
 	//

@@ -3,6 +3,7 @@ package com.devdream.data.bind;
 import java.util.ArrayList;
 
 import com.devdream.data.SessionData;
+import com.devdream.model.Bill;
 import com.devdream.model.Client;
 import com.devdream.model.Commercial;
 import com.devdream.model.Product;
@@ -64,6 +65,14 @@ public class Intent {
 
 	public void setNewClient(Client c) {
 		sessionData.getClients().add(c);
+	}
+	
+	public Bill getCurrentBill() {
+		return sessionData.getBill();
+	}
+	
+	public void setCurrentBill(Bill bill) {
+		sessionData.setBill(bill);
 	}
 	
 	public ArrayList<Client> getClients() {

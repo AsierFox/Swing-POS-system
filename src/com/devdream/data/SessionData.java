@@ -2,6 +2,7 @@ package com.devdream.data;
 
 import java.util.ArrayList;
 
+import com.devdream.model.Bill;
 import com.devdream.model.Client;
 import com.devdream.model.Commercial;
 import com.devdream.model.Product;
@@ -22,6 +23,7 @@ public class SessionData {
 	// Attributes
 	private Commercial commercial;
 	private Client client;
+	private Bill bill;
 	private ArrayList<Client> clients;
 	private ArrayList<Service> services;
 	private ArrayList<Product> products;
@@ -52,6 +54,14 @@ public class SessionData {
 	
 	public void setClient(Client client) {
 		this.client = client;
+	}
+	
+	public Bill getBill() {
+		return bill;
+	}
+	
+	public void setBill(Bill bill) {
+		this.bill = bill;
 	}
 	
 	public ArrayList<Client> getClients() {

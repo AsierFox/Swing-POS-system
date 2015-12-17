@@ -1,8 +1,10 @@
 package com.devdream.controller;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
+
+import com.devdream.helper.StringHelper;
 import com.devdream.model.Sale;
 import com.devdream.model.SaleLine;
 import com.devdream.model.ShopOffer;
@@ -27,18 +29,24 @@ public class SaleController extends Controller {
 		sale = new Sale();
 	}
 
+
+	public SaleController(JFrame actualView, String newWindowName) {
+		super(actualView, newWindowName);
+		sale = new Sale();
+	}
+	
 	//
 	// Methods
+	public void newSale() {
+		super.changeView();
+	}
+	
 	public void addSaleLine(ShopOffer offer, int qty) {
 		sale.addSaleLine(offer, qty);
 	}
 	
 	public SaleLine deleteSaleSaleLine(int index) {
 		return sale.deleteSaleLine(index);
-	}
-	
-	private String formatAmount(double amount) {
-		return new DecimalFormat("0.00").format(amount);
 	}
 	
 	//
@@ -52,15 +60,15 @@ public class SaleController extends Controller {
 	}
 	
 	public String getSaleSubtotal() {
-		return formatAmount(sale.getSubtotal());
+		return StringHelper.formatAmount(sale.getSubtotal());
 	}
 
 	public String getSaleTax() {
-		return formatAmount(sale.getTax());
+		return StringHelper.formatAmount(sale.getTax());
 	}
 
 	public String getSaleTotal() {
-		return formatAmount(sale.getTotal());
+		return StringHelper.formatAmount(sale.getTotal());
 	}
 
 }

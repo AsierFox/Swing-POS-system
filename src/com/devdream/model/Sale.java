@@ -27,8 +27,8 @@ public class Sale {
 		subtotal = .0d;
 	}
 	
-	public Sale(String saleDate, double subtotal, double total) {
-		this();
+	public Sale(ArrayList<SaleLine> saleLines, String saleDate, double subtotal) {
+		this.saleLines = saleLines;
 		this.saleDate = saleDate;
 		this.subtotal = subtotal;
 	}
@@ -60,8 +60,8 @@ public class Sale {
 		return saleLines;
 	}
 	
-	public void setSaleDate(int day, int month, int year) {
-		saleDate = DateHelper.getCustomDate(day, month, year);
+	public void setSaleCurrentDate() {
+		saleDate = DateHelper.getCurrentDate();
 	}
 	
 	public String getSaleDate() {
@@ -78,6 +78,10 @@ public class Sale {
 
 	public double getTotal() {
 		return getSubtotal() + getTax();
+	}
+	
+	public double getGoldDiscountedTotal() {
+		return getTotal() - (getTotal() * GoldClient.DISCOUNT_PERCENTAGE);
 	}
 	
 }

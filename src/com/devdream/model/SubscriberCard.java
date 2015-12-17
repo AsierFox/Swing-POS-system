@@ -1,8 +1,5 @@
 package com.devdream.model;
 
-import com.devdream.exception.CashNotValidException;
-import com.devdream.helper.MathHelper;
-
 /**
  * The subscriber cash is a must of the client for
  * paying in the shop. Without it, the user can not pay.
@@ -16,6 +13,7 @@ public class SubscriberCard {
 	//
 	// Attributes
 	private double cash;
+	private double spentCash;
 	
 	//
 	// Constructor
@@ -25,21 +23,30 @@ public class SubscriberCard {
 
 	//
 	// Methods
-	public void chargeMoney(double cash) throws CashNotValidException {
-		if (MathHelper.isNegativeNumber((int) cash)) {
-			throw new CashNotValidException();
-		}
-		this.cash += cash;
+	protected void chargeCash(double amount) {
+		cash += amount;
 	}
 	
-	public boolean canAffordPayment(double amount) {
+	protected void retireMoney(double amount) {
+		cash -= amount;
+	}
+	
+	protected boolean canAffordPayment(double amount) {
 		return amount <= cash;
+	}
+	
+	protected void addSpentCash(double cash) {
+		spentCash += cash;
 	}
 	
 	//
 	// Getters and Setters
-	public double getCash() {
+	protected double getCash() {
 		return cash;
 	}
 	
+	protected double getSpentCash() {
+		return spentCash;
+	}
+
 }

@@ -33,13 +33,15 @@ import com.devdream.ui.custom.TextFieldPlaceHolder;
  * @since 1.0
  */
 public class POSView extends javax.swing.JFrame {
-	
+
 	private static final long serialVersionUID = -3842125628121409727L;
 	
 	//
 	// Attributes
-	private Commercial logedCommercial;
+	private Commercial loggedCommercial;
 	private Client currentClient;
+	private boolean isCurrentClientGold;
+	private SaleController saleController;
 	private ShopOfferTable offersTable;
 	private MyComboBox<Client> clientsComboBox;
 	private JLabel forGoldClientAlertLabel;
@@ -55,11 +57,11 @@ public class POSView extends javax.swing.JFrame {
 		renderer.setCloseApplication();
 		getContentPane().setLayout(null);
 		
-		// loged commercial
-		logedCommercial = Intent.getInstance().getLogedCommercial();
+		// logged commercial
+		loggedCommercial = Intent.getInstance().getLogedCommercial();
 		
 		// Sale Controller
-		SaleController saleController = new SaleController();
+		saleController = new SaleController();
 		
 		// Commercial information
 		JLabel testLabel = new JLabel("Session By: ");
@@ -68,11 +70,11 @@ public class POSView extends javax.swing.JFrame {
 		getContentPane().add(testLabel);
 		
 		JLabel forCommercialPointsLabel = new JLabel("Commercial points");
-		forCommercialPointsLabel.setBounds(484, 84, 105, 14);
+		forCommercialPointsLabel.setBounds(484, 84, 117, 14);
 		getContentPane().add(forCommercialPointsLabel);
 		
-		JLabel commercialPointsLabel = new JLabel(Integer.toString(logedCommercial.getEarnedPoints()));
-		commercialPointsLabel.setBounds(484, 109, 46, 14);
+		JLabel commercialPointsLabel = new JLabel(Integer.toString(loggedCommercial.getEarnedPoints()));
+		commercialPointsLabel.setBounds(630, 84, 46, 14);
 		getContentPane().add(commercialPointsLabel);
 		//
 
@@ -81,7 +83,7 @@ public class POSView extends javax.swing.JFrame {
 		forClientCashLabel.setBounds(545, 33, 75, 14);
 		getContentPane().add(forClientCashLabel);
 		
-		clientCashLabel = new JLabel("");
+		clientCashLabel = new JLabel();
 		clientCashLabel.setBounds(630, 33, 46, 14);
 		getContentPane().add(clientCashLabel);
 		//
@@ -92,7 +94,7 @@ public class POSView extends javax.swing.JFrame {
 		getContentPane().add(clientLabel);
 		
 		forGoldClientAlertLabel = new JLabel("Gold client");
-		forGoldClientAlertLabel.setVisible(false);
+		forGoldClientAlertLabel.setVisible(isCurrentClientGold);
 		forGoldClientAlertLabel.setFont(new Font("Monospaced", Font.ITALIC, 12));
 		forGoldClientAlertLabel.setBounds(285, 30, 89, 21);
 		getContentPane().add(forGoldClientAlertLabel);
@@ -126,9 +128,9 @@ public class POSView extends javax.swing.JFrame {
 		//
 		
 		// Sale total information
-		JLabel forSubTotalLabel = new JLabel("Sub Total");
-		forSubTotalLabel.setBounds(478, 168, 57, 14);
-		getContentPane().add(forSubTotalLabel);
+		JLabel forSubtotalLabel = new JLabel("Subtotal");
+		forSubtotalLabel.setBounds(478, 168, 57, 14);
+		getContentPane().add(forSubtotalLabel);
 		
 		subtotalLabel = new JLabel("0");
 		subtotalLabel.setBounds(545, 168, 46, 14);
@@ -207,9 +209,7 @@ public class POSView extends javax.swing.JFrame {
 				
 				saleController.addSaleLine(selectedOffer, qty);
 				
-				updateSale(saleController.getSaleSubtotal(),
-						saleController.getSaleTax(),
-						saleController.getSaleTotal());
+				updateSale();
 			
 			} catch(NumberFormatException err) {
 				ErrorAlert.show(this, "The Quantity is not valid!");
@@ -224,9 +224,7 @@ public class POSView extends javax.swing.JFrame {
 		deleteSelectedOfferButton.addActionListener((e) -> {
 			if (offersTable.getSelectedRow() > -1) {
 				saleController.deleteSaleSaleLine(offersTable.getSelectedRow());
-				updateSale(saleController.getSaleSubtotal(),
-						saleController.getSaleTax(),
-						saleController.getSaleTotal());
+				updateSale();
 			}
 			else {
 				ErrorAlert.show(this, "There is no offer selected!");
@@ -241,7 +239,7 @@ public class POSView extends javax.swing.JFrame {
 		paymentButton.addActionListener((e) -> {
 			PaymentController paymentController = new PaymentController(this, BillView.class.getName());
 			try {
-				paymentController.processPayment(saleController.getSale(), currentClient, logedCommercial);
+				paymentController.processPayment(saleController.getSale(), currentClient, isCurrentClientGold, loggedCommercial);
 			} catch(EmptyPaymentException | CantAffordException err) {
 				ErrorAlert.show(this, err.getMessage());
 			}
@@ -264,16 +262,20 @@ public class POSView extends javax.swing.JFrame {
 		exitButton.setBounds(531, 407, 89, 23);
 		getContentPane().add(exitButton);
 		
-		// Show ui
+		JButton btnNewButton = new JButton("Charge cash");
+		btnNewButton.addActionListener((e) -> new ChargeCashView(currentClient));
+		btnNewButton.setBounds(379, 62, 112, 23);
+		getContentPane().add(btnNewButton);
+		
 		renderer.render();
 	}
 	
-	private void updateSale(String saleSubtotal, String saleTax, String saleTotal) {
+	private void updateSale() {
 		offersTable.update();
 		
-		subtotalLabel.setText(saleSubtotal);
-		taxLabel.setText(saleTax);
-		totalLabel.setText(saleTotal);
+		subtotalLabel.setText(saleController.getSaleSubtotal());
+		taxLabel.setText(saleController.getSaleTax());
+		totalLabel.setText(saleController.getSaleTotal());
 	}
 
 	//
@@ -281,8 +283,9 @@ public class POSView extends javax.swing.JFrame {
 	public void setCurrentClient(int selectedComboBoxIndex) {
 		currentClient = Intent.getInstance().getClients().get(selectedComboBoxIndex);
 		Intent.getInstance().setActualClient(currentClient);
-		forGoldClientAlertLabel.setVisible(currentClient.isGoldClient());
-		clientCashLabel.setText(Double.toString(currentClient.getSubscriberCard().getCash()));
+		isCurrentClientGold = currentClient.isGoldClient();
+		forGoldClientAlertLabel.setVisible(isCurrentClientGold);
+		clientCashLabel.setText(Double.toString(currentClient.getCash()));
 	}
 	
 	@Override

@@ -5,7 +5,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import com.devdream.controller.SubscribeClientController;
-import com.devdream.exception.CashNotValidException;
+import com.devdream.exception.CashFormatException;
 import com.devdream.exception.TextNotValidException;
 import com.devdream.ui.custom.ErrorAlert;
 import com.devdream.ui.custom.InformationAlert;
@@ -93,7 +93,7 @@ public class NewClientView extends JFrame {
 				
 				InformationAlert.show(this, "Client Subscribed successfully!");
 				clearData();
-			} catch(CashNotValidException | TextNotValidException err) {
+			} catch(CashFormatException | TextNotValidException err) {
 				ErrorAlert.show(this, err.getMessage());
 			}
 		});

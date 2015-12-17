@@ -3,7 +3,7 @@ package com.devdream.controller;
 import javax.swing.JFrame;
 
 import com.devdream.data.bind.Intent;
-import com.devdream.exception.CashNotValidException;
+import com.devdream.exception.CashFormatException;
 import com.devdream.exception.TextNotValidException;
 import com.devdream.helper.MathHelper;
 import com.devdream.helper.StringHelper;
@@ -32,7 +32,7 @@ public class SubscribeClientController extends Controller {
 
 	//
 	// Methods
-	public void subscribeClient(final String ID, String name, String cashTxt, boolean isGold) throws CashNotValidException, TextNotValidException {
+	public void subscribeClient(final String ID, String name, String cashTxt, boolean isGold) throws CashFormatException, TextNotValidException {
 		if (StringHelper.isStringNull(ID)) {
 			throw new TextNotValidException("ID");
 		}
@@ -48,7 +48,7 @@ public class SubscribeClientController extends Controller {
 		try {
 			cash = Float.parseFloat(cashTxt);
 		} catch(NumberFormatException err) {
-			throw new CashNotValidException();
+			throw new CashFormatException();
 		}
 		
 		if (isGold)

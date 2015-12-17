@@ -12,7 +12,7 @@ public class EmptyPaymentException extends Exception {
 
 	private static final long serialVersionUID = 3299336489388748183L;
 	
-	public static final String NO_OFFERS_TO_SALE = "No offers to process the payment!";
+	public static final String NO_OFFERS_TO_SALE = "No offers to proceed the payment!";
 
 	@Override
 	public String getMessage() {

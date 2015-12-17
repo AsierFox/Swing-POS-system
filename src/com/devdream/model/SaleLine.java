@@ -30,8 +30,13 @@ public class SaleLine {
 		this.offer = product;
 	}
 	
-	public void changeQuantity(int quantity) {
+	public void setQuantity(int quantity) {
 		this.quantity = (!MathHelper.isNegativeNumber(quantity)) ? quantity : 0;
+	}
+	
+	@Override
+	public String toString() {
+		return offer.toString() + " " + quantity;
 	}
 
 	//
