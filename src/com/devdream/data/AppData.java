@@ -11,13 +11,18 @@ package com.devdream.data;
 public abstract class AppData {
 
 	public static final String APP_TITLE = "2Wheels POS";
-	public static final String ICON_PATH = "/img/icon/2wheels_icon.jpg";
-	
-	public static final int WIDTH = 800, HEIGHT = 600;
 
-	public static final String IMG_DIR_PATH = "assets/img/";
-	public static final String LOGO_PATH = IMG_DIR_PATH + "logo/2wheels_logo.jpg";
+	public static final int WIDTH = 800, HEIGHT = 600;
 	
-	public static float GOLD_CLIENT_DISCOUNT_PERCENT = 30;
+	public static final String ASSETS_DIR = System.getProperty("user.dir") + "/assets/";
+	public static final String IMG_DIR_PATH = ASSETS_DIR + "img/";
+	
+	private static final String FAVICON_IMG = "2wheels_favicon.png";
+	public static final String FAVICON_PATH = IMG_DIR_PATH + "icon/" + FAVICON_IMG;
+	
+	private static final String LOGO_IMG = "2wheels_logo.png";
+	public static final String LOGO_PATH = IMG_DIR_PATH + "logo/" + LOGO_IMG;
+	
+	public static final String POS_ICON_PATH = IMG_DIR_PATH + "pos_icon/";
 	
 }

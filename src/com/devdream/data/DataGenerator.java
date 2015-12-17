@@ -25,7 +25,7 @@ public class DataGenerator {
 	private ArrayList<Product> products;
 	private ArrayList<Commercial> commercials;
 	private ArrayList<Client> clients;
-
+	
 	//
 	// Constructors
 	public DataGenerator() {

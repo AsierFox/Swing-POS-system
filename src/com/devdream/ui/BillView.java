@@ -14,7 +14,7 @@ import com.devdream.data.bind.Intent;
 import com.devdream.helper.StringHelper;
 import com.devdream.model.Bill;
 import com.devdream.model.SaleLine;
-import com.devdream.ui.custom.InformationAlert;
+import com.devdream.ui.custom.Alert;
 import com.devdream.ui.custom.MyList;
 
 /**
@@ -114,15 +114,16 @@ public class BillView extends JFrame {
 		generatePdfButton.addActionListener((e) -> {
 			try {
 				bill.generatePDF();
-				InformationAlert.show(this, "Bill PDF generated");
+				Alert.showError(this, "Bill PDF generated");
 			} catch (Exception err) {
-				err.printStackTrace();
+				Alert.showError(this, "Error generating the PDF file!");
 			}
 		});
 		generatePdfButton.setBounds(359, 260, 129, 23);
 		getContentPane().add(generatePdfButton);
 		
 		JButton printPrinterButton = new JButton("Print (Printer)");
+		printPrinterButton.addActionListener((e) -> bill.print());
 		printPrinterButton.setBounds(361, 294, 127, 23);
 		getContentPane().add(printPrinterButton);
 

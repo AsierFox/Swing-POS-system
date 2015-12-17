@@ -20,21 +20,24 @@ public class ShopOfferTable extends JTable {
 
 	private static final long serialVersionUID = -5357968916571336456L;
 	
-	private int editableQtyColIndex;
+	//
+	// Attributes
 	private DefaultTableModel model;
 	private ArrayList<SaleLine> saleLines;
 	
+	//
+	// Constructors
 	public ShopOfferTable(ArrayList<SaleLine> saleLines) {
+		this.saleLines = saleLines;
 		model = new DefaultTableModel();
 		setModel(model);
-		this.saleLines = saleLines;
 		setOffersTableHeader();
 		getTableHeader().setReorderingAllowed(false);
 		getTableHeader().setResizingAllowed(false);
-		// Last one is always the quantity
-		editableQtyColIndex = model.getColumnCount() - 1;
 	}
 	
+	//
+	// Methods
 	private void setOffersTableHeader() {
 		model.addColumn("line #");
 		model.addColumn("ID");
@@ -60,7 +63,7 @@ public class ShopOfferTable extends JTable {
 	
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		return column == editableQtyColIndex;
+		return false;
 	}
 	
 }

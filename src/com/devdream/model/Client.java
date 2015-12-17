@@ -41,6 +41,10 @@ public class Client extends User {
 	
 	//
 	// Getters and Setters
+	public SubscriberCard getSubscriberCard() {
+		return subscriberCard;
+	}
+	
 	public double getCash() {
 		return subscriberCard.getCash();
 	}

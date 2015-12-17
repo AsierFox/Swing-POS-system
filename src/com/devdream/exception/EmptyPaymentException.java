@@ -18,5 +18,5 @@ public class EmptyPaymentException extends Exception {
 	public String getMessage() {
 		return NO_OFFERS_TO_SALE;
 	}
-	
+
 }

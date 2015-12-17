@@ -10,7 +10,6 @@ import com.devdream.model.Client;
 import com.devdream.model.Commercial;
 import com.devdream.model.GoldClient;
 import com.devdream.model.Sale;
-import com.devdream.model.SubscriberCard;
 
 /**
  * This controller manages the payment of a sale.
@@ -59,7 +58,7 @@ public class PaymentController extends Controller {
 
 		if (client.getSpentCash() >= GoldClient.AMOUNT_FOR_GOLD_CLIENT) {
 			GoldClient.convertToGoldClient(client);
-			client = new GoldClient("213", "LOL", new SubscriberCard(2300));
+			System.out.println("IS CASTER AFTER converToGoldClient? " + client.isGoldClient() + "\n");
 		}
 		
 		Bill finalBill = new Bill(commercial, client, sale);

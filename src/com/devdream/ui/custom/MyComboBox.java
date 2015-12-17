@@ -1,5 +1,6 @@
 package com.devdream.ui.custom;
 
+import java.awt.Font;
 import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
@@ -25,6 +26,7 @@ public class MyComboBox <E> extends JComboBox<E> {
 	// Constructors
     public MyComboBox(ArrayList<E> items) {
     	this.items = items;
+    	setFont(new Font("SansSerif", Font.PLAIN, 12));
     	update();
     }
     

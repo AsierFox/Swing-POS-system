@@ -25,9 +25,10 @@ public class ViewRenderer {
 	public ViewRenderer(JFrame window) {
 		this.window = window;
 		window.setTitle(AppData.APP_TITLE);
-		window.setIconImage(Toolkit.getDefaultToolkit().getImage(LoginView.class.getResource(AppData.ICON_PATH)));
+		window.setIconImage(Toolkit.getDefaultToolkit().getImage(AppData.FAVICON_PATH));
 		window.setSize(AppData.WIDTH, AppData.HEIGHT);
 		window.setLocationRelativeTo(null); // Center the window
+		window.setResizable(false);
 		window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 	

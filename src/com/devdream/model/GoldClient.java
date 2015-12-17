@@ -24,13 +24,9 @@ public class GoldClient extends Client {
 	//
 	// Methods
 	public static void convertToGoldClient(Client client) {
-//		try {
-			client = new GoldClient("213", "Asier", new SubscriberCard(300));
-			client.setName("asd");
-			// TODO LOL
-//		} catch (MethodN e) {
-//			e.printStackTrace();
-//		}
+		// TODO Cast for GoldClient
+		client = (GoldClient) new GoldClient(client.ID, client.getName(), client.getSubscriberCard());
+		System.out.println("Casted? " + client.isGoldClient());
 	}
 	
 	//

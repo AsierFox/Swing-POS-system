@@ -3,6 +3,7 @@ package com.devdream.model;
 import java.io.IOException;
 
 import com.devdream.helper.PDFHelper;
+import com.devdream.helper.PrinterHelper;
 
 /**
  * The Bill is all the information about
@@ -32,13 +33,14 @@ public class Bill {
 	
 	//
 	// Methods
-	
-	// TODO Generate Printing
+	public void print() {
+		PrinterHelper printerHelper = new PrinterHelper();
+		printerHelper.print("asd \n sad");
+	}
 	
 	public void generatePDF() throws IOException {
 		int x = 100;
-	    PDFHelper pdf = new PDFHelper();
-	    
+	    PDFHelper pdf = new PDFHelper();    
 	    pdf.drawText("HOLAA", 5, 4, true);
 		
 		// Sale lines table
@@ -55,6 +57,9 @@ public class Bill {
 		
 		pdf.genPDF();
 	}
+//	TODO Generate content
+//	private String generateContent() {
+//	}
 	
 	//
 	// Getters and Setters

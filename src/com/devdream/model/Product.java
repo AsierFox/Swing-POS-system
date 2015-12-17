@@ -1,7 +1,7 @@
 package com.devdream.model;
 
 /**
- * TODO Description
+ * Special product of shop offer.
  * 
  * @author Asier Gonzalez
  * @version 1.0

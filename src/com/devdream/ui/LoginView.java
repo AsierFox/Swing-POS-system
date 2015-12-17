@@ -1,5 +1,7 @@
 package com.devdream.ui;
 
+import java.awt.Font;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -28,9 +30,9 @@ public class LoginView extends javax.swing.JFrame {
 	public LoginView() {
 		ViewRenderer renderer = new ViewRenderer(this);
 		renderer.setCloseApplication();
-		setLayout(null);
+		getContentPane().setLayout(null);
 		
-		// Generate Data
+		// Generate data
 		DataGenerator data = new DataGenerator();
 		Intent.getInstance().setClients(data.getClients());
 		Intent.getInstance().setServices(data.getServices());
@@ -38,13 +40,18 @@ public class LoginView extends javax.swing.JFrame {
 		
 		// Set Image to the panel
 		JLabel logoImgLabel = new JLabel(renderer.renderImage(AppData.LOGO_PATH));
-		logoImgLabel.setBounds(82, 11, 250, 94);
-		add(logoImgLabel);
+		logoImgLabel.setBounds(120, 11, 503, 324);
+		getContentPane().add(logoImgLabel);
 		
-		// Set commercial combobox
+		// Set commercial label and combo box
+		JLabel forCommercialLabel = new JLabel("Comercial");
+		forCommercialLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
+		forCommercialLabel.setBounds(319, 359, 80, 14);
+		getContentPane().add(forCommercialLabel);
+		
 		MyComboBox<Commercial> commercialsComboBox = new MyComboBox<Commercial>(data.getCommercials());
-		commercialsComboBox.setBounds(201, 117, 180, 40);
-		add(commercialsComboBox);
+		commercialsComboBox.setBounds(286, 384, 131, 23);
+		getContentPane().add(commercialsComboBox);
 		
 		// Login btn
 		JButton loginButton = new JButton("Login");
@@ -52,14 +59,14 @@ public class LoginView extends javax.swing.JFrame {
 			LoginLogoutController login = new LoginLogoutController(this, POSView.class.getName());
 			login.login(commercialsComboBox.getItemAt(commercialsComboBox.getSelectedIndex()));
 		});
-		loginButton.setBounds(106, 180, 89, 23);
-		add(loginButton);
+		loginButton.setBounds(235, 442, 89, 23);
+		getContentPane().add(loginButton);
 		
 		// Exit btn
 		JButton exitButton = new JButton("Exit");
 		exitButton.addActionListener(new OnExitAction(this));
-		exitButton.setBounds(222, 180, 89, 23);
-		add(exitButton);
+		exitButton.setBounds(368, 442, 89, 23);
+		getContentPane().add(exitButton);
 		
 		// Show ui
 		renderer.render();
