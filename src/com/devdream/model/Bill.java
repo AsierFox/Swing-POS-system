@@ -2,8 +2,10 @@ package com.devdream.model;
 
 import java.io.IOException;
 
-import com.devdream.helper.PDFHelper;
-import com.devdream.helper.PrinterHelper;
+import org.apache.pdfbox.exceptions.COSVisitorException;
+
+import com.devdream.util.PDFBuilder;
+import com.devdream.util.PrinterBuilder;
 
 /**
  * The Bill is all the information about
@@ -34,32 +36,14 @@ public class Bill {
 	//
 	// Methods
 	public void print() {
-		PrinterHelper printerHelper = new PrinterHelper();
-		printerHelper.print("asd \n sad");
+		PrinterBuilder printerHelper = new PrinterBuilder();
+		printerHelper.print(this);
 	}
 	
-	public void generatePDF() throws IOException {
-		int x = 100;
-	    PDFHelper pdf = new PDFHelper();    
-	    pdf.drawText("HOLAA", 5, 4, true);
-		
-		// Sale lines table
-	    int saleLines = sale.getSaleLines().size() + 1;
-	    String[][] content = new String[saleLines][2];
-	    content[0][0] = "Offer name";
-	    content[0][1] = "Quantity";
-    	for (int i = 1; i < saleLines; ++i) {
-    		SaleLine currSaleLine = sale.getSaleLines().get(i - 1);
-    		content[i][0] = currSaleLine.getProduct().getName();
-    		content[i][1] = Integer.toString(currSaleLine.getQuantity());
-    	}
-		pdf.drawTable(700, x, content);
-		
-		pdf.genPDF();
+	public void generatePDF() throws IOException, COSVisitorException {
+	    PDFBuilder pdf = new PDFBuilder();
+		pdf.genPDF(this);
 	}
-//	TODO Generate content
-//	private String generateContent() {
-//	}
 	
 	//
 	// Getters and Setters

@@ -15,9 +15,9 @@ public class Client extends User {
 
 	//
 	// Constructors
-	public Client(final String ID, String name, SubscriberCard subscriberCard) {
-		super(ID, name);
-		this.subscriberCard = subscriberCard;
+	public Client(final String ID, String name, String surname, SubscriberCard subscriberCard) {
+		super(ID, name, surname);
+		setSubscriberCard(subscriberCard);
 	}
 	
 	//
@@ -57,6 +57,10 @@ public class Client extends User {
 		return ((GoldClient.AMOUNT_FOR_GOLD_CLIENT - getSpentCash()) > 0)
 				? GoldClient.AMOUNT_FOR_GOLD_CLIENT - getSpentCash()
 				: 0;
+	}
+	
+	private void setSubscriberCard(SubscriberCard subscriberCard) {
+		this.subscriberCard = subscriberCard;
 	}
 	
 }

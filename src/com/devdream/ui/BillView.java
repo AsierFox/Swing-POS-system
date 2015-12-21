@@ -20,6 +20,7 @@ import com.devdream.model.Bill;
 import com.devdream.model.SaleLine;
 import com.devdream.ui.custom.Alert;
 import com.devdream.ui.custom.MyList;
+import com.devdream.util.ViewRenderer;
 
 /**
  * This bill shows the result of the proceed payment.
@@ -137,6 +138,7 @@ public class BillView extends JFrame {
 		generatePdfButton.addActionListener((e) -> {
 			try {
 				bill.generatePDF();
+				
 				Alert.showInfo(this, "Bill PDF generated");
 			} catch (Exception err) {
 				Alert.showError(this, "Error generating the PDF file!");

@@ -3,6 +3,7 @@ package com.devdream.model;
 import java.util.ArrayList;
 
 import com.devdream.helper.DateHelper;
+import com.devdream.helper.StringHelper;
 
 /**
  * The Sale class has Sales Line
@@ -18,6 +19,7 @@ public class Sale {
 	private ArrayList<SaleLine> saleLines;
 	private String saleDate;
 	private double subtotal;
+	private float discountPercentage;
 	
 	//
 	// Constructor
@@ -25,6 +27,7 @@ public class Sale {
 		saleLines = new ArrayList<SaleLine>();
 		saleDate = DateHelper.getCurrentDate();
 		subtotal = .0d;
+		discountPercentage = .0f;
 	}
 	
 	public Sale(ArrayList<SaleLine> saleLines, String saleDate, double subtotal) {
@@ -64,6 +67,14 @@ public class Sale {
 		saleDate = DateHelper.getCurrentDate();
 	}
 	
+	public double getDiscountPercentage() {
+		return discountPercentage;
+	}
+	
+	public void setDiscountPercentage(float discount) {
+		this.discountPercentage = discount;
+	}
+	
 	public String getSaleDate() {
 		return saleDate;
 	}
@@ -72,16 +83,28 @@ public class Sale {
 		return subtotal;
 	}
 	
+	public String getFormatedSubtotal() {
+		return StringHelper.formatAmount(getSubtotal());
+	}
+	
 	public double getTax() {
 		return getSubtotal() * (Shop.VAT_TAX_PERCENTAGE / 100);
 	}
 
-	public double getTotal() {
+	public String getFormatedTax() {
+		return StringHelper.formatAmount(getTax());
+	}
+	
+	private double getTotalWithoutDiscount() {
 		return getSubtotal() + getTax();
 	}
 	
-	public double getGoldDiscountedTotal() {
-		return getTotal() - (getTotal() * GoldClient.DISCOUNT_PERCENTAGE);
+	public double getTotal() {
+		return getTotalWithoutDiscount() - (getTotalWithoutDiscount() * (getDiscountPercentage() / 100));
+	}
+	
+	public String getFormatedTotal() {
+		return StringHelper.formatAmount(getTotal());
 	}
 	
 }

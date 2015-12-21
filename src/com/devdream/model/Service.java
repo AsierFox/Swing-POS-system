@@ -14,12 +14,5 @@ public class Service extends ShopOffer {
 	public Service(final int ID, String name, String description, float price) {
 		super(ID, name, description, price);
 	}
-	
-	//
-	// toString
-	@Override
-	public String toString() {
-		return getName();
-	}
 
 }

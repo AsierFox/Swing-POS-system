@@ -34,7 +34,7 @@ public class SubscribeClientController extends Controller {
 
 	//
 	// Methods
-	public void subscribeClient(final String ID, String name, String cashTxt, boolean isGold)
+	public void subscribeClient(final String ID, String name, String surname, String cashTxt, boolean isGold)
 			throws CashFormatException, TextNotValidException, CustomerAlreadyExists
 	{
 		if (StringHelper.isStringNull(ID)) {
@@ -56,9 +56,9 @@ public class SubscribeClientController extends Controller {
 			throw new CashFormatException();
 		}
 		if (isGold) {
-			Intent.getInstance().setNewClient(new GoldClient(ID.trim(), name.trim(), new SubscriberCard(cash)));
+			Intent.getInstance().setNewClient(new GoldClient(ID, name, surname, new SubscriberCard(cash)));
 		} else {
-			Intent.getInstance().setNewClient(new Client(ID.trim(), name.trim(), new SubscriberCard(cash)));
+			Intent.getInstance().setNewClient(new Client(ID, name, surname, new SubscriberCard(cash)));
 		}
 	}
 	

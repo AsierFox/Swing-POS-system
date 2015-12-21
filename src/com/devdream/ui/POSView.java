@@ -30,6 +30,7 @@ import com.devdream.ui.custom.Alert;
 import com.devdream.ui.custom.MyComboBox;
 import com.devdream.ui.custom.ShopOfferTable;
 import com.devdream.ui.custom.TextFieldPlaceHolder;
+import com.devdream.util.ViewRenderer;
 
 /**
  * Point of sale view.
@@ -77,7 +78,7 @@ public class POSView extends javax.swing.JFrame {
 		renderer.setCloseApplication();
 		getContentPane().setLayout(null);
 		
-		// logged commercial
+		// Logged commercial
 		loggedCommercial = Intent.getInstance().getLogedCommercial();
 		
 		// Sale Controller
@@ -186,7 +187,9 @@ public class POSView extends javax.swing.JFrame {
 		
 		clientsComboBox = new MyComboBox<String, Client>(Intent.getInstance().getClients());
 		setCurrentClient((Client) clientsComboBox.getSelectedItem());
-		clientsComboBox.addActionListener((e) -> setCurrentClient((Client) clientsComboBox.getSelectedItem()));
+		clientsComboBox.addActionListener((e) -> {
+			setCurrentClient((Client) clientsComboBox.getSelectedItem());
+		});
 		clientsComboBox.setBounds(133, 307, 150, 21);
 		getContentPane().add(clientsComboBox);
 		
@@ -342,25 +345,20 @@ public class POSView extends javax.swing.JFrame {
 		totalIconLabel.setBounds(540, 472, 67, 60);
 		getContentPane().add(totalIconLabel);
 		
-		JPanel panel = new JPanel();
-		panel.setBorder(new LineBorder(SystemColor.activeCaption, 1, true));
-		panel.setBounds(10, 58, 357, 181);
-		getContentPane().add(panel);
+		JPanel commercialPanel = new JPanel();
+		commercialPanel.setBorder(new LineBorder(SystemColor.activeCaption, 1, true));
+		commercialPanel.setBounds(10, 58, 357, 181);
+		getContentPane().add(commercialPanel);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new LineBorder(SystemColor.activeCaption, 1, true));
-		panel_1.setBounds(10, 259, 357, 203);
-		getContentPane().add(panel_1);
+		JPanel clientPanel = new JPanel();
+		clientPanel.setBorder(new LineBorder(SystemColor.activeCaption, 1, true));
+		clientPanel.setBounds(10, 259, 357, 203);
+		getContentPane().add(clientPanel);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new LineBorder(SystemColor.activeCaption, 1, true));
-		panel_2.setBounds(393, 58, 412, 181);
-		getContentPane().add(panel_2);
-		
-		JPanel panel_3 = new JPanel();
-		panel_3.setBorder(new LineBorder(SystemColor.activeCaption, 1, true));
-		panel_3.setBounds(393, 259, 419, 203);
-		getContentPane().add(panel_3);
+		JPanel offerPanel = new JPanel();
+		offerPanel.setBorder(new LineBorder(SystemColor.activeCaption, 1, true));
+		offerPanel.setBounds(393, 58, 430, 405);
+		getContentPane().add(offerPanel);
 		
 		renderer.render();
 	}
@@ -378,13 +376,14 @@ public class POSView extends javax.swing.JFrame {
 	public void setCurrentClient(Client client) {
 		currentClient = client;
 		Intent.getInstance().setActualClient(currentClient);
+		clientCashLabel.setText(StringHelper.formatAmount(currentClient.getCash()));
+		
 		isCurrentClientGold = currentClient.isGoldClient();
 		forGoldClientAlertLabel.setVisible(isCurrentClientGold);
 		goldClientIconLabel.setVisible(isCurrentClientGold);
 		discountIconLabel.setVisible(isCurrentClientGold);
 		forDiscountLabel.setVisible(isCurrentClientGold);
 		discountLabel.setVisible(isCurrentClientGold);
-		clientCashLabel.setText(StringHelper.formatAmount(currentClient.getCash()));
 	}
 	
 	@Override
@@ -392,4 +391,5 @@ public class POSView extends javax.swing.JFrame {
 		clientsComboBox.update();
 		return super.isFocused();
 	}
+	
 }

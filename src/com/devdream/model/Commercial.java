@@ -23,10 +23,10 @@ public class Commercial extends User {
 
 	//
 	// Constructors
-	public Commercial(final String ID, String name, float salary) {
-		super(ID, name);
+	public Commercial(final String ID, String name, String surname, float salary) {
+		super(ID, name, surname);
 		setSalary(salary);
-		earnedPoints = 0;
+		setEarnedPoints(0);
 	}
 	
 	//
@@ -34,7 +34,7 @@ public class Commercial extends User {
 	public void increasePoints(int points) {
 		earnedPoints += points;
 	}
-
+	
 	//
 	// Getters && Setters
 	public float getSalary() {
@@ -53,7 +53,9 @@ public class Commercial extends User {
 	}
 	
 	public void setEarnedPoints(int earnedPoints) {
-		this.earnedPoints = earnedPoints;
+		this.earnedPoints = (earnedPoints > 0)
+				? earnedPoints
+				: 0;
 	}
 	
 }

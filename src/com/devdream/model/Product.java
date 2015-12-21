@@ -15,11 +15,4 @@ public class Product extends ShopOffer {
 		super(ID, name, description, price);
 	}
 	
-	//
-	// toString
-	@Override
-	public String toString() {
-		return getName();
-	}
-	
 }

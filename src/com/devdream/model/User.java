@@ -14,18 +14,20 @@ public abstract class User {
 	// Attributes
 	public final String ID;
 	private String name;
+	private String surname;
 
 	//
 	// Constructor
-	public User(final String ID, String name) {
+	public User(final String ID, String name, String surname) {
 		this.ID = ID;
 		setName(name);
+		setSurname(surname);
 	}
 
 	// toString
 	@Override
 	public String toString() {
-		return getName();
+		return getName() + " " + getSurname();
 	}
 	
 	//
@@ -36,6 +38,14 @@ public abstract class User {
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getSurname() {
+		return surname;
+	}
+	
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 
 }

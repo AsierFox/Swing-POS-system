@@ -37,6 +37,11 @@ public abstract class ShopOffer {
 		return this instanceof Service;
 	}
 	
+	@Override
+	public String toString() {
+		return getName() + ": " + getPrice();
+	}
+	
 	//
 	// Getters and Setters
 	public int getID() {

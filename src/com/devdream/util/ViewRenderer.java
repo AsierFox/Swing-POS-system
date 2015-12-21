@@ -1,4 +1,4 @@
-package com.devdream.ui;
+package com.devdream.util;
 
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;

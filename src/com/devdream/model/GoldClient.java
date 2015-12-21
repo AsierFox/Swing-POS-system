@@ -14,20 +14,20 @@ public class GoldClient extends Client {
 
 	//
 	// Attributes
-	public static final int AMOUNT_FOR_GOLD_CLIENT = 4;
+	public static final int AMOUNT_FOR_GOLD_CLIENT = 4; // TODO Change the amount
 	public static float DISCOUNT_PERCENTAGE = 30;
 	
 	//
 	// Constructors
-	public GoldClient(String ID, String name, SubscriberCard subscriberCard) {
-		super(ID, name, subscriberCard);
+	public GoldClient(final String ID, String name, String surname, SubscriberCard subscriberCard) {
+		super(ID, name, surname, subscriberCard);
 	}
 	
 	//
 	// Methods
 	public static void convertToGoldClient(Client client) {
 		Intent.getInstance().getClients().put(client.ID,
-			new GoldClient(client.ID, client.getName(), client.getSubscriberCard()));
+			new GoldClient(client.ID, client.getName(), client.getSurname(), client.getSubscriberCard()));
 	}
 	
 }

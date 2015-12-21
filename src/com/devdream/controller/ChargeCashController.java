@@ -14,6 +14,8 @@ import com.devdream.model.Client;
  */
 public class ChargeCashController extends Controller {
 
+	//
+	// Methods
 	public void chargeMoney(Client client, String amount) throws CashFormatException {
 		if (!MathHelper.isNumeric(amount)) {
 			throw new CashFormatException();

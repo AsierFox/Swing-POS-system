@@ -12,6 +12,7 @@ import com.devdream.exception.CashFormatException;
 import com.devdream.helper.StringHelper;
 import com.devdream.model.Client;
 import com.devdream.ui.custom.Alert;
+import com.devdream.util.ViewRenderer;
 
 /**
  * View for charge cash for a client subscriber card.

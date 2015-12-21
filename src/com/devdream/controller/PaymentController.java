@@ -30,27 +30,14 @@ public class PaymentController extends Controller {
 		if (sale.getSaleLines().isEmpty()) {
 			throw new EmptyPaymentException();
 		}
-		
-		boolean canAfford = true;
-		double totalToPay;
-		
 		if (isGoldClient) {
-			totalToPay = sale.getGoldDiscountedTotal();
-			if (!client.canAffordPayment(totalToPay)) {
-				canAfford = false;
-			}
+			sale.setDiscountPercentage(GoldClient.DISCOUNT_PERCENTAGE);
 		}
-		else {
-			totalToPay = sale.getTotal();
-			if (!client.canAffordPayment(totalToPay)) {
-				canAfford = false;
-			}
-		}
-		if (!canAfford) {
+		if (!client.canAffordPayment(sale.getTotal())) {
 			throw new CantAffordException();
 		}
 		
-		client.pay(totalToPay);
+		client.pay(sale.getTotal());
 		
 		commercial.increasePoints(sale.getSaleLines().size());
 		

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
-import com.devdream.helper.StringHelper;
 import com.devdream.model.Sale;
 import com.devdream.model.SaleLine;
 import com.devdream.model.ShopOffer;
@@ -63,15 +62,15 @@ public class SaleController extends Controller {
 	}
 	
 	public String getSaleSubtotal() {
-		return StringHelper.formatAmount(sale.getSubtotal());
+		return sale.getFormatedSubtotal();
 	}
 
 	public String getSaleTax() {
-		return StringHelper.formatAmount(sale.getTax());
+		return sale.getFormatedTax();
 	}
 
 	public String getSaleTotal() {
-		return StringHelper.formatAmount(sale.getTotal());
+		return sale.getFormatedTotal();
 	}
 
 }

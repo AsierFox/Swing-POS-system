@@ -15,10 +15,14 @@ import com.devdream.model.Commercial;
  */
 public class LoginLogoutController extends Controller {
 
+	//
+	// Constructor
 	public LoginLogoutController(JFrame actualView, String newWindowName) {
 		super(actualView, newWindowName);
 	}
-	
+
+	//
+	// Methods
 	public void login(Commercial comercial) {
 		Intent.getInstance().setLoguedCommercial(comercial);
 		super.changeView();
