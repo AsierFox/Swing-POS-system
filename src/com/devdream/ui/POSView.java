@@ -1,12 +1,15 @@
 package com.devdream.ui;
 
 import java.awt.Font;
+import java.awt.SystemColor;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.border.LineBorder;
 
 import com.devdream.controller.LoginLogoutController;
 import com.devdream.controller.OnExitAction;
@@ -56,7 +59,7 @@ public class POSView extends javax.swing.JFrame {
 	private boolean isCurrentClientGold;
 	private SaleController saleController;
 	private ShopOfferTable offersTable;
-	private MyComboBox<Client> clientsComboBox;
+	private MyComboBox<String, Client> clientsComboBox;
 	private JLabel forGoldClientAlertLabel;
 	private JLabel goldClientIconLabel;
 	private JLabel discountIconLabel;
@@ -81,10 +84,10 @@ public class POSView extends javax.swing.JFrame {
 		saleController = new SaleController();
 		
 		// Title
-		JLabel lblwheelsPos = new JLabel("2Wheels POS");
-		lblwheelsPos.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
-		lblwheelsPos.setBounds(301, 11, 159, 25);
-		getContentPane().add(lblwheelsPos);
+		JLabel posIconLabel = new JLabel("2Wheels POS");
+		posIconLabel.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
+		posIconLabel.setBounds(301, 11, 159, 25);
+		getContentPane().add(posIconLabel);
 		
 		// Commercial information
 		JLabel lblCommercial = new JLabel("Commercial");
@@ -92,7 +95,7 @@ public class POSView extends javax.swing.JFrame {
 		lblCommercial.setBounds(23, 69, 105, 21);
 		getContentPane().add(lblCommercial);
 		
-		JLabel commercialIconLabel = new JLabel(renderer.renderImage(AppData.POS_ICON_PATH + COMMERCIAL_ICON));
+		JLabel commercialIconLabel = new JLabel(renderer.renderImage(AppData.ImagePath.POS_ICON + COMMERCIAL_ICON));
 		commercialIconLabel.setBounds(121, 58, 58, 41);
 		getContentPane().add(commercialIconLabel);
 		
@@ -136,7 +139,7 @@ public class POSView extends javax.swing.JFrame {
 		lblClient.setBounds(17, 259, 105, 21);
 		getContentPane().add(lblClient);
 
-		JLabel clientIconLabel = new JLabel(renderer.renderImage(AppData.POS_ICON_PATH + CLIENT_ICON));
+		JLabel clientIconLabel = new JLabel(renderer.renderImage(AppData.ImagePath.POS_ICON + CLIENT_ICON));
 		clientIconLabel.setBounds(80, 250, 75, 40);
 		getContentPane().add(clientIconLabel);
 		
@@ -160,14 +163,14 @@ public class POSView extends javax.swing.JFrame {
 		forGoldClientAlertLabel.setBounds(286, 340, 89, 21);
 		getContentPane().add(forGoldClientAlertLabel);
 		
-		goldClientIconLabel = new JLabel(renderer.renderImage(AppData.POS_ICON_PATH + GOLD_CLIENT_ICON));
+		goldClientIconLabel = new JLabel(renderer.renderImage(AppData.ImagePath.POS_ICON + GOLD_CLIENT_ICON));
 		goldClientIconLabel.setVisible(isCurrentClientGold);
 		goldClientIconLabel.setBounds(292, 295, 58, 41);
 		getContentPane().add(goldClientIconLabel);
 		
-		discountIconLabel = new JLabel(renderer.renderImage(AppData.POS_ICON_PATH + DISCOUNT_ICON));
+		discountIconLabel = new JLabel(renderer.renderImage(AppData.ImagePath.POS_ICON + DISCOUNT_ICON));
 		discountIconLabel.setVisible(isCurrentClientGold);
-		discountIconLabel.setBounds(304, 491, 46, 41);
+		discountIconLabel.setBounds(301, 482, 59, 49);
 		getContentPane().add(discountIconLabel);
 		
 		forDiscountLabel = new JLabel("Discount");
@@ -181,9 +184,9 @@ public class POSView extends javax.swing.JFrame {
 		discountLabel.setBounds(226, 515, 82, 25);
 		getContentPane().add(discountLabel);
 		
-		clientsComboBox = new MyComboBox<Client>(Intent.getInstance().getClients());
-		setCurrentClient(0);
-		clientsComboBox.addActionListener((e) -> setCurrentClient(clientsComboBox.getSelectedIndex()));
+		clientsComboBox = new MyComboBox<String, Client>(Intent.getInstance().getClients());
+		setCurrentClient((Client) clientsComboBox.getSelectedItem());
+		clientsComboBox.addActionListener((e) -> setCurrentClient((Client) clientsComboBox.getSelectedItem()));
 		clientsComboBox.setBounds(133, 307, 150, 21);
 		getContentPane().add(clientsComboBox);
 		
@@ -201,11 +204,11 @@ public class POSView extends javax.swing.JFrame {
 		// Shop offers selection
 		JLabel addOfferLabel = new JLabel("Add offer");
 		addOfferLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		addOfferLabel.setBounds(379, 58, 105, 21);
+		addOfferLabel.setBounds(407, 69, 105, 21);
 		getContentPane().add(addOfferLabel);
 		
-		JLabel offerIconLabel = new JLabel(renderer.renderImage(AppData.POS_ICON_PATH + OFFERS_ICON));
-		offerIconLabel.setBounds(469, 47, 75, 40);
+		JLabel offerIconLabel = new JLabel(renderer.renderImage(AppData.ImagePath.POS_ICON + OFFERS_ICON));
+		offerIconLabel.setBounds(496, 58, 46, 41);
 		getContentPane().add(offerIconLabel);
 		
 		JButton addShopOfferButton = new JButton("Add product");
@@ -214,34 +217,34 @@ public class POSView extends javax.swing.JFrame {
 		productRadioButton.setFont(new Font("Tahoma", Font.BOLD, 12));
 		productRadioButton.addActionListener((e) -> addShopOfferButton.setText("Add product"));
 		productRadioButton.setSelected(true);
-		productRadioButton.setBounds(379, 108, 77, 23);
+		productRadioButton.setBounds(407, 119, 77, 23);
 		getContentPane().add(productRadioButton);
 		
 		JRadioButton serviceRadioButton = new JRadioButton("Service");
 		serviceRadioButton.setFont(new Font("Tahoma", Font.BOLD, 12));
 		serviceRadioButton.addActionListener((e) -> addShopOfferButton.setText("Add service"));
-		serviceRadioButton.setBounds(379, 151, 77, 23);
+		serviceRadioButton.setBounds(407, 162, 77, 23);
 		getContentPane().add(serviceRadioButton);
 		
 		ButtonGroup radioButtonGroup = new ButtonGroup();
 		radioButtonGroup.add(productRadioButton);
 		radioButtonGroup.add(serviceRadioButton);
 		
-		MyComboBox<Product> productsComboBox = new MyComboBox<Product>(Intent.getInstance().getProducts());
-		productsComboBox.setBounds(475, 111, 140, 20);
+		MyComboBox<Integer, Product> productsComboBox = new MyComboBox<Integer, Product>(Intent.getInstance().getProducts());
+		productsComboBox.setBounds(503, 122, 140, 20);
 		getContentPane().add(productsComboBox);
 		
-		MyComboBox<Service> servicesComboBox = new MyComboBox<Service>(Intent.getInstance().getServices());
-		servicesComboBox.setBounds(475, 151, 140, 20);
+		MyComboBox<Integer, Service> servicesComboBox = new MyComboBox<Integer, Service>(Intent.getInstance().getServices());
+		servicesComboBox.setBounds(503, 162, 140, 20);
 		getContentPane().add(servicesComboBox);
 		
 		JLabel quantityLabel = new JLabel("Qty.");
 		quantityLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
-		quantityLabel.setBounds(384, 198, 46, 14);
+		quantityLabel.setBounds(412, 209, 46, 14);
 		getContentPane().add(quantityLabel);
 
 		TextFieldPlaceHolder quantityTextField = new TextFieldPlaceHolder("Quantity");
-		quantityTextField.setBounds(440, 195, 58, 20);
+		quantityTextField.setBounds(468, 206, 58, 20);
 		getContentPane().add(quantityTextField);
 		
 		addShopOfferButton.addActionListener((e) -> {
@@ -249,9 +252,9 @@ public class POSView extends javax.swing.JFrame {
 				ShopOffer selectedOffer;
 				int qty = Integer.parseInt(quantityTextField.getText());
 				if (e.getActionCommand().contains(productRadioButton.getText().toLowerCase())) {
-					selectedOffer = productsComboBox.getItemAt(productsComboBox.getSelectedIndex());
+					selectedOffer = (Product) productsComboBox.getSelectedItem();
 				} else {
-					selectedOffer = servicesComboBox.getItemAt(servicesComboBox.getSelectedIndex());
+					selectedOffer = (Service) servicesComboBox.getSelectedItem();
 				}
 				saleController.addSaleLine(selectedOffer, qty);
 				
@@ -260,21 +263,21 @@ public class POSView extends javax.swing.JFrame {
 				Alert.showError(this, "The Quantity is not valid!");
 			}
 		});
-		addShopOfferButton.setBounds(508, 193, 125, 23);
+		addShopOfferButton.setBounds(536, 204, 125, 23);
 		getContentPane().add(addShopOfferButton);
 		
 		// Sale lines
 		JLabel productsTableLabel = new JLabel("Sale lines");
 		productsTableLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		productsTableLabel.setBounds(379, 250, 105, 21);
+		productsTableLabel.setBounds(399, 259, 105, 21);
 		getContentPane().add(productsTableLabel);
 
-		JLabel saleLinesIconLabel = new JLabel(renderer.renderImage(AppData.POS_ICON_PATH + SALE_LINES_ICON));
+		JLabel saleLinesIconLabel = new JLabel(renderer.renderImage(AppData.ImagePath.POS_ICON + SALE_LINES_ICON));
 		saleLinesIconLabel.setBounds(469, 250, 35, 33);
 		getContentPane().add(saleLinesIconLabel);
 		
 		JScrollPane productsTableScrollPane = new JScrollPane();
-		productsTableScrollPane.setBounds(378, 282, 398, 150);
+		productsTableScrollPane.setBounds(407, 299, 398, 150);
 		getContentPane().add(productsTableScrollPane);
 		
 		offersTable = new ShopOfferTable(saleController.getSaleLines());
@@ -285,8 +288,7 @@ public class POSView extends javax.swing.JFrame {
 			if (offersTable.getSelectedRow() > -1) {
 				saleController.deleteSaleSaleLine(offersTable.getSelectedRow());
 				updateSale();
-			}
-			else {
+			} else {
 				Alert.showError(this, "There is no offer selected!");
 			}
 		});
@@ -297,7 +299,10 @@ public class POSView extends javax.swing.JFrame {
 		paymentButton.addActionListener((e) -> {
 			PaymentController paymentController = new PaymentController(this, BillView.class.getName());
 			try {
-				paymentController.processPayment(saleController.getSale(), currentClient, isCurrentClientGold, loggedCommercial);
+				paymentController.processPayment(saleController.getSale(),
+					(Client) clientsComboBox.getSelectedItem(),
+					isCurrentClientGold,
+					loggedCommercial);
 			} catch(EmptyPaymentException | CantAffordException err) {
 				Alert.showError(this, err.getMessage());
 			}
@@ -333,9 +338,29 @@ public class POSView extends javax.swing.JFrame {
 		totalLabel.setBounds(473, 520, 81, 14);
 		getContentPane().add(totalLabel);
 		
-		JLabel totalIconLabel = new JLabel(renderer.renderImage(AppData.POS_ICON_PATH + TOTAL_SALE_ICON));
+		JLabel totalIconLabel = new JLabel(renderer.renderImage(AppData.ImagePath.POS_ICON + TOTAL_SALE_ICON));
 		totalIconLabel.setBounds(540, 472, 67, 60);
 		getContentPane().add(totalIconLabel);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(SystemColor.activeCaption, 1, true));
+		panel.setBounds(10, 58, 357, 181);
+		getContentPane().add(panel);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(SystemColor.activeCaption, 1, true));
+		panel_1.setBounds(10, 259, 357, 203);
+		getContentPane().add(panel_1);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new LineBorder(SystemColor.activeCaption, 1, true));
+		panel_2.setBounds(393, 58, 412, 181);
+		getContentPane().add(panel_2);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBorder(new LineBorder(SystemColor.activeCaption, 1, true));
+		panel_3.setBounds(393, 259, 419, 203);
+		getContentPane().add(panel_3);
 		
 		renderer.render();
 	}
@@ -350,8 +375,8 @@ public class POSView extends javax.swing.JFrame {
 		totalLabel.setText(saleController.getSaleTotal());
 	}
 	
-	public void setCurrentClient(int selectedComboBoxIndex) {
-		currentClient = Intent.getInstance().getClients().get(selectedComboBoxIndex);
+	public void setCurrentClient(Client client) {
+		currentClient = client;
 		Intent.getInstance().setActualClient(currentClient);
 		isCurrentClientGold = currentClient.isGoldClient();
 		forGoldClientAlertLabel.setVisible(isCurrentClientGold);

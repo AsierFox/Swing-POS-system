@@ -9,7 +9,6 @@ import com.devdream.controller.LoginLogoutController;
 import com.devdream.controller.OnExitAction;
 import com.devdream.data.AppData;
 import com.devdream.data.DataGenerator;
-import com.devdream.data.bind.Intent;
 import com.devdream.model.Commercial;
 import com.devdream.ui.custom.MyComboBox;
 
@@ -34,12 +33,10 @@ public class LoginView extends javax.swing.JFrame {
 		
 		// Generate data
 		DataGenerator data = new DataGenerator();
-		Intent.getInstance().setClients(data.getClients());
-		Intent.getInstance().setServices(data.getServices());
-		Intent.getInstance().setProducts(data.getProducts());
+		data.load();
 		
 		// Set Image to the panel
-		JLabel logoImgLabel = new JLabel(renderer.renderImage(AppData.LOGO_PATH));
+		JLabel logoImgLabel = new JLabel(renderer.renderImage(AppData.ImagePath.LOGO));
 		logoImgLabel.setBounds(120, 11, 503, 324);
 		getContentPane().add(logoImgLabel);
 		
@@ -49,7 +46,7 @@ public class LoginView extends javax.swing.JFrame {
 		forCommercialLabel.setBounds(319, 359, 80, 14);
 		getContentPane().add(forCommercialLabel);
 		
-		MyComboBox<Commercial> commercialsComboBox = new MyComboBox<Commercial>(data.getCommercials());
+		MyComboBox<String, Commercial> commercialsComboBox = new MyComboBox<String, Commercial>(data.getCommercials());
 		commercialsComboBox.setBounds(286, 384, 131, 23);
 		getContentPane().add(commercialsComboBox);
 		
@@ -57,7 +54,7 @@ public class LoginView extends javax.swing.JFrame {
 		JButton loginButton = new JButton("Login");
 		loginButton.addActionListener((event) -> {
 			LoginLogoutController login = new LoginLogoutController(this, POSView.class.getName());
-			login.login(commercialsComboBox.getItemAt(commercialsComboBox.getSelectedIndex()));
+			login.login((Commercial) commercialsComboBox.getSelectedItem());
 		});
 		loginButton.setBounds(235, 442, 89, 23);
 		getContentPane().add(loginButton);
@@ -68,8 +65,7 @@ public class LoginView extends javax.swing.JFrame {
 		exitButton.setBounds(368, 442, 89, 23);
 		getContentPane().add(exitButton);
 		
-		// Show ui
 		renderer.render();
 	}
-	
+
 }

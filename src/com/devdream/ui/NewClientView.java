@@ -9,7 +9,9 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import com.devdream.controller.SubscribeClientController;
+import com.devdream.data.AppData;
 import com.devdream.exception.CashFormatException;
+import com.devdream.exception.CustomerAlreadyExists;
 import com.devdream.exception.TextNotValidException;
 import com.devdream.ui.custom.Alert;
 
@@ -24,11 +26,17 @@ public class NewClientView extends JFrame {
 
 	private static final long serialVersionUID = 6745170097521269127L;
 	
+	private static final String NEW_CLIENT_ICON = "newclient.png";
+	
+	//
+	// Attributes
 	private JTextField idTextField;
 	private JTextField nameTextField;
 	private JTextField subscriberCardCashTextField;
 	private JCheckBox goldClientCheckBox;
 	
+	//
+	// Constructors
 	public NewClientView() {
 		ViewRenderer renderer = new ViewRenderer(this, 420, 320);
 		getContentPane().setLayout(null);
@@ -92,9 +100,9 @@ public class NewClientView extends JFrame {
 					nameTextField.getText(),
 					subscriberCardCashTextField.getText(),
 					goldClientCheckBox.isSelected());
-				Alert.showError(this, "Client Subscribed successfully!");
+				Alert.showInfo(this, "Client Subscribed successfully!");
 				clearData();
-			} catch(CashFormatException | TextNotValidException err) {
+			} catch(CashFormatException | TextNotValidException | CustomerAlreadyExists err) {
 				Alert.showError(this, err.getMessage());
 			}
 		});
@@ -107,9 +115,15 @@ public class NewClientView extends JFrame {
 		closeButton.setBounds(208, 210, 133, 23);
 		getContentPane().add(closeButton);
 		
+		JLabel newClientIconLabel = new JLabel(renderer.renderImage(AppData.ImagePath.NEW_CLIENT_ICON + NEW_CLIENT_ICON));
+		newClientIconLabel.setBounds(245, 11, 39, 35);
+		getContentPane().add(newClientIconLabel);
+		
 		renderer.render();
 	}
 
+	//
+	// Methods
 	private void clearData() {
 		idTextField.setText("");
 		nameTextField.setText("");

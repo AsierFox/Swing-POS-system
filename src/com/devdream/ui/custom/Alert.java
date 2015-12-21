@@ -11,14 +11,16 @@ import javax.swing.JOptionPane;
  * @version 1.0
  * @since 1.0
  */
-public class Alert {
+public class Alert extends JOptionPane {
+
+	private static final long serialVersionUID = -1496885331548162635L;
 
 	public static void showError(Component c, String msg) {
-		JOptionPane.showMessageDialog(c, msg, "Error", JOptionPane.ERROR_MESSAGE);
+		showMessageDialog(c, msg, "Error", ERROR_MESSAGE);
 	}
 	
 	public static void showInfo(Component c, String msg) {
-		JOptionPane.showMessageDialog(c, msg, "Information", JOptionPane.INFORMATION_MESSAGE);
+		showMessageDialog(c, msg, "Information", INFORMATION_MESSAGE);
 	}
 	
 }

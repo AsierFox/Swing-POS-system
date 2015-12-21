@@ -1,6 +1,6 @@
 package com.devdream.data.bind;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.devdream.data.SessionData;
 import com.devdream.model.Bill;
@@ -36,7 +36,6 @@ public class Intent {
 	public static Intent getInstance() {
 		if (i == null) {
 			i = new Intent();
-			return i;
 		}
 		return i;
 	}
@@ -64,7 +63,7 @@ public class Intent {
 	}
 
 	public void setNewClient(Client c) {
-		sessionData.getClients().add(c);
+		sessionData.getClients().put(c.ID, c);
 	}
 	
 	public Bill getCurrentBill() {
@@ -75,27 +74,27 @@ public class Intent {
 		sessionData.setBill(bill);
 	}
 	
-	public ArrayList<Client> getClients() {
+	public HashMap<String, Client> getClients() {
 		return sessionData.getClients();
 	}
 
-	public void setClients(ArrayList<Client> clients) {
+	public void setClients(HashMap<String, Client> clients) {
 		sessionData.setClients(clients);
 	}
 
-	public ArrayList<Service> getServices() {
+	public HashMap<Integer, Service> getServices() {
 		return sessionData.getServices();
 	}
 	
-	public ArrayList<Product> getProducts() {
+	public HashMap<Integer, Product> getProducts() {
 		return sessionData.getProducts();
 	}
 
-	public void setServices(ArrayList<Service> services) {
+	public void setServices(HashMap<Integer, Service> services) {
 		sessionData.setServices(services);
 	}
 
-	public void setProducts(ArrayList<Product> products) {
+	public void setProducts(HashMap<Integer, Product> products) {
 		sessionData.setProducts(products);
 	}
 

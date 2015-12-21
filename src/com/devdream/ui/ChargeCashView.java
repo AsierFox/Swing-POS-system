@@ -92,7 +92,7 @@ public class ChargeCashView extends JFrame {
 			ChargeCashController chargeCashController = new ChargeCashController();
 			try {
 				chargeCashController.chargeMoney(client, amountChargeCashTextField.getText());
-				Alert.showError(this, "Charged " + amountChargeCashTextField.getText()
+				Alert.showInfo(this, "Charged " + amountChargeCashTextField.getText()
 						+ " cash for " + client.getName() + ".");
 			} catch (CashFormatException err) {
 				Alert.showError(this, err.getMessage());
@@ -114,4 +114,5 @@ public class ChargeCashView extends JFrame {
 	private void clearData() {
 		amountChargeCashTextField.setText("");
 	}
+	
 }

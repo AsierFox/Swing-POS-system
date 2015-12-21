@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 
 import com.devdream.data.bind.Intent;
 import com.devdream.exception.CashFormatException;
+import com.devdream.exception.CustomerAlreadyExists;
 import com.devdream.exception.TextNotValidException;
 import com.devdream.helper.MathHelper;
 import com.devdream.helper.StringHelper;
@@ -12,7 +13,8 @@ import com.devdream.model.GoldClient;
 import com.devdream.model.SubscriberCard;
 
 /**
- * Class that is going to manage client subscriptions.
+ * Class that controls the subscribe action when a new client
+ * is registered to the shop.
  * 
  * @author Asier Gonzalez
  * @version 1.0
@@ -32,9 +34,14 @@ public class SubscribeClientController extends Controller {
 
 	//
 	// Methods
-	public void subscribeClient(final String ID, String name, String cashTxt, boolean isGold) throws CashFormatException, TextNotValidException {
+	public void subscribeClient(final String ID, String name, String cashTxt, boolean isGold)
+			throws CashFormatException, TextNotValidException, CustomerAlreadyExists
+	{
 		if (StringHelper.isStringNull(ID)) {
 			throw new TextNotValidException("ID");
+		}
+		if (Intent.getInstance().getClients().containsKey(ID)) {
+			throw new CustomerAlreadyExists();
 		}
 		if (StringHelper.isStringNull(name) || MathHelper.isNumeric(name)) {
 			throw new TextNotValidException("Name");
@@ -42,19 +49,17 @@ public class SubscribeClientController extends Controller {
 		if (StringHelper.isStringNull(cashTxt)) {
 			throw new TextNotValidException("Cash");
 		}
-		
 		float cash = .0f;
-		
 		try {
 			cash = Float.parseFloat(cashTxt);
 		} catch(NumberFormatException err) {
 			throw new CashFormatException();
 		}
-		
-		if (isGold)
+		if (isGold) {
 			Intent.getInstance().setNewClient(new GoldClient(ID.trim(), name.trim(), new SubscriberCard(cash)));
-		else
+		} else {
 			Intent.getInstance().setNewClient(new Client(ID.trim(), name.trim(), new SubscriberCard(cash)));
+		}
 	}
-
+	
 }

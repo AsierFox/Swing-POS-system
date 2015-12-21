@@ -1,5 +1,7 @@
 package com.devdream.model;
 
+import com.devdream.data.bind.Intent;
+
 /**
  * The gold client is a special client that achieves
  * an amount of cash spent in the shop and getting discounts.
@@ -24,15 +26,8 @@ public class GoldClient extends Client {
 	//
 	// Methods
 	public static void convertToGoldClient(Client client) {
-		// TODO Cast for GoldClient
-		client = (GoldClient) new GoldClient(client.ID, client.getName(), client.getSubscriberCard());
-		System.out.println("Casted? " + client.isGoldClient());
-	}
-	
-	//
-	// Getters and Setters
-	public static float getDiscountPercentaje() {
-		return DISCOUNT_PERCENTAGE;
+		Intent.getInstance().getClients().put(client.ID,
+			new GoldClient(client.ID, client.getName(), client.getSubscriberCard()));
 	}
 	
 }

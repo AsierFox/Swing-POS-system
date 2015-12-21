@@ -25,7 +25,7 @@ public class ViewRenderer {
 	public ViewRenderer(JFrame window) {
 		this.window = window;
 		window.setTitle(AppData.APP_TITLE);
-		window.setIconImage(Toolkit.getDefaultToolkit().getImage(AppData.FAVICON_PATH));
+		window.setIconImage(Toolkit.getDefaultToolkit().getImage(AppData.ImagePath.FAVICON));
 		window.setSize(AppData.WIDTH, AppData.HEIGHT);
 		window.setLocationRelativeTo(null); // Center the window
 		window.setResizable(false);

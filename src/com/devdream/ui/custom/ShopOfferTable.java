@@ -32,13 +32,13 @@ public class ShopOfferTable extends JTable {
 		model = new DefaultTableModel();
 		setModel(model);
 		setOffersTableHeader();
-		getTableHeader().setReorderingAllowed(false);
-		getTableHeader().setResizingAllowed(false);
 	}
 	
 	//
 	// Methods
 	private void setOffersTableHeader() {
+		getTableHeader().setReorderingAllowed(false);
+		getTableHeader().setResizingAllowed(false);
 		model.addColumn("line #");
 		model.addColumn("ID");
 		model.addColumn("Name");

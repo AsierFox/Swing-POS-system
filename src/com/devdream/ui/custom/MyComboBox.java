@@ -1,7 +1,8 @@
 package com.devdream.ui.custom;
 
 import java.awt.Font;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -13,18 +14,18 @@ import javax.swing.JComboBox;
  * @version 1.0
  * @since 1.0
  */
-public class MyComboBox <E> extends JComboBox<E> {
+public class MyComboBox <I, E> extends JComboBox<E> {
 
 	private static final long serialVersionUID = -1001219177283780102L;
 	
 	//
 	// Attributes
 	private DefaultComboBoxModel<E> model;
-	private ArrayList<E> items;
+	private HashMap<I, E> items;
 	
 	//
 	// Constructors
-    public MyComboBox(ArrayList<E> items) {
+    public MyComboBox(HashMap<I, E> items) {
     	this.items = items;
     	setFont(new Font("SansSerif", Font.PLAIN, 12));
     	update();
@@ -39,8 +40,9 @@ public class MyComboBox <E> extends JComboBox<E> {
     public void update() {
         model = new DefaultComboBoxModel<E>();
         setModel(model);
-        for (E u : items) {
-        	model.addElement(u);
+        Iterator<E> it = items.values().iterator();
+        while (it.hasNext()) {
+        	model.addElement(it.next());
         }
     }
 

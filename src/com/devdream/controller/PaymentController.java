@@ -58,7 +58,6 @@ public class PaymentController extends Controller {
 
 		if (client.getSpentCash() >= GoldClient.AMOUNT_FOR_GOLD_CLIENT) {
 			GoldClient.convertToGoldClient(client);
-			System.out.println("IS CASTER AFTER converToGoldClient? " + client.isGoldClient() + "\n");
 		}
 		
 		Bill finalBill = new Bill(commercial, client, sale);

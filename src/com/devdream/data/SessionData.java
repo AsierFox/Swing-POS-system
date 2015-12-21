@@ -1,6 +1,6 @@
 package com.devdream.data;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.devdream.model.Bill;
 import com.devdream.model.Client;
@@ -24,9 +24,9 @@ public class SessionData {
 	private Commercial commercial;
 	private Client client;
 	private Bill bill;
-	private ArrayList<Client> clients;
-	private ArrayList<Service> services;
-	private ArrayList<Product> products;
+	private HashMap<String, Client> clients;
+	private HashMap<Integer, Service> services;
+	private HashMap<Integer, Product> products;
 	
 	//
 	// Constructors
@@ -64,27 +64,27 @@ public class SessionData {
 		this.bill = bill;
 	}
 	
-	public ArrayList<Client> getClients() {
+	public HashMap<String, Client> getClients() {
 		return clients;
 	}
 	
-	public void setClients(ArrayList<Client> clients) {
+	public void setClients(HashMap<String, Client> clients) {
 		this.clients = clients;
 	}
 
-	public ArrayList<Service> getServices() {
+	public HashMap<Integer, Service> getServices() {
 		return services;
 	}
 	
-	public void setServices(ArrayList<Service> services) {
+	public void setServices(HashMap<Integer, Service> services) {
 		this.services = services;
 	}
 	
-	public ArrayList<Product> getProducts() {
+	public HashMap<Integer, Product> getProducts() {
 		return products;
 	}
 	
-	public void setProducts(ArrayList<Product> products) {
+	public void setProducts(HashMap<Integer, Product> products) {
 		this.products = products;
 	}
 

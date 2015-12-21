@@ -26,12 +26,15 @@ public class SaleController extends Controller {
 	// Constructors
 	public SaleController() {
 		super();
-		sale = new Sale();
+		init();
 	}
-
 
 	public SaleController(JFrame actualView, String newWindowName) {
 		super(actualView, newWindowName);
+		init();
+	}
+	
+	private void init() {
 		sale = new Sale();
 	}
 	
