@@ -3,7 +3,6 @@ package com.devdream.ui;
 import java.awt.Font;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -12,7 +11,6 @@ import com.devdream.exception.CashFormatException;
 import com.devdream.helper.StringHelper;
 import com.devdream.model.Client;
 import com.devdream.ui.custom.Alert;
-import com.devdream.util.ViewRenderer;
 
 /**
  * View for charge cash for a client subscriber card.
@@ -21,21 +19,41 @@ import com.devdream.util.ViewRenderer;
  * @version 1.0
  * @since 1.0
  */
-public class ChargeCashView extends JFrame {
+public class ChargeCashView extends View {
 
 	private static final long serialVersionUID = 6048270431635288419L;
 	
 	//
 	// Attributes
+	private Client client;
+	
 	private JTextField amountChargeCashTextField;
+	private JButton chargeClientCashButton;
+	private JButton closeButton;
 	
 	//
 	// Constructor
 	public ChargeCashView(Client client) {
+		super();
+		setSize(420, 320);
 		getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 14));
-		ViewRenderer renderer = new ViewRenderer(this, 420, 320);
 		getContentPane().setLayout(null);
 		
+		this.client = client;
+		
+		loadUI();
+		
+		loadListeners();
+		
+		getRenderer().render();
+	}
+
+	private void clearData() {
+		amountChargeCashTextField.setText("");
+	}
+
+	@Override
+	protected void loadUI() {
 		// New client label
 		JLabel newClientLabel = new JLabel("Charge Client cash");
 		newClientLabel.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
@@ -88,7 +106,18 @@ public class ChargeCashView extends JFrame {
 		getContentPane().add(amountChargeCashTextField);
 		
 		// Subscribe button
-		JButton chargeClientCashButton = new JButton("Charge money");
+		chargeClientCashButton = new JButton("Charge money");
+		chargeClientCashButton.setBounds(81, 200, 121, 23);
+		getContentPane().add(chargeClientCashButton);
+		
+		// Close button
+		closeButton = new JButton("Close");
+		closeButton.setBounds(218, 200, 121, 23);
+		getContentPane().add(closeButton);
+	}
+
+	@Override
+	protected void loadListeners() {
 		chargeClientCashButton.addActionListener((e) -> {
 			ChargeCashController chargeCashController = new ChargeCashController();
 			try {
@@ -100,20 +129,8 @@ public class ChargeCashView extends JFrame {
 			}
 			clearData();
 		});
-		chargeClientCashButton.setBounds(81, 200, 121, 23);
-		getContentPane().add(chargeClientCashButton);
 		
-		// Close button
-		JButton closeButton = new JButton("Close");
 		closeButton.addActionListener((e) -> this.dispose());
-		closeButton.setBounds(218, 200, 121, 23);
-		getContentPane().add(closeButton);
-		
-		renderer.render();
-	}
-
-	private void clearData() {
-		amountChargeCashTextField.setText("");
 	}
 	
 }

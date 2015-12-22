@@ -24,6 +24,15 @@ public class PaymentController extends Controller {
 		super(actualView, newWindowName);
 	}
 
+	/**
+	 * Process of the payment.
+	 * @param sale The sale
+	 * @param client The client
+	 * @param isGoldClient If the client is a gold client
+	 * @param commercial The commercial
+	 * @throws EmptyPaymentException
+	 * @throws CantAffordException
+	 */
 	public void processPayment(Sale sale, Client client, boolean isGoldClient, Commercial commercial)
 			throws EmptyPaymentException, CantAffordException
 	{
@@ -40,6 +49,7 @@ public class PaymentController extends Controller {
 		client.pay(sale.getTotal());
 		
 		commercial.increasePoints(sale.getSaleLines().size());
+		commercial.increaseSalary();
 		
 		sale.setSaleCurrentDate();
 

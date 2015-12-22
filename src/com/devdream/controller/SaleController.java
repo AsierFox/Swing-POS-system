@@ -62,15 +62,15 @@ public class SaleController extends Controller {
 	}
 	
 	public String getSaleSubtotal() {
-		return sale.getFormatedSubtotal();
+		return sale.getFormattedSubtotal();
 	}
 
 	public String getSaleTax() {
-		return sale.getFormatedTax();
+		return sale.getFormattedTax();
 	}
 
 	public String getSaleTotal() {
-		return sale.getFormatedTotal();
+		return sale.getFormattedTotal();
 	}
 
 }

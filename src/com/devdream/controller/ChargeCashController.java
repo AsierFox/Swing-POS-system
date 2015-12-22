@@ -16,6 +16,12 @@ public class ChargeCashController extends Controller {
 
 	//
 	// Methods
+	/**
+	 * Charges cash to a specific client.
+	 * @param client Client to charge the cash
+	 * @param amount The amount of money to to the client
+	 * @throws CashFormatException
+	 */
 	public void chargeMoney(Client client, String amount) throws CashFormatException {
 		if (!MathHelper.isNumeric(amount)) {
 			throw new CashFormatException();

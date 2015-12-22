@@ -35,11 +35,13 @@ public class Bill {
 	
 	//
 	// Methods
-	public void print() {
+	/** Prints the bill. */
+	public void print() throws NullPointerException {
 		PrinterBuilder printerHelper = new PrinterBuilder();
 		printerHelper.print(this);
 	}
-	
+
+	/** Generates the PDF. */
 	public void generatePDF() throws IOException, COSVisitorException {
 	    PDFBuilder pdf = new PDFBuilder();
 		pdf.genPDF(this);

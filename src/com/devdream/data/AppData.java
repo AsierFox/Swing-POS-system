@@ -31,8 +31,6 @@ public abstract class AppData {
 		public static final String LOGO = IMG_DIR + "logo/2wheels_logo.png";
 		
 		public static final String POS_ICON = ICON_IMAGE + "pos/";
-
-		public static final String NEW_CLIENT_ICON = ICON_IMAGE + "new_client/";
 		
 	}
 	

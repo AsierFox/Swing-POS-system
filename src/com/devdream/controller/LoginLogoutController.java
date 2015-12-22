@@ -23,11 +23,18 @@ public class LoginLogoutController extends Controller {
 
 	//
 	// Methods
-	public void login(Commercial comercial) {
-		Intent.getInstance().setLoguedCommercial(comercial);
+	/**
+	 * Login the commercial to the next JFrame view.
+	 * @param comercial The commercial to login
+	 */
+	public void login(Commercial commercial) {
+		Intent.getInstance().setLoguedCommercial(commercial);
 		super.changeView();
 	}
 	
+	/**
+	 * Logout the commercial to the next JFrame view.
+	 */
 	public void logout() {
 		super.changeView();
 	}

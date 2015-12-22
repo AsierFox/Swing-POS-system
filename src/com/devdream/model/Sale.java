@@ -1,6 +1,7 @@
 package com.devdream.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.devdream.helper.DateHelper;
 import com.devdream.helper.StringHelper;
@@ -38,23 +39,61 @@ public class Sale {
 	
 	//
 	// Methods
+	/**
+	 * Add a sale line
+	 * @param offer The offer to add to the sale
+	 * @param quantity The quantity of the product
+	 */
 	public void addSaleLine(ShopOffer offer, int quantity) {
 		addSubtotal(offer.getPrice(), quantity);
 		saleLines.add(new SaleLine(offer, quantity));
 	}
 	
+	/**
+	 * Deletes the item from the ArrayList passing the index of it.
+	 * @param index Index of the ArrayList
+	 * @return
+	 */
 	public SaleLine deleteSaleLine(int index) {
 		SaleLine deletedSaleLine = saleLines.get(index);
 		decreaseSubtotal(deletedSaleLine.getProduct().getPrice(), deletedSaleLine.getQuantity());
 		return saleLines.remove(index);
 	}
 	
+	/** Add the sub total */
 	private void addSubtotal(double price, int quantity) {
 		subtotal += (price * quantity);
 	}
 	
+	/** Decrease the sub total. */
 	private void decreaseSubtotal(double price, int quantity) {
 		subtotal -= (price * quantity);
+	}
+	
+	/** Returns all the products from the specific offers from sale lines. */
+	public ArrayList<SaleLine> getProductsFromSaleLines() {
+		ArrayList<SaleLine> products = new ArrayList<>();
+		Iterator<SaleLine> it = saleLines.iterator();
+		while (it.hasNext()) {
+			SaleLine currSaleLine = it.next();
+			if (currSaleLine.getProduct() instanceof Product) {
+				products.add(currSaleLine);
+			}
+		}
+		return products;
+	}
+	
+	/** Returns all the services from the specific offers from sale lines. */
+	public ArrayList<SaleLine> getServicesFromSaleLines() {
+		ArrayList<SaleLine> services = new ArrayList<SaleLine>();
+		Iterator<SaleLine> it = saleLines.iterator();
+		while (it.hasNext()) {
+			SaleLine currSaleLine = it.next();
+			if (currSaleLine.getProduct() instanceof Service) {
+				services.add(currSaleLine);
+			}
+		}
+		return services;
 	}
 	
 	//
@@ -83,7 +122,7 @@ public class Sale {
 		return subtotal;
 	}
 	
-	public String getFormatedSubtotal() {
+	public String getFormattedSubtotal() {
 		return StringHelper.formatAmount(getSubtotal());
 	}
 	
@@ -91,7 +130,7 @@ public class Sale {
 		return getSubtotal() * (Shop.VAT_TAX_PERCENTAGE / 100);
 	}
 
-	public String getFormatedTax() {
+	public String getFormattedTax() {
 		return StringHelper.formatAmount(getTax());
 	}
 	
@@ -103,7 +142,7 @@ public class Sale {
 		return getTotalWithoutDiscount() - (getTotalWithoutDiscount() * (getDiscountPercentage() / 100));
 	}
 	
-	public String getFormatedTotal() {
+	public String getFormattedTotal() {
 		return StringHelper.formatAmount(getTotal());
 	}
 	

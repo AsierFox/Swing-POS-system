@@ -4,6 +4,8 @@ import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import com.devdream.controller.LoginLogoutController;
 import com.devdream.controller.OnExitAction;
@@ -11,10 +13,6 @@ import com.devdream.data.AppData;
 import com.devdream.data.DataGenerator;
 import com.devdream.model.Commercial;
 import com.devdream.ui.custom.MyComboBox;
-import com.devdream.util.ViewRenderer;
-
-import javax.swing.JPanel;
-import javax.swing.border.EtchedBorder;
 
 /**
  * Login view of the application. It is going to login
@@ -24,44 +22,58 @@ import javax.swing.border.EtchedBorder;
  * @version 1.0
  * @since 1.0
  */
-public class LoginView extends javax.swing.JFrame {
+public class LoginView extends View {
 
 	private static final long serialVersionUID = 872752750081624433L;
 	
-	private static final String COMMERCIAL_ICON = "commercial.png";
+	private static final String COMMERCIAL_ICON = "logincommercial.png";
 	
 	//
 	// Attributes
 	private LoginLogoutController loginController;
+
+	private DataGenerator data;
+	
+	private JLabel commercialIconLabel;
+	private MyComboBox<String, Commercial> commercialsComboBox;
+	private JButton loginButton;
+	private JButton exitButton;
 	
 	//
 	// Constructors
 	public LoginView() {
-		ViewRenderer renderer = new ViewRenderer(this);
-		renderer.setCloseApplication();
+		super();
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		
-		// Create controller
 		loginController = new LoginLogoutController(this, POSView.class.getName());
 		
-		// Generate data
-		DataGenerator data = new DataGenerator();
+		data = new DataGenerator();
 		data.load();
 		
+		loadUI();
+
+		loadListeners();
+		
+		getRenderer().render();
+	}
+	
+	@Override
+	protected void loadUI() {
 		// Set Image to the panel
-		JLabel logoImgLabel = new JLabel(renderer.renderImage(AppData.ImagePath.LOGO));
-		logoImgLabel.setBounds(144, 11, 503, 324);
+		JLabel logoImgLabel = new JLabel(getRenderer().renderImage(AppData.ImagePath.LOGO));
+		logoImgLabel.setBounds(186, 11, 503, 324);
 		getContentPane().add(logoImgLabel);
 		
 		// Login panel
 		JPanel loginPanel = new JPanel();
-		loginPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		loginPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		loginPanel.setBounds(269, 372, 299, 161);
 		loginPanel.setLayout(null);
 		getContentPane().add(loginPanel);
 		
 		// Commercial
-		MyComboBox<String, Commercial> commercialsComboBox = new MyComboBox<String, Commercial>(data.getCommercials());
+		commercialsComboBox = new MyComboBox<String, Commercial>(data.getCommercials());
 		commercialsComboBox.setBounds(103, 61, 152, 27);
 		loginPanel.add(commercialsComboBox);
 
@@ -70,23 +82,26 @@ public class LoginView extends javax.swing.JFrame {
 		loginPanel.add(forCommercialLabel);
 		forCommercialLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
 		
-		JLabel commercialIconLabel = new JLabel(renderer.renderImage(AppData.ImagePath.POS_ICON + COMMERCIAL_ICON));
-		commercialIconLabel.setBounds(20, 37, 68, 51);
+		commercialIconLabel = new JLabel(getRenderer().renderImage(AppData.ImagePath.POS_ICON + COMMERCIAL_ICON));
+		commercialIconLabel.setBounds(20, 23, 73, 77);
 		loginPanel.add(commercialIconLabel);
 		
 		// Exit button
-		JButton exitButton = new JButton("Exit");
+		exitButton = new JButton("Exit");
 		exitButton.setBounds(158, 117, 131, 33);
 		loginPanel.add(exitButton);
-		exitButton.addActionListener(new OnExitAction(this));
 		
 		// Login button
-		JButton loginButton = new JButton("Login");
-		loginButton.addActionListener((event) -> loginController.login((Commercial) commercialsComboBox.getSelectedItem()));
+		loginButton = new JButton("Login");
 		loginButton.setBounds(20, 117, 127, 33);
 		loginPanel.add(loginButton);
+	}
+	
+	@Override
+	protected void loadListeners() {
+		loginButton.addActionListener((event) -> loginController.login((Commercial) commercialsComboBox.getSelectedItem()));
 		
-		renderer.render();
+		exitButton.addActionListener(new OnExitAction(this));
 	}
 	
 }

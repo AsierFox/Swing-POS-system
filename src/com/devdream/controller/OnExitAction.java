@@ -30,6 +30,10 @@ public class OnExitAction implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Show an option to ask if the user wants to exit.
+	 * @return
+	 */
 	private boolean wantsExit() {
 		return JOptionPane.showConfirmDialog(component,
 					"Are you sure you want to exit?",

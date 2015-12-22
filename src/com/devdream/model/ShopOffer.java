@@ -1,6 +1,7 @@
 package com.devdream.model;
 
 import com.devdream.helper.MathHelper;
+import com.devdream.helper.StringHelper;
 
 /**
  * This abstract class Wraps all the product types and
@@ -14,7 +15,7 @@ public abstract class ShopOffer {
 
 	//
 	// Attributes
-	private final int ID;
+	public final int ID;
 	private String name, description;
 	private float price;
 	
@@ -39,15 +40,11 @@ public abstract class ShopOffer {
 	
 	@Override
 	public String toString() {
-		return getName() + ": " + getPrice();
+		return getName();
 	}
 	
 	//
 	// Getters and Setters
-	public int getID() {
-		return ID;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -67,10 +64,16 @@ public abstract class ShopOffer {
 	public float getPrice() {
 		return price;
 	}
+
+	
+	public String getFormattedPrice() {
+		return StringHelper.formatAmount(getPrice());
+	}
 	
 	public void setPrice(float price) {
 		this.price = (!MathHelper.isNegativeNumber((int) price))
 				? price
 				: 0;
 	}
+
 }

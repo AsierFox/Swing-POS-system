@@ -11,7 +11,7 @@ import com.devdream.helper.MathHelper;
  * @since 1.0
  */
 public class Commercial extends User {
-
+	
 	//
 	// Attributes
 	/**
@@ -31,8 +31,16 @@ public class Commercial extends User {
 	
 	//
 	// Methods
+	/**
+	 * Increases the points of the commercial (Point per sale line).
+	 * @param points The points (The amount of sale lines)
+	 */
 	public void increasePoints(int points) {
 		earnedPoints += points;
+	}
+	
+	public void increaseSalary() {
+		setSalary(getSalary() + earnedPoints);
 	}
 	
 	//

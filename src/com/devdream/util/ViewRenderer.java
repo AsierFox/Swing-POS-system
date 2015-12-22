@@ -1,6 +1,5 @@
 package com.devdream.util;
 
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -8,8 +7,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-
-import com.devdream.data.AppData;
 
 /**
  * This class renders the view configuring the JFrame component.
@@ -24,27 +21,20 @@ public class ViewRenderer {
 
 	public ViewRenderer(JFrame window) {
 		this.window = window;
-		window.setTitle(AppData.APP_TITLE);
-		window.setIconImage(Toolkit.getDefaultToolkit().getImage(AppData.ImagePath.FAVICON));
-		window.setSize(AppData.WIDTH, AppData.HEIGHT);
-		window.setLocationRelativeTo(null); // Center the window
-		window.setResizable(false);
-		window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 	
-	public ViewRenderer(JFrame window, final int WIDTH, final int HEIGHT) {
-		this(window);
-		window.setSize(WIDTH, HEIGHT);
-	}
-	
-	public void setCloseApplication() {
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
-	
+	/**
+	 * Renders the JFrame to display it.
+	 */
 	public void render() {
 		window.setVisible(true);
 	}
 	
+	/**
+	 * Renders the image passed by parameter.
+	 * @param filePath The file path of the image
+	 * @return Rendered image
+	 */
 	public ImageIcon renderImage(String filePath) {
 		BufferedImage logo = null;
 		try {

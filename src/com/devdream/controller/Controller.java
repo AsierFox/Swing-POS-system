@@ -33,6 +33,7 @@ public abstract class Controller {
 	
 	//
 	// Methods
+	/** Switch between two JFrames. */
 	protected final void changeView() {
 		JFrame newView = null;
 		actualView.dispose();
@@ -47,6 +48,7 @@ public abstract class Controller {
 
 	//
 	// Setters and Getters
+	/** Returns the actual view. */
 	public JFrame getActualView() {
 		return actualView;
 	}

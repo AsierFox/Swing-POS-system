@@ -22,19 +22,33 @@ public class Client extends User {
 	
 	//
 	// Methods
+	/**
+	 * Pay the bill.
+	 * @param amount The amount to pay
+	 */
 	public void pay(double amount) {
 		subscriberCard.retireMoney(amount);
 		subscriberCard.addSpentCash(amount);
 	}
 
+	/**
+	 * Charge cash on the subscriber client card.
+	 * @param amount The amount to pay
+	 */
 	public void charge(double amount) {
 		subscriberCard.chargeCash(amount);
 	}
 	
+	/**
+	 * Returns true if the client can afford payment.
+	 * @param total The total that the client needs to afford to pay the bill
+	 * @return
+	 */
 	public boolean canAffordPayment(double total) {
 		return subscriberCard.getCash() >= total;
 	}
 	
+	/** Returns if the client is a gold client */
 	public boolean isGoldClient() {
 		return this instanceof GoldClient;
 	}
