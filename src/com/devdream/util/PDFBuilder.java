@@ -18,7 +18,7 @@ import com.devdream.model.Sale;
 import com.devdream.model.SaleLine;
 
 /**
- * Class for generating the PDF of the sale.
+ * Class for generating the PDF for the bill.
  * 
  * @author Asier Gonzalez
  * @version 1.0
@@ -65,6 +65,10 @@ public class PDFBuilder {
 		setTitleFont();
 		drawText("Thanks for buying in our shop!", 180, nextLine());
 
+		// Date
+		setNormalFont();
+		drawText("Date: " + bill.getSale().getSaleDate(), y, nextLine());
+		
 		// Commercial
 		setTitleFont();
 		drawText("Commercial", y, nextLine());
@@ -93,15 +97,13 @@ public class PDFBuilder {
 		// Sale
 		setTitleFont();
 		drawText("Sale", y, nextLine());
-		setNormalFont();
-		drawText("Date: " + sale.getSaleDate(), y, nextLine());
 		
 		// Product table
 		if (!sale.getProductsFromSaleLines().isEmpty()) {
 			setTitleFont();
 			drawText("Products", y, nextLine());
 			setNormalFont();
-			generateTable(sale.getProductsFromSaleLines(), "Service", y);
+			generateTable(sale.getProductsFromSaleLines(), "Product", y);
 		}
 
 		// Service table
@@ -126,7 +128,7 @@ public class PDFBuilder {
 	}
 	
 	/**
-	 * Closes the PDF builder.
+	 * Closes the PDF generator.
 	 * @throws IOException
 	 * @throws COSVisitorException
 	 */
@@ -149,8 +151,8 @@ public class PDFBuilder {
 	    content[0][1] = "Unit price";
 	    content[0][2] = "Quantity";
     	for (SaleLine sl : saleLines) {
-    		content[i][0] = sl.getProduct().getName();
-    		content[i][1] = sl.getProduct().getFormattedPrice();
+    		content[i][0] = sl.getOffer().getName();
+    		content[i][1] = sl.getOffer().getFormattedPrice();
     		content[i++][2] = Integer.toString(sl.getQuantity());
     	}
 		drawTable(nextLine(), y, content);
@@ -199,6 +201,13 @@ public class PDFBuilder {
 		x.set((int) texty - 15);
 	}
 	
+	/**
+	 * Draws a text in the specific position.
+	 * @param text The text to draw
+	 * @param x The x chord
+	 * @param y The y chord
+	 * @throws IOException
+	 */
 	private void drawText(String text, float x, float y) throws IOException {
 		contentStream.beginText();
 		contentStream.moveTextPositionByAmount(x, y);
@@ -206,14 +215,17 @@ public class PDFBuilder {
 		contentStream.endText();
 	}
 	
+	/** Sets the font to be a title style. */
 	private void setTitleFont() throws IOException {
 		contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
 	}
-	
+
+	/** Sets the font with a normal style. */
 	private void setNormalFont() throws IOException {
 		contentStream.setFont(PDType1Font.HELVETICA, 10);
 	}
 	
+	/** Goes to the next line to draw. */
 	private int nextLine() {
 		return x.getAndSet(x.get() - 30);
 	}

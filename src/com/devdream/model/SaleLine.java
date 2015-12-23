@@ -20,33 +20,26 @@ public class SaleLine {
 	//
 	// Constructor
 	public SaleLine(ShopOffer offer, int quantity) {
-		this.offer = offer;
-		this.quantity = quantity;
-	}
-	
-	//
-	// Method
-	public void changeProduct(ShopOffer product) {
-		this.offer = product;
-	}
-	
-	public void setQuantity(int quantity) {
-		this.quantity = (!MathHelper.isNegativeNumber(quantity)) ? quantity : 0;
-	}
-	
-	@Override
-	public String toString() {
-		return offer.toString() + " " + quantity;
+		setOffer(offer);
+		setQuantity(quantity);
 	}
 
 	//
 	// Getters && Setters
-	public ShopOffer getProduct() {
+	public ShopOffer getOffer() {
 		return offer;
+	}
+	
+	private void setOffer(ShopOffer offer) {
+		this.offer = offer;
 	}
 	
 	public int getQuantity() {
 		return quantity;
+	}
+	
+	public void setQuantity(int quantity) {
+		this.quantity = (!MathHelper.isNegativeNumber(quantity)) ? quantity : 0;
 	}
 	
 }

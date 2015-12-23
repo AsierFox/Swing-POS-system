@@ -56,7 +56,7 @@ public class Sale {
 	 */
 	public SaleLine deleteSaleLine(int index) {
 		SaleLine deletedSaleLine = saleLines.get(index);
-		decreaseSubtotal(deletedSaleLine.getProduct().getPrice(), deletedSaleLine.getQuantity());
+		decreaseSubtotal(deletedSaleLine.getOffer().getPrice(), deletedSaleLine.getQuantity());
 		return saleLines.remove(index);
 	}
 	
@@ -76,7 +76,7 @@ public class Sale {
 		Iterator<SaleLine> it = saleLines.iterator();
 		while (it.hasNext()) {
 			SaleLine currSaleLine = it.next();
-			if (currSaleLine.getProduct() instanceof Product) {
+			if (currSaleLine.getOffer().isProduct()) {
 				products.add(currSaleLine);
 			}
 		}
@@ -89,7 +89,7 @@ public class Sale {
 		Iterator<SaleLine> it = saleLines.iterator();
 		while (it.hasNext()) {
 			SaleLine currSaleLine = it.next();
-			if (currSaleLine.getProduct() instanceof Service) {
+			if (currSaleLine.getOffer().isService()) {
 				services.add(currSaleLine);
 			}
 		}
@@ -123,7 +123,7 @@ public class Sale {
 	}
 	
 	public String getFormattedSubtotal() {
-		return StringHelper.formatAmount(getSubtotal());
+		return StringHelper.formatAmount(getSubtotal()) + Shop.COIN_BADGE;
 	}
 	
 	public double getTax() {
@@ -131,7 +131,7 @@ public class Sale {
 	}
 
 	public String getFormattedTax() {
-		return StringHelper.formatAmount(getTax());
+		return StringHelper.formatAmount(getTax()) + Shop.COIN_BADGE;
 	}
 	
 	private double getTotalWithoutDiscount() {
@@ -143,7 +143,7 @@ public class Sale {
 	}
 	
 	public String getFormattedTotal() {
-		return StringHelper.formatAmount(getTotal());
+		return StringHelper.formatAmount(getTotal()) + Shop.COIN_BADGE;
 	}
 	
 }

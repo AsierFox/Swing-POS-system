@@ -50,12 +50,12 @@ public class PaymentController extends Controller {
 		
 		commercial.increasePoints(sale.getSaleLines().size());
 		commercial.increaseSalary();
-		
-		sale.setSaleCurrentDate();
 
 		if (client.getSpentCash() >= GoldClient.AMOUNT_FOR_GOLD_CLIENT) {
 			GoldClient.convertToGoldClient(client);
 		}
+
+		sale.setSaleCurrentDate();
 		
 		Bill finalBill = new Bill(commercial, client, sale);
 		Intent.getInstance().setCurrentBill(finalBill);

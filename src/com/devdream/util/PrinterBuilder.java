@@ -6,7 +6,10 @@ import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.PrintJob;
 import java.awt.Toolkit;
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.apache.pdfbox.exceptions.COSVisitorException;
 
 import com.devdream.model.Bill;
 import com.devdream.model.Client;
@@ -23,15 +26,22 @@ import com.devdream.model.SaleLine;
  */
 public class PrinterBuilder {
 
+	//
+	// Attributes
 	private PrintJob printJob;
 	private Graphics page;
 	private AtomicInteger x;
 
+	//
+	// Constructors
 	public PrinterBuilder() {
 		printJob = Toolkit.getDefaultToolkit().getPrintJob(new Frame(), "Print", null);
 		x = new AtomicInteger(0);
 	}
 
+	//
+	// Methods
+	/** Generates the bill for printing to a selected printer. */
 	public void print(Bill bill) throws NullPointerException {
 		int y = 65;
 		Commercial commercial = bill.getCommercial();
@@ -47,6 +57,10 @@ public class PrinterBuilder {
 		setTitleFont();
 		page.drawString("Thanks for buying in our shop!", 180, nextLine());
 
+		// Date
+		setNormalFont();
+		page.drawString("Date: " + bill.getSale().getSaleDate(), y, nextLine());
+		
 		// Commercial
 		setTitleFont();
 		page.drawString("Commercial", y, nextLine());
@@ -74,8 +88,6 @@ public class PrinterBuilder {
 		// Sale
 		setTitleFont();
 		page.drawString("Sale", y, nextLine());
-		setNormalFont();
-		page.drawString("Date: " + sale.getSaleDate(), y, nextLine());
 		
 		if (!sale.getProductsFromSaleLines().isEmpty()) {
 			setTitleFont();
@@ -83,7 +95,7 @@ public class PrinterBuilder {
 			setNormalFont();
 			page.drawString("Product  x Quantity", y, nextLine());
 			for (SaleLine sl : sale.getProductsFromSaleLines()) {
-				page.drawString(sl.getProduct().getName() + " x" + sl.getQuantity(), y, nextLine());
+				page.drawString(sl.getOffer().getName() + " x" + sl.getQuantity(), y, nextLine());
 			}
 		}
 
@@ -93,7 +105,7 @@ public class PrinterBuilder {
 			setNormalFont();
 			page.drawString("Service x Quantity", y, nextLine());
 			for (SaleLine sl : sale.getServicesFromSaleLines()) {
-				page.drawString(sl.getProduct().getName() + " x" + sl.getQuantity(), y, nextLine());
+				page.drawString(sl.getOffer().getName() + " x" + sl.getQuantity(), y, nextLine());
 			}
 		}
 
@@ -110,22 +122,28 @@ public class PrinterBuilder {
 		
 		close();
 	}
-	
+	/**
+	 * Closes the printer.
+	 * @throws IOException
+	 * @throws COSVisitorException
+	 */
 	private void close() {
 		page.dispose();
 		printJob.end();
 	}
 
-	/** Converts the title font */
+	/** Sets the font to be a title style. */
 	private void setTitleFont() {
 		page.setFont(new Font("Dialog", Font.BOLD, 14));
 		x .addAndGet(10);
 	}
-	
+
+	/** Sets the font with a normal style. */
 	private void setNormalFont() {
 		page.setFont(new Font("Dialog", Font.PLAIN, 10));
 	}
 
+	/** Goes to the next line to draw. */
 	private int nextLine() {
 		return x.addAndGet(20);
 	}

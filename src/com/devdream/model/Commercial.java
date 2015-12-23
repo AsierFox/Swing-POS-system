@@ -1,6 +1,7 @@
 package com.devdream.model;
 
 import com.devdream.helper.MathHelper;
+import com.devdream.helper.StringHelper;
 
 /**
  * The commercial is the employee of the shop that
@@ -11,6 +12,13 @@ import com.devdream.helper.MathHelper;
  * @since 1.0
  */
 public class Commercial extends User {
+	
+	//
+	// Global
+	/**
+	 * The percentage of increment in the salary per sale line.
+	 */
+	private static int PERCENTAGE_PER_EARNED_POINT = 2;
 	
 	//
 	// Attributes
@@ -39,14 +47,19 @@ public class Commercial extends User {
 		earnedPoints += points;
 	}
 	
+	/** Increases the salary of the commercial by the earned points. */
 	public void increaseSalary() {
-		setSalary(getSalary() + earnedPoints);
+		setSalary(getSalary() + ((float) earnedPoints * (PERCENTAGE_PER_EARNED_POINT) / 100));
 	}
 	
 	//
 	// Getters && Setters
 	public float getSalary() {
 		return salary;
+	}
+	
+	public String getFormattedSalary() {
+		return StringHelper.formatAmount(getSalary()) + Shop.COIN_BADGE;
 	}
 	
 	public void setSalary(float salary) {

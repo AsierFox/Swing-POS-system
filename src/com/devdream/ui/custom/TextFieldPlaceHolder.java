@@ -31,6 +31,7 @@ public class TextFieldPlaceHolder extends JTextField {
 	
 	//
 	// Methods
+	/** Sets the placeholder effect to to the JTextField. */
 	@Override
 	protected void paintComponent(java.awt.Graphics g) {
 		super.paintComponent(g);

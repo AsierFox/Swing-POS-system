@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 import com.devdream.data.bind.Intent;
 import com.devdream.exception.CashFormatException;
-import com.devdream.exception.CustomerAlreadyExists;
+import com.devdream.exception.ClientAlreadyExists;
 import com.devdream.exception.TextNotValidException;
 import com.devdream.helper.MathHelper;
 import com.devdream.helper.StringHelper;
@@ -34,14 +34,21 @@ public class SubscribeClientController extends Controller {
 
 	//
 	// Methods
+	/**
+	 * Subscribes a client
+	 * @param The information of the client needs to register on the shop.
+	 * @throws CashFormatException
+	 * @throws TextNotValidException
+	 * @throws ClientAlreadyExists
+	 */
 	public void subscribeClient(final String ID, String name, String surname, String cashTxt, boolean isGold)
-			throws CashFormatException, TextNotValidException, CustomerAlreadyExists
+			throws CashFormatException, TextNotValidException, ClientAlreadyExists
 	{
 		if (StringHelper.isStringNull(ID)) {
 			throw new TextNotValidException("ID");
 		}
 		if (Intent.getInstance().getClients().containsKey(ID)) {
-			throw new CustomerAlreadyExists();
+			throw new ClientAlreadyExists();
 		}
 		if (StringHelper.isStringNull(name) || MathHelper.isNumeric(name)) {
 			throw new TextNotValidException("Name");

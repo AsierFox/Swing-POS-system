@@ -77,8 +77,8 @@ public class LoginView extends View {
 		commercialsComboBox.setBounds(103, 61, 152, 27);
 		loginPanel.add(commercialsComboBox);
 
-		JLabel forCommercialLabel = new JLabel("Comercial");
-		forCommercialLabel.setBounds(102, 23, 105, 27);
+		JLabel forCommercialLabel = new JLabel("Select comercial");
+		forCommercialLabel.setBounds(102, 23, 153, 27);
 		loginPanel.add(forCommercialLabel);
 		forCommercialLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
 		

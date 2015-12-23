@@ -10,10 +10,9 @@ import javax.swing.JTextField;
 import com.devdream.controller.SubscribeClientController;
 import com.devdream.data.AppData;
 import com.devdream.exception.CashFormatException;
-import com.devdream.exception.CustomerAlreadyExists;
+import com.devdream.exception.ClientAlreadyExists;
 import com.devdream.exception.TextNotValidException;
 import com.devdream.ui.custom.Alert;
-import com.devdream.util.ViewRenderer;
 
 /**
  * This view shows the components for subscribing a new client.
@@ -26,12 +25,12 @@ public class NewClientView extends View {
 
 	private static final long serialVersionUID = 6745170097521269127L;
 	
+	//
+	// Global
 	private static final String NEW_CLIENT_ICON = "newclient.png";
 	
 	//
 	// Attributes
-	private ViewRenderer renderer;
-
 	private JCheckBox goldClientCheckBox;
 	private JTextField idTextField;
 	private JTextField nameTextField;
@@ -46,13 +45,13 @@ public class NewClientView extends View {
 		super();
 		setSize(420, 320);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setLayout(null);
+		getContentPane().setLayout(null);
 		
 		loadUI();
 		
 		loadListeners();
 		
-		renderer.render();
+		getRenderer().render();
 	}
 
 	//
@@ -70,78 +69,77 @@ public class NewClientView extends View {
 		// New client label
 		JLabel newClientLabel = new JLabel("New Client");
 		newClientLabel.setFont(new Font("Trebuchet MS", Font.BOLD, 17));
-		newClientLabel.setBounds(127, 21, 126, 25);
-		add(newClientLabel);
+		newClientLabel.setBounds(143, 21, 126, 25);
+		getContentPane().add(newClientLabel);
+		
+		JLabel newClientIconLabel = new JLabel(getRenderer().renderImage(AppData.ImagePath.POS_ICON + NEW_CLIENT_ICON));
+		newClientIconLabel.setBounds(254, 49, 39, 35);
+		getContentPane().add(newClientIconLabel);
 		
 		// Client ID
 		JLabel forIdLabel = new JLabel("ID");
 		forIdLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
 		forIdLabel.setBounds(49, 49, 46, 14);
-		add(forIdLabel);
+		getContentPane().add(forIdLabel);
 		
 		idTextField = new JTextField();
 		idTextField.setBounds(49, 74, 114, 20);
-		add(idTextField);
+		getContentPane().add(idTextField);
 		idTextField.setColumns(10);
 		
 		// Client Name
 		JLabel forNameLabel = new JLabel("Name");
 		forNameLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
 		forNameLabel.setBounds(49, 105, 46, 14);
-		add(forNameLabel);
+		getContentPane().add(forNameLabel);
 		
 		nameTextField = new JTextField();
 		nameTextField.setColumns(10);
 		nameTextField.setBounds(49, 130, 114, 20);
-		add(nameTextField);
+		getContentPane().add(nameTextField);
 		
-		//
 		// Client Surname
 		surnameTextField = new JTextField();
 		surnameTextField.setColumns(10);
 		surnameTextField.setBounds(49, 179, 114, 20);
-		add(surnameTextField);
+		getContentPane().add(surnameTextField);
 		
 		JLabel forSurnameLabel = new JLabel("Surname");
 		forSurnameLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
 		forSurnameLabel.setBounds(49, 154, 77, 14);
-		add(forSurnameLabel);
+		getContentPane().add(forSurnameLabel);
 		
 		// Client card
 		JLabel forSubscriberCardCashLabel = new JLabel("Subscriber card initial cash");
 		forSubscriberCardCashLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
-		forSubscriberCardCashLabel.setBounds(216, 76, 178, 14);
-		add(forSubscriberCardCashLabel);
+		forSubscriberCardCashLabel.setBounds(216, 105, 178, 14);
+		getContentPane().add(forSubscriberCardCashLabel);
 		
 		subscriberCardCashTextField = new JTextField();
 		subscriberCardCashTextField.setColumns(10);
-		subscriberCardCashTextField.setBounds(216, 99, 97, 20);
-		add(subscriberCardCashTextField);
+		subscriberCardCashTextField.setBounds(216, 130, 97, 20);
+		getContentPane().add(subscriberCardCashTextField);
 		
 		// Gold client
 		JLabel forGoldClientLabel = new JLabel("Set as Gold Client");
 		forGoldClientLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
-		forGoldClientLabel.setBounds(216, 132, 114, 14);
-		add(forGoldClientLabel);
+		forGoldClientLabel.setBounds(216, 154, 114, 14);
+		getContentPane().add(forGoldClientLabel);
 		
 		goldClientCheckBox = new JCheckBox("Gold Client");
 		goldClientCheckBox.setFont(new Font("SansSerif", Font.PLAIN, 11));
-		goldClientCheckBox.setBounds(216, 150, 97, 23);
-		add(goldClientCheckBox);
+		goldClientCheckBox.setBounds(216, 177, 97, 23);
+		getContentPane().add(goldClientCheckBox);
 		
 		// Subscribe button
 		subscribeClientButton = new JButton("Subscribe client");	
 		subscribeClientButton.setBounds(49, 219, 142, 35);
-		add(subscribeClientButton);
+		getContentPane().add(subscribeClientButton);
 		
 		// Close button
 		closeButton = new JButton("Close");
 		closeButton.setBounds(216, 219, 142, 35);
-		add(closeButton);
-		
-		JLabel newClientIconLabel = new JLabel(renderer.renderImage(AppData.ImagePath.POS_ICON + NEW_CLIENT_ICON));
-		newClientIconLabel.setBounds(245, 11, 39, 35);
-		add(newClientIconLabel);
+		getContentPane().add(closeButton);
 	}
 
 	@Override
@@ -156,7 +154,7 @@ public class NewClientView extends View {
 					goldClientCheckBox.isSelected());
 				Alert.showInfo(this, "Client Subscribed successfully!");
 				clearData();
-			} catch(CashFormatException | TextNotValidException | CustomerAlreadyExists err) {
+			} catch(CashFormatException | TextNotValidException | ClientAlreadyExists err) {
 				Alert.showError(this, err.getMessage());
 			}
 		});

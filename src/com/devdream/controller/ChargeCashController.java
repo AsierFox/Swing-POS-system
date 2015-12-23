@@ -14,6 +14,12 @@ import com.devdream.model.Client;
  */
 public class ChargeCashController extends Controller {
 
+	private Client client;
+	
+	public ChargeCashController(Client client) {
+		this.client = client;
+	}
+
 	//
 	// Methods
 	/**
@@ -22,11 +28,16 @@ public class ChargeCashController extends Controller {
 	 * @param amount The amount of money to to the client
 	 * @throws CashFormatException
 	 */
-	public void chargeMoney(Client client, String amount) throws CashFormatException {
+	public void chargeMoney(String amount) throws CashFormatException {
 		if (!MathHelper.isNumeric(amount)) {
 			throw new CashFormatException();
 		}
 		client.charge(Double.parseDouble(amount));
+	}
+	
+	/** Gets the client to charge cash. */
+	public Client getClient() {
+		return client;
 	}
 	
 }

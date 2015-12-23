@@ -25,6 +25,7 @@ public abstract class AppData {
 	public static class ImagePath {
 		
 		private static final String IMG_DIR = ASSETS_DIR + "img/";
+		
 		private static final String ICON_IMAGE = IMG_DIR + "icon/";
 		
 		public static final String FAVICON = IMG_DIR + "2wheels_favicon.png";

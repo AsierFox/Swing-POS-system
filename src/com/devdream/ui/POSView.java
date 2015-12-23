@@ -3,6 +3,7 @@ package com.devdream.ui;
 import java.awt.Color;
 import java.awt.Font;
 
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -23,6 +24,7 @@ import com.devdream.exception.EmptyPaymentException;
 import com.devdream.helper.StringHelper;
 import com.devdream.model.Client;
 import com.devdream.model.Commercial;
+import com.devdream.model.GoldClient;
 import com.devdream.model.Product;
 import com.devdream.model.Service;
 import com.devdream.model.Shop;
@@ -45,10 +47,12 @@ public class POSView extends View {
 
 	//
 	// Global
-	private static final String CLIENT_ICON = "client.png";
+	private static final String CLIENT_ICON = "clients.png";
 	private static final String COMMERCIAL_ICON = "commercial.png";
 	private static final String SALE_LINES_ICON = "salelines.png";
 	private static final String OFFERS_ICON = "offers.png";
+	private static final String ADD_OFFER_ICON = "plus.png";
+	private static final String REMOVE_OFFER_ICON = "minus.png";
 	private static final String TOTAL_SALE_ICON = "total.png";
 	private static final String GOLD_CLIENT_ICON = "goldclient.png";
 
@@ -56,41 +60,50 @@ public class POSView extends View {
 	// Attributes
 	private SaleController saleController;
 	private LoginLogoutController logoutController;
-	
+
 	private Commercial loggedCommercial;
 	private Client currentClient;
 	private boolean isCurrentClientGold;
 	private OfferSaleLinesTable offersTable;
-	
+
 	private MyComboBox<String, Client> clientsComboBox;
 	private MyComboBox<Integer, Product> productsComboBox;
 	private MyComboBox<Integer, Service> servicesComboBox;
 	private JRadioButton productRadioButton;
+	private JRadioButton serviceRadioButton;
 	private JTextField totalLabel;
 	private TextFieldPlaceHolder quantityTextField;
 	private JLabel forGoldClientAlertLabel;
+	private JLabel forClientDiscountLabel;
+	private JLabel clientDiscountLabel;
 	private JLabel goldClientIconLabel;
 	private JLabel clientCashLabel;
+	private JLabel productPrice;
+	private JLabel servicePrice;
 	private JLabel subtotalLabel;
 	private JLabel taxLabel;
-	private JButton addShopOfferButton;
-	private JButton exitButton;
+	private JButton addOfferButton;
 	private JButton deleteSelectedOfferButton;
 	private JButton logoutButton;
+	private JButton newClientButton;
+	private JButton chargeCashButton;
 	private JButton paymentButton;
-	
+	private JButton exitButton;
+
 	//
 	// Constructors
 	public POSView() {
 		super();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
+
+		loggedCommercial = Intent.getInstance().getLogedCommercial();
 		
 		saleController = new SaleController();
 		logoutController = new LoginLogoutController(this, LoginView.class.getName());
-		
+
 		loadUI();
-		
+
 		loadListeners();
 
 		getRenderer().render();
@@ -98,6 +111,7 @@ public class POSView extends View {
 
 	//
 	// Methods
+	/** Updates the sale information. */
 	private void updateSale() {
 		offersTable.update();
 
@@ -106,14 +120,19 @@ public class POSView extends View {
 		totalLabel.setText(saleController.getSaleTotal());
 	}
 
+	/** Sets the current selected client information. */
 	public void setCurrentClient(Client client) {
 		currentClient = client;
-		Intent.getInstance().setActualClient(currentClient);
-		clientCashLabel.setText(StringHelper.formatAmount(currentClient.getCash()));
-
 		isCurrentClientGold = currentClient.isGoldClient();
+		
+		Intent.getInstance().setActualClient(currentClient);
+		clientCashLabel.setText(currentClient.getFormattedCash());
+		
 		forGoldClientAlertLabel.setVisible(isCurrentClientGold);
 		goldClientIconLabel.setVisible(isCurrentClientGold);
+		forClientDiscountLabel.setVisible(isCurrentClientGold);
+		goldClientIconLabel.setVisible(isCurrentClientGold);
+		clientDiscountLabel.setVisible(isCurrentClientGold);
 	}
 
 	@Override
@@ -124,9 +143,6 @@ public class POSView extends View {
 
 	@Override
 	protected void loadUI() {
-		// Logged commercial
-		loggedCommercial = Intent.getInstance().getLogedCommercial();
-
 		// Title
 		JLabel posIconLabel = new JLabel("2Wheels POS");
 		posIconLabel.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
@@ -141,40 +157,6 @@ public class POSView extends View {
 		paymentButton.setBounds(271, 492, 244, 60);
 		getContentPane().add(paymentButton);
 
-		// Sale total information
-		JLabel forSubtotalLabel = new JLabel("Subtotal");
-		forSubtotalLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
-		forSubtotalLabel.setBounds(617, 474, 75, 14);
-		getContentPane().add(forSubtotalLabel);
-
-		subtotalLabel = new JLabel("0.00");
-		subtotalLabel.setBounds(727, 476, 79, 14);
-		getContentPane().add(subtotalLabel);
-
-		JLabel forTaxLabel = new JLabel("Tax (" + Shop.VAT_TAX_PERCENTAGE + "%)");
-		forTaxLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
-		forTaxLabel.setBounds(617, 499, 90, 14);
-		getContentPane().add(forTaxLabel);
-
-		taxLabel = new JLabel("0.00");
-		taxLabel.setBounds(727, 501, 81, 14);
-		getContentPane().add(taxLabel);
-
-		JLabel forTotalLabel = new JLabel("Total");
-		forTotalLabel.setFont(new Font("SansSerif", Font.BOLD, 15));
-		forTotalLabel.setBounds(617, 524, 58, 28);
-		getContentPane().add(forTotalLabel);
-
-		totalLabel = new JTextField("0.00");
-		totalLabel.setEditable(false);
-		totalLabel.setFont(new Font("", Font.BOLD, 14));
-		totalLabel.setBounds(727, 527, 58, 25);
-		getContentPane().add(totalLabel);
-
-		JLabel totalIconLabel = new JLabel(getRenderer().renderImage(AppData.ImagePath.POS_ICON + TOTAL_SALE_ICON));
-		totalIconLabel.setBounds(527, 480, 67, 60);
-		getContentPane().add(totalIconLabel);
-
 		JPanel commercialPanel = new JPanel();
 		commercialPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		commercialPanel.setBounds(10, 58, 357, 181);
@@ -187,7 +169,8 @@ public class POSView extends View {
 		commercialPanel.add(lblCommercial);
 		lblCommercial.setFont(new Font("Tahoma", Font.BOLD, 14));
 
-		JLabel commercialIconLabel = new JLabel(getRenderer().renderImage(AppData.ImagePath.POS_ICON + COMMERCIAL_ICON));
+		JLabel commercialIconLabel = new JLabel(
+				getRenderer().renderImage(AppData.ImagePath.POS_ICON + COMMERCIAL_ICON));
 		commercialIconLabel.setBounds(125, 0, 58, 41);
 		commercialPanel.add(commercialIconLabel);
 
@@ -196,28 +179,38 @@ public class POSView extends View {
 		commercialPanel.add(sessionByLabel);
 		sessionByLabel.setFont(new Font("SansSerif", Font.PLAIN, 11));
 
-		JLabel forSessionByLabel = new JLabel("Session By:");
+		JLabel forSessionByLabel = new JLabel("Session by");
 		forSessionByLabel.setBounds(10, 52, 75, 14);
 		commercialPanel.add(forSessionByLabel);
 		forSessionByLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 
-		JLabel forCommercialPointsLabel = new JLabel("Commercial points:");
+		JLabel forCommercialPointsLabel = new JLabel("Earned points");
 		forCommercialPointsLabel.setBounds(10, 77, 117, 14);
 		commercialPanel.add(forCommercialPointsLabel);
 		forCommercialPointsLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 
 		JLabel commercialPointsLabel = new JLabel(Integer.toString(loggedCommercial.getEarnedPoints()));
-		commercialPointsLabel.setBounds(145, 77, 82, 14);
+		commercialPointsLabel.setBounds(135, 77, 82, 14);
 		commercialPanel.add(commercialPointsLabel);
 		commercialPointsLabel.setFont(new Font("SansSerif", Font.PLAIN, 11));
-		
+
 		logoutButton = new JButton("Logout");
-		logoutButton.setBounds(10, 130, 105, 29);
+		logoutButton.setBounds(10, 141, 105, 29);
 		commercialPanel.add(logoutButton);
 
 		exitButton = new JButton("Exit");
-		exitButton.setBounds(139, 130, 117, 29);
+		exitButton.setBounds(139, 141, 117, 29);
 		commercialPanel.add(exitButton);
+
+		JLabel forCommercialSalaryLabel = new JLabel("Salary");
+		forCommercialSalaryLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		forCommercialSalaryLabel.setBounds(10, 105, 117, 14);
+		commercialPanel.add(forCommercialSalaryLabel);
+
+		JLabel commercialSalaryLabel = new JLabel(loggedCommercial.getFormattedSalary());
+		commercialSalaryLabel.setFont(new Font("SansSerif", Font.PLAIN, 11));
+		commercialSalaryLabel.setBounds(135, 102, 82, 14);
+		commercialPanel.add(commercialSalaryLabel);
 
 		JPanel clientPanel = new JPanel();
 		clientPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -226,10 +219,10 @@ public class POSView extends View {
 		clientPanel.setLayout(null);
 
 		// Client information
-		JLabel lblClient = new JLabel("Client");
-		lblClient.setBounds(10, 11, 75, 21);
-		clientPanel.add(lblClient);
-		lblClient.setFont(new Font("Tahoma", Font.BOLD, 14));
+		JLabel forClientLabel = new JLabel("Client");
+		forClientLabel.setBounds(10, 11, 75, 21);
+		clientPanel.add(forClientLabel);
+		forClientLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		JLabel clientIconLabel = new JLabel(getRenderer().renderImage(AppData.ImagePath.POS_ICON + CLIENT_ICON));
 		clientIconLabel.setBounds(56, -1, 59, 40);
@@ -239,93 +232,98 @@ public class POSView extends View {
 		clientsComboBox.setBounds(133, 50, 150, 21);
 		clientPanel.add(clientsComboBox);
 
-		JLabel forClientSelectionLabel = new JLabel("Select the client:");
+		JLabel forClientSelectionLabel = new JLabel("Select the client");
 		forClientSelectionLabel.setBounds(10, 50, 105, 21);
 		clientPanel.add(forClientSelectionLabel);
 		forClientSelectionLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 
-		JLabel forClientCashLabel = new JLabel("Client cash:");
+		JLabel forClientCashLabel = new JLabel("Client cash");
 		forClientCashLabel.setBounds(10, 93, 75, 14);
 		clientPanel.add(forClientCashLabel);
 		forClientCashLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 
 		clientCashLabel = new JLabel();
-		clientCashLabel.setBounds(95, 94, 98, 14);
+		clientCashLabel.setBounds(133, 94, 98, 14);
 		clientPanel.add(clientCashLabel);
 
 		forGoldClientAlertLabel = new JLabel("Gold client");
-		forGoldClientAlertLabel.setBounds(246, 119, 89, 21);
+		forGoldClientAlertLabel.setBounds(258, 127, 89, 21);
 		clientPanel.add(forGoldClientAlertLabel);
 		forGoldClientAlertLabel.setVisible(isCurrentClientGold);
 		forGoldClientAlertLabel.setFont(new Font("Monospaced", Font.ITALIC, 12));
 
 		goldClientIconLabel = new JLabel(getRenderer().renderImage(AppData.ImagePath.POS_ICON + GOLD_CLIENT_ICON));
-		goldClientIconLabel.setBounds(256, 71, 58, 41);
+		goldClientIconLabel.setBounds(263, 82, 58, 41);
 		clientPanel.add(goldClientIconLabel);
 
-		JButton newClientButton = new JButton("New Client");
+		newClientButton = new JButton("New Client");
 		newClientButton.setBounds(10, 159, 112, 33);
 		clientPanel.add(newClientButton);
 
-		JButton btnNewButton = new JButton("Charge cash");
-		btnNewButton.setBounds(133, 159, 112, 33);
-		clientPanel.add(btnNewButton);
-		btnNewButton.addActionListener((e) -> new ChargeCashView(currentClient));
-		newClientButton.addActionListener((e) -> new NewClientView());
-		goldClientIconLabel.setVisible(isCurrentClientGold);
-		
-		setCurrentClient((Client) clientsComboBox.getSelectedItem());
-		clientsComboBox.addActionListener((e) -> setCurrentClient((Client) clientsComboBox.getSelectedItem()));
+		chargeCashButton = new JButton("Charge cash");
+		chargeCashButton.setBounds(133, 159, 112, 33);
+		clientPanel.add(chargeCashButton);
 
+		forClientDiscountLabel = new JLabel(GoldClient.DISCOUNT_PERCENTAGE + "%");
+		forClientDiscountLabel.setBounds(133, 131, 80, 14);
+		clientPanel.add(forClientDiscountLabel);
+		
+		clientDiscountLabel = new JLabel("Discount of");
+		clientDiscountLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		clientDiscountLabel.setBounds(10, 131, 89, 14);
+		clientPanel.add(clientDiscountLabel);
+
+		setCurrentClient((Client) clientsComboBox.getSelectedItem());
+
+		// Sale information
 		JPanel offerPanel = new JPanel();
 		offerPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		offerPanel.setBounds(393, 58, 418, 405);
 		getContentPane().add(offerPanel);
 		offerPanel.setLayout(null);
 
-		deleteSelectedOfferButton = new JButton("Delete selected offer");
-		deleteSelectedOfferButton.setBounds(144, 210, 165, 23);
-		offerPanel.add(deleteSelectedOfferButton);
+		addOfferButton = new JButton("Add product");
+		addOfferButton.setIcon(getRenderer().renderImage(AppData.ImagePath.POS_ICON + ADD_OFFER_ICON));
+		addOfferButton.setHorizontalTextPosition(AbstractButton.LEFT);
+		addOfferButton.setBounds(144, 176, 196, 23);
+		offerPanel.add(addOfferButton);
 
-		addShopOfferButton = new JButton("Add product");
-		addShopOfferButton.setBounds(144, 176, 165, 23);
-		offerPanel.add(addShopOfferButton);
+		deleteSelectedOfferButton = new JButton("Delete selected offer");
+		deleteSelectedOfferButton.setIcon(getRenderer().renderImage(AppData.ImagePath.POS_ICON + REMOVE_OFFER_ICON));
+		deleteSelectedOfferButton.setHorizontalTextPosition(AbstractButton.LEFT);
+		deleteSelectedOfferButton.setBounds(144, 210, 196, 23);
+		offerPanel.add(deleteSelectedOfferButton);
 
 		quantityTextField = new TextFieldPlaceHolder("Quantity");
 		quantityTextField.setBounds(144, 139, 58, 20);
 		offerPanel.add(quantityTextField);
 
-		JLabel quantityLabel = new JLabel("Quantity");
-		quantityLabel.setBounds(49, 141, 77, 14);
-		offerPanel.add(quantityLabel);
-		quantityLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		JLabel forQuantityLabel = new JLabel("Quantity");
+		forQuantityLabel.setBounds(49, 141, 77, 14);
+		offerPanel.add(forQuantityLabel);
+		forQuantityLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 
-		JRadioButton serviceRadioButton = new JRadioButton("Service");
+		serviceRadioButton = new JRadioButton("Service");
 		serviceRadioButton.setBounds(49, 94, 77, 23);
 		offerPanel.add(serviceRadioButton);
 		serviceRadioButton.setFont(new Font("Tahoma", Font.BOLD, 12));
-		serviceRadioButton.addActionListener((e) -> addShopOfferButton.setText("Add service"));
 		radioButtonGroup.add(serviceRadioButton);
 
-		JLabel productPrice = new JLabel("0.00");
+		productPrice = new JLabel("0.00" + Shop.COIN_BADGE);
 		productPrice.setBounds(333, 58, 58, 14);
 		offerPanel.add(productPrice);
 
 		productsComboBox = new MyComboBox<Integer, Product>(Intent.getInstance().getProducts());
-		productsComboBox.addActionListener((e) ->
-			productPrice.setText(StringHelper.formatAmount(((Product) productsComboBox.getSelectedItem()).getPrice())));
 		productsComboBox.setBounds(144, 58, 165, 20);
 		offerPanel.add(productsComboBox);
 
 		productPrice.setText(StringHelper.formatAmount(((Product) productsComboBox.getSelectedItem()).getPrice()));
-		
-		JLabel servicePrice = new JLabel("0.00");
+
+		servicePrice = new JLabel("0.00" + Shop.COIN_BADGE);
 		servicePrice.setBounds(333, 99, 58, 14);
 		offerPanel.add(servicePrice);
-		
+
 		servicesComboBox = new MyComboBox<Integer, Service>(Intent.getInstance().getServices());
-		servicesComboBox.addActionListener((e) ->
-			servicePrice.setText(StringHelper.formatAmount(((Service) servicesComboBox.getSelectedItem()).getPrice())));
 		servicesComboBox.setBounds(144, 94, 165, 20);
 		offerPanel.add(servicesComboBox);
 
@@ -335,7 +333,6 @@ public class POSView extends View {
 		productRadioButton.setBounds(49, 58, 77, 23);
 		offerPanel.add(productRadioButton);
 		productRadioButton.setFont(new Font("Tahoma", Font.BOLD, 12));
-		productRadioButton.addActionListener((e) -> addShopOfferButton.setText("Add product"));
 		productRadioButton.setSelected(true);
 		radioButtonGroup.add(productRadioButton);
 
@@ -357,21 +354,66 @@ public class POSView extends View {
 		productsTableScrollPane.setViewportView(offersTable);
 
 		// Sale lines
-		JLabel productsTableLabel = new JLabel("Sale lines");
-		productsTableLabel.setBounds(10, 212, 105, 21);
-		offerPanel.add(productsTableLabel);
-		productsTableLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		JLabel forProductsTableLabel = new JLabel("Sale lines");
+		forProductsTableLabel.setBounds(10, 212, 105, 21);
+		offerPanel.add(forProductsTableLabel);
+		forProductsTableLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		JLabel saleLinesIconLabel = new JLabel(getRenderer().renderImage(AppData.ImagePath.POS_ICON + SALE_LINES_ICON));
 		saleLinesIconLabel.setBounds(75, 210, 35, 33);
 		offerPanel.add(saleLinesIconLabel);
+
+		JPanel saleTotalLabel = new JPanel();
+		saleTotalLabel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		saleTotalLabel.setBounds(527, 469, 284, 100);
+		getContentPane().add(saleTotalLabel);
+		saleTotalLabel.setLayout(null);
+
+		// Sale total information
+		JLabel totalIconLabel = new JLabel(getRenderer().renderImage(AppData.ImagePath.POS_ICON + TOTAL_SALE_ICON));
+		totalIconLabel.setBounds(23, 29, 67, 60);
+		saleTotalLabel.add(totalIconLabel);
+
+		JLabel forSubtotalLabel = new JLabel("Subtotal");
+		forSubtotalLabel.setBounds(100, 11, 75, 14);
+		saleTotalLabel.add(forSubtotalLabel);
+		forSubtotalLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
+
+		subtotalLabel = new JLabel("0.00" + Shop.COIN_BADGE);
+		subtotalLabel.setBounds(185, 13, 104, 14);
+		saleTotalLabel.add(subtotalLabel);
+
+		JLabel forTaxLabel = new JLabel("Tax (" + Shop.VAT_TAX_PERCENTAGE + "%)");
+		forTaxLabel.setBounds(100, 36, 90, 14);
+		saleTotalLabel.add(forTaxLabel);
+		forTaxLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
+
+		taxLabel = new JLabel("0.00" + Shop.COIN_BADGE);
+		taxLabel.setBounds(184, 38, 107, 14);
+		saleTotalLabel.add(taxLabel);
+
+		JLabel forTotalLabel = new JLabel("Total");
+		forTotalLabel.setBounds(100, 61, 58, 28);
+		saleTotalLabel.add(forTotalLabel);
+		forTotalLabel.setFont(new Font("SansSerif", Font.BOLD, 15));
+
+		totalLabel = new JTextField("0.00" + Shop.COIN_BADGE);
+		totalLabel.setBounds(184, 64, 90, 25);
+		saleTotalLabel.add(totalLabel);
+		totalLabel.setEditable(false);
+		totalLabel.setFont(new Font("", Font.BOLD, 14));
 	}
 
 	@Override
 	protected void loadListeners() {
-		exitButton.addActionListener(new OnExitAction(this));
+		clientsComboBox.addActionListener((e) -> setCurrentClient((Client) clientsComboBox.getSelectedItem()));
+
+		newClientButton.addActionListener((e) -> new NewClientView());
+		chargeCashButton.addActionListener((e) -> new ChargeCashView(currentClient));
+
 		logoutButton.addActionListener((e) -> logoutController.logout());
-		
+		exitButton.addActionListener(new OnExitAction(this));
+
 		paymentButton.addActionListener((e) -> {
 			PaymentController paymentController = new PaymentController(this, BillView.class.getName());
 			try {
@@ -381,8 +423,16 @@ public class POSView extends View {
 				Alert.showError(this, err.getMessage());
 			}
 		});
-		
-		addShopOfferButton.addActionListener((e) -> {
+
+		productsComboBox.addActionListener((e) -> productPrice
+				.setText(StringHelper.formatAmount(((Product) productsComboBox.getSelectedItem()).getPrice())));
+		servicesComboBox.addActionListener((e) -> servicePrice
+				.setText(StringHelper.formatAmount(((Service) servicesComboBox.getSelectedItem()).getPrice())));
+
+		serviceRadioButton.addActionListener((e) -> addOfferButton.setText("Add service"));
+		productRadioButton.addActionListener((e) -> addOfferButton.setText("Add product"));
+
+		addOfferButton.addActionListener((e) -> {
 			try {
 				ShopOffer selectedOffer;
 				int qty = Integer.parseInt(quantityTextField.getText());
@@ -391,7 +441,6 @@ public class POSView extends View {
 				} else {
 					selectedOffer = (Service) servicesComboBox.getSelectedItem();
 				}
-				// offersTable.getSale
 				saleController.addSaleLine(selectedOffer, qty);
 
 				updateSale();
@@ -399,7 +448,7 @@ public class POSView extends View {
 				Alert.showError(this, "The Quantity is not valid!");
 			}
 		});
-		
+
 		deleteSelectedOfferButton.addActionListener((e) -> {
 			if (offersTable.getSelectedRow() > -1) {
 				saleController.deleteSaleSaleLine(offersTable.getSelectedRow());
@@ -409,5 +458,5 @@ public class POSView extends View {
 			}
 		});
 	}
-	
+
 }

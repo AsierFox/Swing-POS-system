@@ -43,10 +43,12 @@ public class SaleController extends Controller {
 		super.changeView();
 	}
 	
+	/** Adds a sale line. */
 	public void addSaleLine(ShopOffer offer, int qty) {
 		sale.addSaleLine(offer, qty);
 	}
-	
+
+	/** Deletes a sale line. */
 	public SaleLine deleteSaleSaleLine(int index) {
 		return sale.deleteSaleLine(index);
 	}
@@ -57,6 +59,7 @@ public class SaleController extends Controller {
 		return sale;
 	}
 	
+	/** Get all the current sale line collection. */
 	public ArrayList<SaleLine> getSaleLines() {
 		return sale.getSaleLines();
 	}

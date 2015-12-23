@@ -1,5 +1,7 @@
 package com.devdream.model;
 
+import com.devdream.helper.StringHelper;
+
 /**
  * The client of the shop.
  * 
@@ -45,7 +47,7 @@ public class Client extends User {
 	 * @return
 	 */
 	public boolean canAffordPayment(double total) {
-		return subscriberCard.getCash() >= total;
+		return getCash() >= total;
 	}
 	
 	/** Returns if the client is a gold client */
@@ -61,6 +63,10 @@ public class Client extends User {
 	
 	public double getCash() {
 		return subscriberCard.getCash();
+	}
+	
+	public String getFormattedCash() {
+		return StringHelper.formatAmount(getCash()) + Shop.COIN_BADGE;
 	}
 	
 	public double getSpentCash() {

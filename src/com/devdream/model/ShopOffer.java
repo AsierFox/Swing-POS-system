@@ -30,10 +30,12 @@ public abstract class ShopOffer {
 	
 	//
 	// Methods
+	/** Checks if the shop offer is a Product type object. */
 	public boolean isProduct() {
 		return this instanceof Product;
 	}
-	
+
+	/** Checks if the shop offer is a Service type object. */
 	public boolean isService() {
 		return this instanceof Service;
 	}
@@ -67,13 +69,11 @@ public abstract class ShopOffer {
 
 	
 	public String getFormattedPrice() {
-		return StringHelper.formatAmount(getPrice());
+		return StringHelper.formatAmount(getPrice()) + Shop.COIN_BADGE;
 	}
 	
 	public void setPrice(float price) {
-		this.price = (!MathHelper.isNegativeNumber((int) price))
-				? price
-				: 0;
+		this.price = (!MathHelper.isNegativeNumber((int) price)) ? price : 0;
 	}
 
 }

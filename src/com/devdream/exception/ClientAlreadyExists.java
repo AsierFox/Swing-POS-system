@@ -1,6 +1,13 @@
 package com.devdream.exception;
 
-public class CustomerAlreadyExists extends Exception {
+/**
+ * It is fired when a registered client already exists on the shop.
+ * 
+ * @author Asier Gonzalez
+ * @version 1.0
+ * @since 1.0
+ */
+public class ClientAlreadyExists extends Exception {
 
 	private static final long serialVersionUID = 7806458480954640103L;
 	

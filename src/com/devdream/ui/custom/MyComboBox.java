@@ -14,18 +14,18 @@ import javax.swing.JComboBox;
  * @version 1.0
  * @since 1.0
  */
-public class MyComboBox <I, E> extends JComboBox<E> {
+public class MyComboBox <K, V> extends JComboBox<V> {
 
 	private static final long serialVersionUID = -1001219177283780102L;
 	
 	//
 	// Attributes
-	private DefaultComboBoxModel<E> model;
-	private HashMap<I, E> items;
+	private DefaultComboBoxModel<V> model;
+	private HashMap<K, V> items;
 	
 	//
 	// Constructors
-    public MyComboBox(HashMap<I, E> items) {
+    public MyComboBox(HashMap<K, V> items) {
     	this.items = items;
     	setFont(new Font("SansSerif", Font.PLAIN, 12));
     	update();
@@ -33,14 +33,14 @@ public class MyComboBox <I, E> extends JComboBox<E> {
     
     //
     // Methods
-    public E getSelected() {
+    public V getSelected() {
 		return items.get(getSelectedIndex());
     }
     
     public void update() {
-        model = new DefaultComboBoxModel<E>();
+        model = new DefaultComboBoxModel<V>();
         setModel(model);
-        Iterator<E> it = items.values().iterator();
+        Iterator<V> it = items.values().iterator();
         while (it.hasNext()) {
         	model.addElement(it.next());
         }

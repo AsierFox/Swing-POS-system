@@ -4,10 +4,11 @@ import java.awt.Font;
 import java.awt.Label;
 import java.io.IOException;
 
-import javax.swing.Icon;
+import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 import org.apache.pdfbox.exceptions.COSVisitorException;
 
@@ -34,15 +35,22 @@ public class BillView extends View {
 	
 	//
 	// Global
-	private static final String JUST_GETS_GOLD_CLIENT = "justgetgoldclient.png";
+	private static final String COMMERCIAL_ICON = "commercial.png";
+	private static final String CLIENT_ICON = "client.png";
+	private static final String TOTAL_ICON = "total.png";
+	private static final String JUST_GETS_GOLD_CLIENT_ICON = "justgetgoldclient.png";
+	private static final String PDF_ICON = "pdf.png";
+	private static final String PRINT_ICON = "print.png";
+	private static final String NEW_SALE_ICON = "newsale.png";
 	
 	//
 	// Attributes
+	private SaleController saleController;
 	private Bill bill;
 	
 	private OfferTable productsSaleLinesTable;
 	private OfferTable servicesSaleLinesTable;
-	private JButton generatePdfButton;
+	private JButton generatePDFButton;
 	private JButton printPrinterButton;
 	private JButton newSaleButton;
 	
@@ -53,6 +61,8 @@ public class BillView extends View {
 		ViewRenderer renderer = new ViewRenderer(this);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
+		
+		saleController = new SaleController(this, POSView.class.getName());
 		
 		bill = Intent.getInstance().getCurrentBill();
 		
@@ -67,21 +77,121 @@ public class BillView extends View {
 	protected void loadUI() {
 		// Title
 		JLabel billInfoLabel = new JLabel("2Wheels Bill Info");
-		billInfoLabel.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
-		billInfoLabel.setBounds(275, 11, 152, 14);
+		billInfoLabel.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
+		billInfoLabel.setBounds(275, 11, 204, 28);
 		getContentPane().add(billInfoLabel);
 		
 		// Bill info
 		JLabel forBillDateLabel = new JLabel("Bill date:");
 		forBillDateLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
-		forBillDateLabel.setBounds(25, 44, 56, 14);
+		forBillDateLabel.setBounds(29, 22, 56, 14);
 		getContentPane().add(forBillDateLabel);
 		
 		JLabel billDateLabel = new JLabel(bill.getSale().getSaleDate());
-		billDateLabel.setBounds(91, 45, 76, 14);
+		billDateLabel.setBounds(109, 23, 76, 14);
 		getContentPane().add(billDateLabel);
+		
+		// Commercial info
+		JLabel forCommercialLabel = new JLabel("Commercial");
+		forCommercialLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		forCommercialLabel.setBounds(29, 70, 103, 14);
+		getContentPane().add(forCommercialLabel);
 
-		// Offers info
+		JLabel commercialIconLabel = new JLabel(getRenderer().renderImage(AppData.ImagePath.POS_ICON + COMMERCIAL_ICON));
+		commercialIconLabel.setBounds(119, 56, 56, 40);
+		getContentPane().add(commercialIconLabel);
+
+		JLabel forIdCommercialLabel = new JLabel("ID:");
+		forIdCommercialLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		forIdCommercialLabel.setBounds(32, 95, 46, 14);
+		getContentPane().add(forIdCommercialLabel);
+		
+		JLabel commercialIdLabel = new JLabel(bill.getCommercial().ID);
+		commercialIdLabel.setBounds(98, 96, 87, 14);
+		getContentPane().add(commercialIdLabel);
+		
+		JLabel forCommercialNameLabel = new JLabel("Name:");
+		forCommercialNameLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		forCommercialNameLabel.setBounds(32, 120, 46, 14);
+		getContentPane().add(forCommercialNameLabel);
+		
+		JLabel commercialLabel = new JLabel(bill.getCommercial().getName());
+		commercialLabel.setBounds(99, 121, 68, 14);
+		getContentPane().add(commercialLabel);
+
+		JLabel forCommercialSurnameLabel = new JLabel("Surname");
+		forCommercialSurnameLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		forCommercialSurnameLabel.setBounds(29, 145, 68, 14);
+		getContentPane().add(forCommercialSurnameLabel);
+		
+		JLabel commercialSurnameLabel = new JLabel(bill.getCommercial().getSurname());
+		commercialSurnameLabel.setBounds(98, 145, 122, 14);
+		getContentPane().add(commercialSurnameLabel);
+		
+		// Client info
+		Label forClientLabel = new Label("Client");
+		forClientLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		forClientLabel.setBounds(433, 68, 46, 14);
+		getContentPane().add(forClientLabel);
+		
+		JLabel clientIconLabel = new JLabel(getRenderer().renderImage(AppData.ImagePath.POS_ICON + CLIENT_ICON));
+		clientIconLabel.setBounds(482, 44, 56, 40);
+		getContentPane().add(clientIconLabel);
+
+		JLabel forIdLabel = new JLabel("ID");
+		forIdLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		forIdLabel.setBounds(433, 95, 46, 14);
+		getContentPane().add(forIdLabel);
+		JLabel idLabel = new JLabel(bill.getClient().ID);
+		idLabel.setBounds(499, 96, 122, 14);
+		getContentPane().add(idLabel);
+		
+		JLabel forClientNameLabel = new JLabel("Name");
+		forClientNameLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		forClientNameLabel.setBounds(433, 120, 46, 14);
+		getContentPane().add(forClientNameLabel);
+
+		JLabel clientNameLabel = new JLabel(bill.getClient().getName());
+		clientNameLabel.setBounds(499, 121, 122, 14);
+		getContentPane().add(clientNameLabel);
+
+		JLabel forClientSurnameClient = new JLabel("Surname");
+		forClientSurnameClient.setFont(new Font("Tahoma", Font.BOLD, 12));
+		forClientSurnameClient.setBounds(433, 145, 68, 14);
+		getContentPane().add(forClientSurnameClient);
+		
+		JLabel clientSurnameLabel = new JLabel(bill.getClient().getSurname());
+		clientSurnameLabel.setBounds(499, 145, 122, 14);
+		getContentPane().add(clientSurnameLabel);
+		
+		// Check if the client is a gold client, if it is not, check if the client has
+		// just achieved the GoldClient, else show how much money takes to get it.
+		JLabel remainingCashGoldClientLabel = new JLabel();
+		if (!bill.getClient().isGoldClient()) {
+			if (bill.getClient().getRemainingCashGoldClient() <= 0) {
+				JLabel forRemainingCashGoldClientLabel = new JLabel("You are now a Gold Client!");
+				forRemainingCashGoldClientLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+				forRemainingCashGoldClientLabel.setVisible(!bill.getClient().isGoldClient());
+				forRemainingCashGoldClientLabel.setBounds(652, 27, 210, 14);
+				getContentPane().add(forRemainingCashGoldClientLabel);
+				
+				remainingCashGoldClientLabel.setIcon(getRenderer().renderImage(AppData.ImagePath.POS_ICON + JUST_GETS_GOLD_CLIENT_ICON));
+				remainingCashGoldClientLabel.setBounds(671, 56, 139, 139);
+			} else {
+				JLabel forRemainingCashGoldClientLabel = new JLabel("Remainingfor cash (Gold Client)");
+				forRemainingCashGoldClientLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+				forRemainingCashGoldClientLabel.setVisible(!bill.getClient().isGoldClient());
+				forRemainingCashGoldClientLabel.setBounds(433, 167, 220, 14);
+				getContentPane().add(forRemainingCashGoldClientLabel);
+				
+				remainingCashGoldClientLabel.setText(StringHelper.formatAmount(bill.getClient().getRemainingCashGoldClient()));
+				remainingCashGoldClientLabel.setBounds(648, 168, 79, 14);
+			}
+		}
+		remainingCashGoldClientLabel.setVisible(!bill.getClient().isGoldClient());
+		getContentPane().add(remainingCashGoldClientLabel);
+		
+		// Sale offer sale lines
 		JLabel forProductsLabel = new JLabel("Products");
 		forProductsLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		forProductsLabel.setVisible(!bill.getSale().getProductsFromSaleLines().isEmpty());
@@ -98,6 +208,13 @@ public class BillView extends View {
 		forProductsTableScrollPane.setViewportView(productsSaleLinesTable);
 		forProductsTableScrollPane.setVisible(!bill.getSale().getProductsFromSaleLines().isEmpty());
 		
+		if (bill.getSale().getProductsFromSaleLines().isEmpty()) {
+			JLabel noProductsOnSaleLabel = new JLabel("No products on the sale line.");
+			noProductsOnSaleLabel.setFont(new Font("Segoe UI Semibold", Font.ITALIC, 13));
+			noProductsOnSaleLabel.setBounds(86, 262, 185, 14);
+			getContentPane().add(noProductsOnSaleLabel);
+		}
+		
 		JLabel forServicesLabel = new JLabel("Services");
 		forServicesLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		forServicesLabel.setVisible(!bill.getSale().getServicesFromSaleLines().isEmpty());
@@ -112,140 +229,72 @@ public class BillView extends View {
 		servicesSaleLinesTable = new OfferTable(bill.getSale().getServicesFromSaleLines());
 		servicesSaleLinesTable.update();
 		forServiceTableScrollPane.setViewportView(servicesSaleLinesTable);
+
+		if (bill.getSale().getServicesFromSaleLines().isEmpty()) {
+			JLabel noServicesOnSaleLabel = new JLabel("No services on the sale line.");
+			noServicesOnSaleLabel.setFont(new Font("Segoe UI Semibold", Font.ITALIC, 13));
+			noServicesOnSaleLabel.setBounds(429, 262, 185, 13);
+			getContentPane().add(noServicesOnSaleLabel);
+		}
 		
 		// Total info
+		JLabel totalIconLabel = new JLabel(getRenderer().renderImage(AppData.ImagePath.POS_ICON + TOTAL_ICON));
+		totalIconLabel.setBounds(276, 403, 67, 60);
+		getContentPane().add(totalIconLabel);
+		
 		JLabel forSubtotalLabel = new JLabel("Subtotal");
 		forSubtotalLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		forSubtotalLabel.setBounds(370, 403, 57, 14);
 		getContentPane().add(forSubtotalLabel);
-		JLabel subtotalLabel = new JLabel(StringHelper.formatAmount((bill.getSale().getSubtotal())));
-		subtotalLabel.setBounds(437, 403, 75, 14);
+		
+		JLabel subtotalLabel = new JLabel(bill.getSale().getFormattedSubtotal());
+		subtotalLabel.setBounds(437, 403, 101, 14);
 		getContentPane().add(subtotalLabel);
 		
 		JLabel forTaxLabel = new JLabel("Tax");
 		forTaxLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		forTaxLabel.setBounds(370, 428, 46, 14);
 		getContentPane().add(forTaxLabel);
-		JLabel taxLabel = new JLabel(StringHelper.formatAmount((bill.getSale().getTax())));
-		taxLabel.setBounds(435, 428, 77, 14);
+		
+		JLabel taxLabel = new JLabel(bill.getSale().getFormattedTax());
+		taxLabel.setBounds(435, 428, 101, 14);
 		getContentPane().add(taxLabel);
 		
 		JLabel forTotalLabel = new JLabel("Total");
-		forTotalLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
-		forTotalLabel.setBounds(370, 453, 46, 14);
+		forTotalLabel.setFont(new Font("SansSerif", Font.BOLD, 15));
+		forTotalLabel.setBounds(369, 453, 58, 28);
 		getContentPane().add(forTotalLabel);
-		JLabel totalLabel = new JLabel(StringHelper.formatAmount(bill.getSale().getTotal()));
-		totalLabel.setBounds(435, 453, 77, 14);
+		
+		JTextField totalLabel = new JTextField(bill.getSale().getFormattedTotal());
+		totalLabel.setFont(new Font("Dialog", Font.BOLD, 14));
+		totalLabel.setEditable(false);
+		totalLabel.setBounds(433, 453, 103, 25);
 		getContentPane().add(totalLabel);
-		
-		// Generation options
-		generatePdfButton = new JButton("Generate PDF");
-		generatePdfButton.setBounds(581, 370, 180, 47);
-		getContentPane().add(generatePdfButton);
-		
-		printPrinterButton = new JButton("Print (Printer)");
-		printPrinterButton.setBounds(581, 450, 182, 48);
-		getContentPane().add(printPrinterButton);
 
 		// New sale button
 		newSaleButton = new JButton("New sale");
+		newSaleButton.setIcon(getRenderer().renderImage(AppData.ImagePath.POS_ICON + NEW_SALE_ICON));
+		newSaleButton.setHorizontalTextPosition(AbstractButton.LEFT);
 		newSaleButton.setBounds(65, 416, 180, 48);
 		getContentPane().add(newSaleButton);
 		
-		// Commercial info
-		JLabel forCommercialLabel = new JLabel("Commercial");
-		forCommercialLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		forCommercialLabel.setBounds(29, 82, 103, 14);
-		getContentPane().add(forCommercialLabel);
-
-		JLabel forCommercialNameLabel = new JLabel("Name:");
-		forCommercialNameLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
-		forCommercialNameLabel.setBounds(32, 145, 46, 14);
-		getContentPane().add(forCommercialNameLabel);
+		// Generation options
+		generatePDFButton = new JButton("Generate PDF");
+		generatePDFButton.setIcon(getRenderer().renderImage(AppData.ImagePath.POS_ICON + PDF_ICON));
+		generatePDFButton.setHorizontalTextPosition(AbstractButton.LEFT);
+		generatePDFButton.setBounds(581, 370, 180, 47);
+		getContentPane().add(generatePDFButton);
 		
-		JLabel commercialLabel = new JLabel(bill.getCommercial().getName());
-		commercialLabel.setBounds(88, 146, 68, 14);
-		getContentPane().add(commercialLabel);
-		
-		// Client info
-		Label forClientLabel = new Label("Client");
-		forClientLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		forClientLabel.setBounds(433, 68, 46, 14);
-		getContentPane().add(forClientLabel);
-
-		JLabel forIdLabel = new JLabel("ID:");
-		forIdLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
-		forIdLabel.setBounds(433, 95, 46, 14);
-		getContentPane().add(forIdLabel);
-		JLabel idLabel = new JLabel(bill.getClient().ID);
-		idLabel.setBounds(499, 96, 87, 14);
-		getContentPane().add(idLabel);
-		
-		JLabel forClientNameLabel = new JLabel("Name:");
-		forClientNameLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
-		forClientNameLabel.setBounds(433, 120, 46, 14);
-		getContentPane().add(forClientNameLabel);
-
-		JLabel clientNameLabel = new JLabel(bill.getClient().getName());
-		clientNameLabel.setBounds(499, 121, 68, 14);
-		getContentPane().add(clientNameLabel);
-		
-		JLabel clientIconLabel = new JLabel((Icon) null);
-		clientIconLabel.setBounds(340, 53, 75, 40);
-		getContentPane().add(clientIconLabel);
-		
-		JLabel remainingCashGoldClientLabel = new JLabel();
-//		if (!bill.getClient().isGoldClient()) {
-//			if (bill.getClient().getRemainingCashGoldClient() <= 0) {
-				JLabel forRemainingCashGoldClientLabel = new JLabel("You are now a Gold Client!");
-				forRemainingCashGoldClientLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
-				forRemainingCashGoldClientLabel.setVisible(!bill.getClient().isGoldClient());
-				forRemainingCashGoldClientLabel.setBounds(652, 27, 210, 14);
-				getContentPane().add(forRemainingCashGoldClientLabel);
-				
-				remainingCashGoldClientLabel.setIcon(getRenderer().renderImage(AppData.ImagePath.POS_ICON + JUST_GETS_GOLD_CLIENT));
-				remainingCashGoldClientLabel.setBounds(671, 56, 139, 139);
-//			} else {
-//				JLabel forRemainingCashGoldClientLabel = new JLabel("Remainingfor cash Gold Client:");
-//				forRemainingCashGoldClientLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
-//				forRemainingCashGoldClientLabel.setVisible(!bill.getClient().isGoldClient());
-//				forRemainingCashGoldClientLabel.setBounds(367, 142, 220, 14);
-//				getContentPane().add(forRemainingCashGoldClientLabel);
-//				
-//				remainingCashGoldClientLabel.setText(StringHelper.formatAmount(bill.getClient().getRemainingCashGoldClient()));
-//				remainingCashGoldClientLabel.setBounds(577, 142, 79, 14);
-//			}
-//		}
-//		remainingCashGoldClientLabel.setVisible(!bill.getClient().isGoldClient());
-		getContentPane().add(remainingCashGoldClientLabel);
-		
-		
-		JLabel commercialIdLabel = new JLabel(bill.getCommercial().ID);
-		commercialIdLabel.setBounds(88, 121, 87, 14);
-		getContentPane().add(commercialIdLabel);
-		
-		JLabel forIdCommercialLabel = new JLabel("ID:");
-		forIdCommercialLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
-		forIdCommercialLabel.setBounds(32, 120, 46, 14);
-		getContentPane().add(forIdCommercialLabel);
-		
-		JLabel label = new JLabel((Icon) null);
-		label.setBounds(276, 403, 67, 60);
-		getContentPane().add(label);
-		
-		JLabel forClientSurnameClient = new JLabel("Surname");
-		forClientSurnameClient.setFont(new Font("Tahoma", Font.BOLD, 12));
-		forClientSurnameClient.setBounds(433, 145, 68, 14);
-		getContentPane().add(forClientSurnameClient);
-		
-		JLabel clientSurnameLabel = new JLabel(bill.getClient().getSurname());
-		clientSurnameLabel.setBounds(499, 145, 68, 14);
-		getContentPane().add(clientSurnameLabel);
+		printPrinterButton = new JButton("Print (Printer)");
+		printPrinterButton.setIcon(getRenderer().renderImage(AppData.ImagePath.POS_ICON + PRINT_ICON));
+		printPrinterButton.setHorizontalTextPosition(AbstractButton.LEFT);
+		printPrinterButton.setBounds(581, 450, 182, 48);
+		getContentPane().add(printPrinterButton);
 	}
 
 	@Override
 	protected void loadListeners() {
-		generatePdfButton.addActionListener((e) -> {
+		generatePDFButton.addActionListener((e) -> {
 			try {
 				bill.generatePDF();
 				
@@ -266,7 +315,6 @@ public class BillView extends View {
 		});
 		
 		newSaleButton.addActionListener((e) -> {
-			SaleController saleController = new SaleController(this, POSView.class.getName());
 			saleController.newSale();
 		});
 	}

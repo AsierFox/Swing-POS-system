@@ -28,6 +28,9 @@ public class DataGenerator {
 	
 	//
 	// Constructors
+	/**
+	 * Generates all the data for the appication.
+	 */
 	public DataGenerator() {		
 		services = new HashMap<Integer, Service>();
 		products = new HashMap<Integer, Product>();
@@ -44,13 +47,13 @@ public class DataGenerator {
 		Client cl3 = new Client("123", "Iratxe", "Aguilera", new SubscriberCard(100));
 		Client cl4 = new Client("334243432", "Danny", "Gonzalez", new SubscriberCard(650));
 		
-		Product p1 = new Product(213543, "Panniers", "Panniers are a great accessory for any bike, offering that extra bit of space that on top of a tank or tail bag	", 124.22f);
-		Product p2 = new Product(637907, "Rucksacks", "Rucksacks are for touring and sportsbikes alike, offering a whole host of benefits when you're out for a ride.", 186.62f);
-		Product p3 = new Product(103689, "Helmet", "Our massive range of helmets begins with the MT collection, offering fantastic value for money from cheap cost.", 50.44f);
-		Product p4 = new Product(947432, "Jacket", "Finding the right motorcycle jacket is essential which is why we stock every brand & style of motorbike jacket you could ever want.", 146.62f);
+		Product p1 = new Product(213543, "Panniers", "Extra bit of space that on top of a tank or tail bag	", 124.22f);
+		Product p2 = new Product(637907, "Rucksacks", "Whole host of benefits when you're out for a ride.", 186.62f);
+		Product p3 = new Product(103689, "Helmet", "Fantastic value for money from cheap cost.", 50.44f);
+		Product p4 = new Product(947432, "Jacket", "We stock every brand & style of motorbike jacket you could ever want.", 146.62f);
 		
 		Service s1 = new Service(123345, "Electrical work", "Repair all the electrical supply.", 159.24f);
-		Service s2 = new Service(435435, "Full oil change", "Change your oil of your motorbike to the best!", 180.06f);
+		Service s2 = new Service(212446, "Full oil change", "Change your oil of your motorbike to the best!", 180.06f);
 		Service s3 = new Service(435435, "Insurance repairs", "Repair everything!", 220.43f);
 		
 		commercials.put(c1.ID, c1);
@@ -73,7 +76,7 @@ public class DataGenerator {
 		services.put(s3.ID, s3);
 	}
 	
-
+	/** Loads the generated data to the Intent. */
 	public void load() {
 		Intent.getInstance().setClients(clients);
 		Intent.getInstance().setServices(services);
@@ -82,6 +85,7 @@ public class DataGenerator {
 	
 	//
 	// Getters and Setters
+	/** Gets all the commercials. */
 	public HashMap<String, Commercial> getCommercials() {
 		return commercials;
 	}

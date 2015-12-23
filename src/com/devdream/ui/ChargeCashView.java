@@ -8,7 +8,6 @@ import javax.swing.JTextField;
 
 import com.devdream.controller.ChargeCashController;
 import com.devdream.exception.CashFormatException;
-import com.devdream.helper.StringHelper;
 import com.devdream.model.Client;
 import com.devdream.ui.custom.Alert;
 
@@ -25,8 +24,9 @@ public class ChargeCashView extends View {
 	
 	//
 	// Attributes
-	private Client client;
-	
+	private ChargeCashController chargeCashController;
+
+	private JLabel actualCashLabel;
 	private JTextField amountChargeCashTextField;
 	private JButton chargeClientCashButton;
 	private JButton closeButton;
@@ -38,8 +38,8 @@ public class ChargeCashView extends View {
 		setSize(420, 320);
 		getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 14));
 		getContentPane().setLayout(null);
-		
-		this.client = client;
+
+		chargeCashController = new ChargeCashController(client);
 		
 		loadUI();
 		
@@ -48,6 +48,7 @@ public class ChargeCashView extends View {
 		getRenderer().render();
 	}
 
+	/** Clears the data from the cash JTextField */
 	private void clearData() {
 		amountChargeCashTextField.setText("");
 	}
@@ -66,7 +67,7 @@ public class ChargeCashView extends View {
 		forIdLabel.setBounds(89, 62, 46, 14);
 		getContentPane().add(forIdLabel);
 		
-		JLabel idLabel = new JLabel(client.ID);
+		JLabel idLabel = new JLabel(chargeCashController.getClient().ID);
 		idLabel.setFont(new Font("SansSerif", Font.PLAIN, 11));
 		idLabel.setBounds(210, 62, 88, 14);
 		getContentPane().add(idLabel);
@@ -77,11 +78,10 @@ public class ChargeCashView extends View {
 		forNameLabel.setBounds(89, 87, 46, 14);
 		getContentPane().add(forNameLabel);
 		
-		JLabel clientLabel = new JLabel(client.getName());
+		JLabel clientLabel = new JLabel(chargeCashController.getClient().getName());
 		clientLabel.setFont(new Font("SansSerif", Font.PLAIN, 11));
 		clientLabel.setBounds(210, 87, 88, 14);
 		getContentPane().add(clientLabel);
-		
 		
 		// Actual cash
 		JLabel forActualCashLabel = new JLabel("Actual cash");
@@ -89,9 +89,9 @@ public class ChargeCashView extends View {
 		forActualCashLabel.setBounds(89, 112, 79, 14);
 		getContentPane().add(forActualCashLabel);
 		
-		JLabel actualCashLabel = new JLabel(StringHelper.formatAmount(client.getCash()));
+		actualCashLabel = new JLabel(chargeCashController.getClient().getFormattedCash());
 		actualCashLabel.setFont(new Font("SansSerif", Font.PLAIN, 11));
-		actualCashLabel.setBounds(210, 112, 46, 14);
+		actualCashLabel.setBounds(210, 112, 88, 14);
 		getContentPane().add(actualCashLabel);
 		
 		// Charge cash
@@ -119,11 +119,13 @@ public class ChargeCashView extends View {
 	@Override
 	protected void loadListeners() {
 		chargeClientCashButton.addActionListener((e) -> {
-			ChargeCashController chargeCashController = new ChargeCashController();
 			try {
-				chargeCashController.chargeMoney(client, amountChargeCashTextField.getText());
+				chargeCashController.chargeMoney(amountChargeCashTextField.getText());
+
+				actualCashLabel.setText(chargeCashController.getClient().getFormattedCash());
+				
 				Alert.showInfo(this, "Charged " + amountChargeCashTextField.getText()
-						+ " cash for " + client.getName() + ".");
+						+ " cash for " + chargeCashController.getClient().getName() + ".");
 			} catch (CashFormatException err) {
 				Alert.showError(this, err.getMessage());
 			}

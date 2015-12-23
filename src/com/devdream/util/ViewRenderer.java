@@ -23,9 +23,7 @@ public class ViewRenderer {
 		this.window = window;
 	}
 	
-	/**
-	 * Renders the JFrame to display it.
-	 */
+	/** Renders the JFrame to display it. */
 	public void render() {
 		window.setVisible(true);
 	}

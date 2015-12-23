@@ -15,10 +15,12 @@ public class Alert extends JOptionPane {
 
 	private static final long serialVersionUID = -1496885331548162635L;
 
+	/** Displays an error alert. */
 	public static void showError(Component c, String msg) {
 		showMessageDialog(c, msg, "Error", ERROR_MESSAGE);
 	}
-	
+
+	/** Displays an information alert. */
 	public static void showInfo(Component c, String msg) {
 		showMessageDialog(c, msg, "Information", INFORMATION_MESSAGE);
 	}

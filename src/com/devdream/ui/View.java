@@ -7,6 +7,14 @@ import javax.swing.JFrame;
 import com.devdream.data.AppData;
 import com.devdream.util.ViewRenderer;
 
+/**
+ * Abstract view class for all views. The purpose of this class
+ * y to organize the view code separating different behaviors.
+ * 
+ * @author Asier Gonzalez
+ * @version 1.0
+ * @since 1.1
+ */
 public abstract class View extends JFrame{
 
 	private static final long serialVersionUID = 5509695633560856542L;
@@ -16,6 +24,7 @@ public abstract class View extends JFrame{
 	private ViewRenderer renderer;
 
 	public View() {
+		super();
 		renderer = new ViewRenderer(this);
 		setTitle(AppData.APP_TITLE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(AppData.ImagePath.FAVICON));
@@ -23,12 +32,9 @@ public abstract class View extends JFrame{
 		setLocationRelativeTo(null); // Center the window
 		setResizable(false);
 	}
-
-	/** Returns the renderer. */
-	protected ViewRenderer getRenderer() {
-		return renderer;
-	}
 	
+	//
+	// Methods
 	/**
 	 * Methods for loading the User Interface
 	 * or the components of the view.
@@ -40,4 +46,12 @@ public abstract class View extends JFrame{
 	 * of the view.
 	 */
 	protected abstract void loadListeners();
+	
+	//
+	// Getters and setters
+	/** Returns the renderer. */
+	protected ViewRenderer getRenderer() {
+		return renderer;
+	}
+	
 }

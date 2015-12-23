@@ -46,14 +46,15 @@ public class OfferSaleLinesTable extends JTable {
 		model.addColumn("Qty.");
 	}
 	
+	/** Updates the JTable with the updates collection */
 	public void update() {
 		model.setRowCount(0);
 		for (SaleLine saleLine : saleLines) {
 			Vector<String> row = new Vector<String>();
 			row.addElement(Integer.toString(model.getRowCount() + 1));
-			row.addElement(Integer.toString(saleLine.getProduct().ID));
-			row.addElement(saleLine.getProduct().getName());
-			row.addElement(saleLine.getProduct().getFormattedPrice());
+			row.addElement(Integer.toString(saleLine.getOffer().ID));
+			row.addElement(saleLine.getOffer().getName());
+			row.addElement(saleLine.getOffer().getFormattedPrice());
 			row.addElement(Integer.toString(saleLine.getQuantity()));
 			model.addRow(row);
 		}
