@@ -1,11 +1,13 @@
 package com.devdream.ui;
 
-import java.awt.Toolkit;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import com.devdream.data.AppData;
-import com.devdream.util.ViewRenderer;
+import com.devdream.ui.custom.Alert;
 
 /**
  * Abstract view class for all views. The purpose of this class
@@ -20,14 +22,11 @@ public abstract class View extends JFrame{
 	private static final long serialVersionUID = 5509695633560856542L;
 	
 	//
-	// Attributes
-	private ViewRenderer renderer;
-
+	// Constructors
 	public View() {
 		super();
-		renderer = new ViewRenderer(this);
 		setTitle(AppData.APP_TITLE);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(AppData.ImagePath.FAVICON));
+		setIconImage();
 		setSize(AppData.WIDTH, AppData.HEIGHT);
 		setLocationRelativeTo(null); // Center the window
 		setResizable(false);
@@ -35,6 +34,17 @@ public abstract class View extends JFrame{
 	
 	//
 	// Methods
+	/** Renders an ImageIcon to show in the JLabel. */
+	protected static ImageIcon renderImage(String filePath) {
+		return new ImageIcon(View.class.getResource(filePath));
+	}
+	
+	
+	/** Renders the view. */
+	protected void render() {
+		setVisible(true);
+	}
+	
 	/**
 	 * Methods for loading the User Interface
 	 * or the components of the view.
@@ -46,12 +56,14 @@ public abstract class View extends JFrame{
 	 * of the view.
 	 */
 	protected abstract void loadListeners();
-	
-	//
-	// Getters and setters
-	/** Returns the renderer. */
-	protected ViewRenderer getRenderer() {
-		return renderer;
+
+	/** Sets the Icon to the JFrame */
+	private void setIconImage() {
+		try {
+			setIconImage(ImageIO.read(View.class.getResource(AppData.ImagePath.FAVICON)));
+		} catch (IOException e) {
+			Alert.showError(this, e.getMessage());
+		}
 	}
 	
 }

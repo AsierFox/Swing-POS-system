@@ -24,6 +24,7 @@ public class SessionData {
 	private Commercial commercial;
 	private Client client;
 	private Bill bill;
+	private HashMap<String, Commercial> commercials;
 	private HashMap<String, Client> clients;
 	private HashMap<Integer, Service> services;
 	private HashMap<Integer, Product> products;
@@ -33,6 +34,7 @@ public class SessionData {
 	public SessionData() {
 		commercial = null;
 		client = null;
+		commercials = null;
 		clients = null;
 		services = null;
 		products = null;
@@ -40,6 +42,14 @@ public class SessionData {
 	
 	//
 	// Getters && Setters
+	public HashMap<String, Commercial> getCommercials() {
+		return commercials;
+	}
+
+	public void setCommercials(HashMap<String, Commercial> commercials) {
+		this.commercials = commercials;
+	}
+	
 	public Commercial getCommercial() {
 		return commercial;
 	}

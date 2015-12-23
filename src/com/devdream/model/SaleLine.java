@@ -1,6 +1,6 @@
 package com.devdream.model;
 
-import com.devdream.helper.MathHelper;
+import com.devdream.util.MathHelper;
 
 /**
  * The SalesLine is the line that forms a whole

@@ -1,6 +1,6 @@
 package com.devdream.model;
 
-import com.devdream.helper.StringHelper;
+import com.devdream.util.StringHelper;
 
 /**
  * The client of the shop.

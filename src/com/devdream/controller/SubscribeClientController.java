@@ -6,11 +6,11 @@ import com.devdream.data.bind.Intent;
 import com.devdream.exception.CashFormatException;
 import com.devdream.exception.ClientAlreadyExists;
 import com.devdream.exception.TextNotValidException;
-import com.devdream.helper.MathHelper;
-import com.devdream.helper.StringHelper;
 import com.devdream.model.Client;
 import com.devdream.model.GoldClient;
 import com.devdream.model.SubscriberCard;
+import com.devdream.util.MathHelper;
+import com.devdream.util.StringHelper;
 
 /**
  * Class that controls the subscribe action when a new client

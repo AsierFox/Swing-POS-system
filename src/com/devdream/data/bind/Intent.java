@@ -46,6 +46,14 @@ public class Intent {
 	
 	//
 	// Getters && Setters
+	public HashMap<String, Commercial> getCommercials() {
+		return sessionData.getCommercials();
+	}
+
+	public void setCommercials(HashMap<String, Commercial> commercials) {
+		sessionData.setCommercials(commercials);
+	}
+	
 	public Commercial getLogedCommercial() {
 		return sessionData.getCommercial();
 	}

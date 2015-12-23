@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.apache.pdfbox.exceptions.COSVisitorException;
 
+import com.devdream.exception.PDFCancelledExpeption;
 import com.devdream.util.PDFBuilder;
 import com.devdream.util.PrinterBuilder;
 
@@ -35,14 +36,22 @@ public class Bill {
 	
 	//
 	// Methods
-	/** Prints the bill. */
+	/**
+	 * Prints the bill.
+	 * @throws NullPointerException
+	 */
 	public void print() throws NullPointerException {
 		PrinterBuilder printerHelper = new PrinterBuilder();
 		printerHelper.print(this);
 	}
 
-	/** Generates the PDF. */
-	public void generatePDF() throws IOException, COSVisitorException {
+	/**
+	 * Generates the PDF.
+	 * @throws IOException
+	 * @throws COSVisitorException
+	 * @throws PDFCancelledExpeption
+	 */
+	public void generatePDF() throws IOException, COSVisitorException, PDFCancelledExpeption {
 	    PDFBuilder pdf = new PDFBuilder();
 		pdf.genPDF(this);
 	}

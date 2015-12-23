@@ -1,8 +1,8 @@
 package com.devdream.controller;
 
 import com.devdream.exception.CashFormatException;
-import com.devdream.helper.MathHelper;
 import com.devdream.model.Client;
+import com.devdream.util.MathHelper;
 
 /**
  * Class that controls the clients charge transaction to the

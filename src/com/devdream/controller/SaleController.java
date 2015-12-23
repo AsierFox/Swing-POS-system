@@ -6,7 +6,6 @@ import javax.swing.JFrame;
 
 import com.devdream.model.Sale;
 import com.devdream.model.SaleLine;
-import com.devdream.model.ShopOffer;
 
 /**
  * Controller for the sale.
@@ -44,8 +43,8 @@ public class SaleController extends Controller {
 	}
 	
 	/** Adds a sale line. */
-	public void addSaleLine(ShopOffer offer, int qty) {
-		sale.addSaleLine(offer, qty);
+	public void addSaleLine(SaleLine saleLine) {
+		sale.addSaleLine(saleLine);
 	}
 
 	/** Deletes a sale line. */

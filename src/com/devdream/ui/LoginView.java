@@ -11,6 +11,7 @@ import com.devdream.controller.LoginLogoutController;
 import com.devdream.controller.OnExitAction;
 import com.devdream.data.AppData;
 import com.devdream.data.DataGenerator;
+import com.devdream.data.bind.Intent;
 import com.devdream.model.Commercial;
 import com.devdream.ui.custom.MyComboBox;
 
@@ -30,50 +31,47 @@ public class LoginView extends View {
 	
 	//
 	// Attributes
-	private LoginLogoutController loginController;
-
-	private DataGenerator data;
-	
 	private JLabel commercialIconLabel;
 	private MyComboBox<String, Commercial> commercialsComboBox;
 	private JButton loginButton;
 	private JButton exitButton;
+	
+	/** Load the data of the application data the first time. */
+	static {
+		DataGenerator data = new DataGenerator();
+		data.load();
+	}
 	
 	//
 	// Constructors
 	public LoginView() {
 		super();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		getContentPane().setLayout(null);
-		
-		loginController = new LoginLogoutController(this, POSView.class.getName());
-		
-		data = new DataGenerator();
-		data.load();
+		setLayout(null);
 		
 		loadUI();
 
 		loadListeners();
 		
-		getRenderer().render();
+		render();
 	}
 	
 	@Override
 	protected void loadUI() {
 		// Set Image to the panel
-		JLabel logoImgLabel = new JLabel(getRenderer().renderImage(AppData.ImagePath.LOGO));
+		JLabel logoImgLabel = new JLabel(renderImage(AppData.ImagePath.LOGO));
 		logoImgLabel.setBounds(186, 11, 503, 324);
-		getContentPane().add(logoImgLabel);
+		add(logoImgLabel);
 		
 		// Login panel
 		JPanel loginPanel = new JPanel();
 		loginPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		loginPanel.setBounds(269, 372, 299, 161);
 		loginPanel.setLayout(null);
-		getContentPane().add(loginPanel);
+		add(loginPanel);
 		
 		// Commercial
-		commercialsComboBox = new MyComboBox<String, Commercial>(data.getCommercials());
+		commercialsComboBox = new MyComboBox<String, Commercial>(Intent.getInstance().getCommercials());
 		commercialsComboBox.setBounds(103, 61, 152, 27);
 		loginPanel.add(commercialsComboBox);
 
@@ -82,7 +80,7 @@ public class LoginView extends View {
 		loginPanel.add(forCommercialLabel);
 		forCommercialLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
 		
-		commercialIconLabel = new JLabel(getRenderer().renderImage(AppData.ImagePath.POS_ICON + COMMERCIAL_ICON));
+		commercialIconLabel = new JLabel(renderImage(AppData.ImagePath.POS_ICON + COMMERCIAL_ICON));
 		commercialIconLabel.setBounds(20, 23, 73, 77);
 		loginPanel.add(commercialIconLabel);
 		
@@ -99,8 +97,11 @@ public class LoginView extends View {
 	
 	@Override
 	protected void loadListeners() {
-		loginButton.addActionListener((event) -> loginController.login((Commercial) commercialsComboBox.getSelectedItem()));
-		
+		loginButton.addActionListener((event) -> {
+			LoginLogoutController loginController =
+					new LoginLogoutController((Commercial) commercialsComboBox.getSelectedItem(), this, POSView.class.getName());
+			loginController.login();
+		});
 		exitButton.addActionListener(new OnExitAction(this));
 	}
 	

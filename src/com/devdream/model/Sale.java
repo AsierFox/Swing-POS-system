@@ -3,8 +3,8 @@ package com.devdream.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import com.devdream.helper.DateHelper;
-import com.devdream.helper.StringHelper;
+import com.devdream.util.DateHelper;
+import com.devdream.util.StringHelper;
 
 /**
  * The Sale class has Sales Line
@@ -44,9 +44,28 @@ public class Sale {
 	 * @param offer The offer to add to the sale
 	 * @param quantity The quantity of the product
 	 */
-	public void addSaleLine(ShopOffer offer, int quantity) {
-		addSubtotal(offer.getPrice(), quantity);
-		saleLines.add(new SaleLine(offer, quantity));
+	public void addSaleLine(SaleLine saleLine) {
+		int indexRepeated = checkOfferAlreadyInSale(saleLine.getOffer());
+		if (indexRepeated > -1) {
+			SaleLine repeatedSaleLine = saleLines.get(indexRepeated);
+			repeatedSaleLine.setQuantity(repeatedSaleLine.getQuantity() + saleLine.getQuantity());
+		} else {
+			saleLines.add(saleLine);
+		}
+		addSubtotal(saleLine.getOffer().getPrice(), saleLine.getQuantity());
+	}
+	
+	/**
+	 * Checks if the saline is already on the sale.
+	 * @return Returns a number greater than -1 if the offer is not already on the sale line
+	 */
+	private int checkOfferAlreadyInSale(ShopOffer offer) {
+		for (int i = 0; i < saleLines.size(); ++i) {
+			if (saleLines.get(i).getOffer().ID == offer.ID) {
+				return i;
+			}
+		}
+		return -1;
 	}
 	
 	/**

@@ -1,8 +1,11 @@
 package com.devdream.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.swing.JFileChooser;
 
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -10,7 +13,7 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
-import com.devdream.helper.StringHelper;
+import com.devdream.exception.PDFCancelledExpeption;
 import com.devdream.model.Bill;
 import com.devdream.model.Client;
 import com.devdream.model.Commercial;
@@ -26,8 +29,6 @@ import com.devdream.model.SaleLine;
  */
 public class PDFBuilder {
 
-	public static final String FILE_PATH = System.getProperty("user.dir") + "/bill.pdf";
-	
 	//
 	// Attributes
 	private PDDocument doc;
@@ -52,12 +53,15 @@ public class PDFBuilder {
 	 * @param bill The bill
 	 * @throws IOException
 	 * @throws COSVisitorException
+	 * @throws PDFCancelledExpeption 
 	 */
-	public void genPDF(Bill bill) throws IOException, COSVisitorException {
+	public void genPDF(Bill bill) throws IOException, COSVisitorException, PDFCancelledExpeption {
+	    int y = 65;
+		String saveToFile = "";
+		
 		Commercial commercial = bill.getCommercial();
 		Client client = bill.getClient();
 		Sale sale = bill.getSale();
-	    int y = 65;
 	    
 		// Title
 		contentStream.setFont(PDType1Font.HELVETICA_BOLD, 25);
@@ -125,6 +129,19 @@ public class PDFBuilder {
 		drawText("Total: " + sale.getFormattedTotal(), y, nextLine());;
 		
 		close();
+		
+		JFileChooser fileChooser = new JFileChooser();
+		if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+		    File file = fileChooser.getSelectedFile();
+		    if (file.getAbsolutePath().contains(".pdf")) {
+		    	saveToFile = file.getAbsolutePath();
+		    } else {
+		    	saveToFile = file.getAbsolutePath() + ".pdf";
+		    }
+		} else {
+			throw new PDFCancelledExpeption();
+		}
+		doc.save(saveToFile);
 	}
 	
 	/**
@@ -134,7 +151,6 @@ public class PDFBuilder {
 	 */
 	private void close() throws IOException, COSVisitorException {
 		contentStream.close();
-		doc.save(FILE_PATH);
 	}
 
 	/**

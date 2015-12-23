@@ -1,6 +1,6 @@
 package com.devdream.model;
 
-import com.devdream.helper.MathHelper;
+import com.devdream.util.MathHelper;
 
 /**
  * The subscriber cash is a must of the client for

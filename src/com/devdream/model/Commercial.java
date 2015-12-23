@@ -1,7 +1,7 @@
 package com.devdream.model;
 
-import com.devdream.helper.MathHelper;
-import com.devdream.helper.StringHelper;
+import com.devdream.util.MathHelper;
+import com.devdream.util.StringHelper;
 
 /**
  * The commercial is the employee of the shop that

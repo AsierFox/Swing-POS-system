@@ -29,23 +29,23 @@ public class DataGenerator {
 	//
 	// Constructors
 	/**
-	 * Generates all the data for the appication.
+	 * Generates all the data for the application.
 	 */
-	public DataGenerator() {		
-		services = new HashMap<Integer, Service>();
-		products = new HashMap<Integer, Product>();
+	public DataGenerator() {
 		commercials = new HashMap<String, Commercial>();
 		clients = new HashMap<String, Client>();
+		services = new HashMap<Integer, Service>();
+		products = new HashMap<Integer, Product>();
 
-		Commercial c1 = new Commercial("1111111A", "Asier", "Gonzalez", 1000);
-		Commercial c2 = new Commercial("2222222B", "Mary", "Desmond", 6000);
-		Commercial c3 = new Commercial("3333333C", "Andoni", "Davila", 2000);
-		Commercial c4 = new Commercial("4444444D", "Maren", "Goti", 2000);
+		Commercial c1 = new Commercial("1111111A", "Asier", "Gonzalez", 1300.40f);
+		Commercial c2 = new Commercial("2222222B", "Mary", "Desmond", 6000.22f);
+		Commercial c3 = new Commercial("3333333C", "Andoni", "Davila", 2440.40f);
+		Commercial c4 = new Commercial("4444444D", "Maren", "Goti", 2012.05f);
 		
-		Client cl1 = new Client("342423432A", "Anthony", "Algora", new SubscriberCard(99999));
-		Client cl2 = new Client("54354353B", "Arika", "Atami", new SubscriberCard(2000));
-		Client cl3 = new Client("123", "Iratxe", "Aguilera", new SubscriberCard(100));
-		Client cl4 = new Client("334243432", "Danny", "Gonzalez", new SubscriberCard(650));
+		Client cl1 = new Client("342423432A", "Anthony", "Algora", new SubscriberCard(90345.20f));
+		Client cl2 = new Client("123", "Iratxe", "Aguilera", new SubscriberCard(120.55f));
+		Client cl3 = new Client("54354353B", "Arika", "Atami", new SubscriberCard(2042.12f));
+		Client cl4 = new Client("334243432", "Danny", "Gonzalez", new SubscriberCard(650.96f));
 		
 		Product p1 = new Product(213543, "Panniers", "Extra bit of space that on top of a tank or tail bag	", 124.22f);
 		Product p2 = new Product(637907, "Rucksacks", "Whole host of benefits when you're out for a ride.", 186.62f);
@@ -78,6 +78,7 @@ public class DataGenerator {
 	
 	/** Loads the generated data to the Intent. */
 	public void load() {
+		Intent.getInstance().setCommercials(commercials);
 		Intent.getInstance().setClients(clients);
 		Intent.getInstance().setServices(services);
 		Intent.getInstance().setProducts(products);

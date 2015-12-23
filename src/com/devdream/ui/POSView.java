@@ -21,11 +21,11 @@ import com.devdream.data.AppData;
 import com.devdream.data.bind.Intent;
 import com.devdream.exception.CantAffordException;
 import com.devdream.exception.EmptyPaymentException;
-import com.devdream.helper.StringHelper;
 import com.devdream.model.Client;
 import com.devdream.model.Commercial;
 import com.devdream.model.GoldClient;
 import com.devdream.model.Product;
+import com.devdream.model.SaleLine;
 import com.devdream.model.Service;
 import com.devdream.model.Shop;
 import com.devdream.model.ShopOffer;
@@ -33,6 +33,7 @@ import com.devdream.ui.custom.Alert;
 import com.devdream.ui.custom.MyComboBox;
 import com.devdream.ui.custom.OfferSaleLinesTable;
 import com.devdream.ui.custom.TextFieldPlaceHolder;
+import com.devdream.util.StringHelper;
 
 /**
  * Point of sale view.
@@ -95,18 +96,18 @@ public class POSView extends View {
 	public POSView() {
 		super();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		getContentPane().setLayout(null);
+		setLayout(null);
 
 		loggedCommercial = Intent.getInstance().getLogedCommercial();
 		
 		saleController = new SaleController();
-		logoutController = new LoginLogoutController(this, LoginView.class.getName());
+		logoutController = new LoginLogoutController(loggedCommercial, this, LoginView.class.getName());
 
 		loadUI();
 
 		loadListeners();
 
-		getRenderer().render();
+		render();
 	}
 
 	//
@@ -147,7 +148,7 @@ public class POSView extends View {
 		JLabel posIconLabel = new JLabel("2Wheels POS");
 		posIconLabel.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
 		posIconLabel.setBounds(301, 11, 182, 25);
-		getContentPane().add(posIconLabel);
+		add(posIconLabel);
 
 		ButtonGroup radioButtonGroup = new ButtonGroup();
 
@@ -155,12 +156,12 @@ public class POSView extends View {
 		paymentButton.setFont(new Font("Sitka Heading", Font.PLAIN, 18));
 		paymentButton.setBackground(new Color(240, 248, 255));
 		paymentButton.setBounds(271, 492, 244, 60);
-		getContentPane().add(paymentButton);
+		add(paymentButton);
 
 		JPanel commercialPanel = new JPanel();
 		commercialPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		commercialPanel.setBounds(10, 58, 357, 181);
-		getContentPane().add(commercialPanel);
+		add(commercialPanel);
 		commercialPanel.setLayout(null);
 
 		// Commercial information
@@ -169,8 +170,7 @@ public class POSView extends View {
 		commercialPanel.add(lblCommercial);
 		lblCommercial.setFont(new Font("Tahoma", Font.BOLD, 14));
 
-		JLabel commercialIconLabel = new JLabel(
-				getRenderer().renderImage(AppData.ImagePath.POS_ICON + COMMERCIAL_ICON));
+		JLabel commercialIconLabel = new JLabel(renderImage(AppData.ImagePath.POS_ICON + COMMERCIAL_ICON));
 		commercialIconLabel.setBounds(125, 0, 58, 41);
 		commercialPanel.add(commercialIconLabel);
 
@@ -215,7 +215,7 @@ public class POSView extends View {
 		JPanel clientPanel = new JPanel();
 		clientPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		clientPanel.setBounds(10, 259, 357, 203);
-		getContentPane().add(clientPanel);
+		add(clientPanel);
 		clientPanel.setLayout(null);
 
 		// Client information
@@ -224,7 +224,7 @@ public class POSView extends View {
 		clientPanel.add(forClientLabel);
 		forClientLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 
-		JLabel clientIconLabel = new JLabel(getRenderer().renderImage(AppData.ImagePath.POS_ICON + CLIENT_ICON));
+		JLabel clientIconLabel = new JLabel(renderImage(AppData.ImagePath.POS_ICON + CLIENT_ICON));
 		clientIconLabel.setBounds(56, -1, 59, 40);
 		clientPanel.add(clientIconLabel);
 
@@ -252,7 +252,7 @@ public class POSView extends View {
 		forGoldClientAlertLabel.setVisible(isCurrentClientGold);
 		forGoldClientAlertLabel.setFont(new Font("Monospaced", Font.ITALIC, 12));
 
-		goldClientIconLabel = new JLabel(getRenderer().renderImage(AppData.ImagePath.POS_ICON + GOLD_CLIENT_ICON));
+		goldClientIconLabel = new JLabel(renderImage(AppData.ImagePath.POS_ICON + GOLD_CLIENT_ICON));
 		goldClientIconLabel.setBounds(263, 82, 58, 41);
 		clientPanel.add(goldClientIconLabel);
 
@@ -279,17 +279,17 @@ public class POSView extends View {
 		JPanel offerPanel = new JPanel();
 		offerPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		offerPanel.setBounds(393, 58, 418, 405);
-		getContentPane().add(offerPanel);
+		add(offerPanel);
 		offerPanel.setLayout(null);
 
 		addOfferButton = new JButton("Add product");
-		addOfferButton.setIcon(getRenderer().renderImage(AppData.ImagePath.POS_ICON + ADD_OFFER_ICON));
+		addOfferButton.setIcon(renderImage(AppData.ImagePath.POS_ICON + ADD_OFFER_ICON));
 		addOfferButton.setHorizontalTextPosition(AbstractButton.LEFT);
 		addOfferButton.setBounds(144, 176, 196, 23);
 		offerPanel.add(addOfferButton);
 
 		deleteSelectedOfferButton = new JButton("Delete selected offer");
-		deleteSelectedOfferButton.setIcon(getRenderer().renderImage(AppData.ImagePath.POS_ICON + REMOVE_OFFER_ICON));
+		deleteSelectedOfferButton.setIcon(renderImage(AppData.ImagePath.POS_ICON + REMOVE_OFFER_ICON));
 		deleteSelectedOfferButton.setHorizontalTextPosition(AbstractButton.LEFT);
 		deleteSelectedOfferButton.setBounds(144, 210, 196, 23);
 		offerPanel.add(deleteSelectedOfferButton);
@@ -342,7 +342,7 @@ public class POSView extends View {
 		offerPanel.add(addOfferLabel);
 		addOfferLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 
-		JLabel offerIconLabel = new JLabel(getRenderer().renderImage(AppData.ImagePath.POS_ICON + OFFERS_ICON));
+		JLabel offerIconLabel = new JLabel(renderImage(AppData.ImagePath.POS_ICON + OFFERS_ICON));
 		offerIconLabel.setBounds(110, 0, 46, 41);
 		offerPanel.add(offerIconLabel);
 
@@ -359,18 +359,18 @@ public class POSView extends View {
 		offerPanel.add(forProductsTableLabel);
 		forProductsTableLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 
-		JLabel saleLinesIconLabel = new JLabel(getRenderer().renderImage(AppData.ImagePath.POS_ICON + SALE_LINES_ICON));
+		JLabel saleLinesIconLabel = new JLabel(renderImage(AppData.ImagePath.POS_ICON + SALE_LINES_ICON));
 		saleLinesIconLabel.setBounds(75, 210, 35, 33);
 		offerPanel.add(saleLinesIconLabel);
 
 		JPanel saleTotalLabel = new JPanel();
 		saleTotalLabel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		saleTotalLabel.setBounds(527, 469, 284, 100);
-		getContentPane().add(saleTotalLabel);
+		add(saleTotalLabel);
 		saleTotalLabel.setLayout(null);
 
 		// Sale total information
-		JLabel totalIconLabel = new JLabel(getRenderer().renderImage(AppData.ImagePath.POS_ICON + TOTAL_SALE_ICON));
+		JLabel totalIconLabel = new JLabel(renderImage(AppData.ImagePath.POS_ICON + TOTAL_SALE_ICON));
 		totalIconLabel.setBounds(23, 29, 67, 60);
 		saleTotalLabel.add(totalIconLabel);
 
@@ -435,13 +435,13 @@ public class POSView extends View {
 		addOfferButton.addActionListener((e) -> {
 			try {
 				ShopOffer selectedOffer;
-				int qty = Integer.parseInt(quantityTextField.getText());
+				int quantity = Integer.parseInt(quantityTextField.getText());
 				if (e.getActionCommand().contains(productRadioButton.getText().toLowerCase())) {
 					selectedOffer = (Product) productsComboBox.getSelectedItem();
 				} else {
 					selectedOffer = (Service) servicesComboBox.getSelectedItem();
 				}
-				saleController.addSaleLine(selectedOffer, qty);
+				saleController.addSaleLine(new SaleLine(selectedOffer, quantity));
 
 				updateSale();
 			} catch (NumberFormatException err) {

@@ -10,10 +10,10 @@ package com.devdream.data;
  */
 public abstract class AppData {
 
+	/** Application title */
 	public static final String APP_TITLE = "2Wheels POS";
+	/** Height and Width of the JFrame. */
 	public static final int WIDTH = 830, HEIGHT = 600;
-
-	public static final String ASSETS_DIR = System.getProperty("user.dir") + "/assets/";
 	
 	/**
 	 * Class that contains the path for specific image resources.
@@ -24,7 +24,7 @@ public abstract class AppData {
 	 */
 	public static class ImagePath {
 		
-		private static final String IMG_DIR = ASSETS_DIR + "img/";
+		private static final String IMG_DIR = "/img/";
 		
 		private static final String ICON_IMAGE = IMG_DIR + "icon/";
 		

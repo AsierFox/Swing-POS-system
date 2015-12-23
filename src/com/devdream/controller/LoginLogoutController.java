@@ -15,10 +15,13 @@ import com.devdream.model.Commercial;
  */
 public class LoginLogoutController extends Controller {
 
+	private Commercial commercial;
+	
 	//
 	// Constructor
-	public LoginLogoutController(JFrame actualView, String newWindowName) {
+	public LoginLogoutController(Commercial commercial, JFrame actualView, String newWindowName) {
 		super(actualView, newWindowName);
+		this.commercial = commercial;
 	}
 
 	//
@@ -27,7 +30,7 @@ public class LoginLogoutController extends Controller {
 	 * Login the commercial to the next JFrame view.
 	 * @param comercial The commercial to login
 	 */
-	public void login(Commercial commercial) {
+	public void login() {
 		Intent.getInstance().setLoguedCommercial(commercial);
 		super.changeView();
 	}
@@ -36,6 +39,8 @@ public class LoginLogoutController extends Controller {
 	 * Logout the commercial to the next JFrame view.
 	 */
 	public void logout() {
+		Intent.getInstance().getCommercials().put(commercial.ID,
+				new Commercial(commercial.ID, commercial.getName(), commercial.getSurname(), commercial.getSalary()));
 		super.changeView();
 	}
 
